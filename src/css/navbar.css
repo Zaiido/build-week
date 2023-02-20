@@ -1,0 +1,121 @@
+.navbar {
+  padding-left: 375px;
+  height: 52px;
+}
+.form > input {
+  background-color: rgb(238, 243, 248);
+}
+.form-control.search-input {
+  padding-left: 30px;
+}
+.d-flex {
+  position: relative;
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+}
+.d-flex .fa-magnifying-glass {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+.dropdown-menu {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  text-decoration: none;
+}
+.dropdown-menu > a {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  color: rgba(180, 180, 180, 255);
+}
+#view-profile {
+  border: 1px solid #0d68c3;
+  border-radius: 40px;
+  text-align: center;
+  color: rgb(29, 114, 199);
+  font-weight: 500;
+}
+#avatar {
+  border-radius: 50%;
+}
+#accountDropdown {
+  display: flex;
+}
+#accountDropdown > img {
+  margin-left: -1em;
+  margin-top: -0.5em;
+}
+#accountDropdown > div {
+  display: flex;
+  padding-left: 0.5em;
+  padding-right: 2.5em;
+  margin-top: -0.3em;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.dropdown-item-text {
+  color: "rgba(37,37,37,255)";
+}
+#navbarScrollingDropdown {
+  color: #666666;
+}
+#navbarScrollingDropdown:hover {
+  color: black;
+}
+.noHover {
+  pointer-events: none;
+}
+#premium:hover {
+  color: rgb(29, 114, 199);
+  background: #fff;
+}
+.underline:hover {
+  text-decoration: underline;
+  background: #fff;
+}
+#nav-main {
+  padding-left: 150px;
+}
+#avatarTiny {
+  border-radius: 50%;
+  display: flex;
+  margin-left: 1em;
+}
+#main-nav > a {
+  display: flex;
+  padding-left: 10em;
+  margin-right: 1em;
+}
+#navs {
+  display: flex;
+  margin-right: 1em;
+  color: #666666;
+}
+.onHover:hover {
+  color: black;
+  font-weight: bolder;
+  text-decoration: none;
+}
+#side-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#side-nav:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#side-nav:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+svg.svg-inline--fa {
+  color: #666666;
+  padding-right: 17px;
+}
