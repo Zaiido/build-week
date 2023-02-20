@@ -1,0 +1,143 @@
+body{
+    background-color: rgb(220, 230, 241) ;
+    font-family:Sans-Serif;
+}
+
+
+.main{
+    height:100%;
+  
+    border-radius:10px;
+    background-color: white;
+  }
+  .cover{
+    position: relative;
+    height:35vh;
+  
+    width:100%;
+    background-image: url("https://leratomonareng.co.za/wp-content/uploads/2021/03/192adf06PCF91kCYu1nPLQg.jpeg");
+  }
+  .profile-pic{
+  position:absolute;
+  bottom:-40px;
+  left:30px
+
+  }
+  .profile-pic img{
+    height:150px;
+    width:150px;
+    border-radius: 50%;
+    border:5px solid white
+  }
+  .edu{
+    font-size: 11px;
+  }
+  .open-to-work{
+    background-color: rgb(220, 230, 241) ;
+    display:inline-block;
+    font-size: 14px;
+    border-radius:10px;
+    /* height:75px; */
+   
+    
+    
+  }
+  .name{
+    font-size:24px;
+    font-weight:600;
+
+  }
+  .sub{
+    font-size: 16px;
+    font-weight: 400;
+
+  }
+
+  .place{
+    font-size: 14px;
+    color:rgba(0,0,0,0.6)
+  }
+  .place a{
+    font-weight: 600;
+    color:rgb(10,102,194)
+  }
+  .connections{
+    color:rgb(10,102,194);
+    font-weight: 600 ;
+    font-size: 14px;
+  }
+  .jumbotron-btns button{
+    padding: 0.2rem .7rem
+  }
+
+  .jumbotron-btns button:nth-of-type(1){
+    background-color: #0a66c2;
+    font-weight:600;
+    font-size:16px
+  }
+
+  .jumbotron-btns button:nth-of-type(2){
+   color: #0a66c2;
+    font-weight:600;
+    font-size:16px
+  }
+  .jumbotron-btns button:nth-of-type(2):hover{
+    border:1px solid #0a66c2;
+    background-color: white;
+  }
+  .jumbotron-btns button:nth-of-type(3){
+    color: rgb(0,0,0,0.6);
+     font-weight:600;
+     font-size:16px
+   }
+  .camera{
+    background-color: white;
+    border-radius: 50%;
+    position:absolute;
+    right:0;
+    top:10px
+  }
+
+  .sub-sections{
+    background-color: white;
+    height:100%;
+    border-radius: 10px;
+  }
+
+  .list .list-group-item{
+    border-top:none;
+    border-left: none;
+    border-right: none;
+    padding: 0rem 1rem;
+   
+  }
+  .list .list-group-item:nth-of-type(3) a{
+    color:grey;
+    font-weight: 600;
+    font-size: 14px;
+
+  }
+  .list .list-group-item:nth-of-type(3) a:hover{
+   text-decoration: none;
+  }
+  .list .list-group-item:nth-of-type(3):hover{
+    background-color: rgba(0,0,0,0.2);
+  }
+ 
+  .list .list-group-item:nth-of-type(3){
+    padding: .75rem 1rem
+  }
+  .about{
+    font-size: 14px;
+    color:rgb(0,0,0,0.9)
+  }
+  .post{
+    padding: 0.2rem .7rem;
+    color: #0a66c2;
+    font-weight:600;
+    font-size:16px
+  }
+  .post:hover{
+    border:1px solid #0a66c2;
+    background-color: white;
+  }
