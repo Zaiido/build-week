@@ -3,7 +3,7 @@
 }
 
 .profiles-container {
-    min-width: fit-content;
+    flex-shrink: 0;
 }
 
 .sidebar-card {
@@ -24,8 +24,10 @@
 }
 
 .sidebar-card h2 {
-    font-size: 20px;
+    font-size: 19px;
     color: rgba(0, 0, 0, 0.9);
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
 .sidebar-card .image-container {
@@ -34,6 +36,8 @@
     overflow: hidden;
     border-radius: 50%;
     margin-right: 1rem;
+    margin-bottom: 25px;
+    flex-shrink: 0;
 
 }
 
@@ -69,6 +73,7 @@
 
 .sidebar-card .username+span {
     font-weight: 600;
+    font-size: 14px;
 }
 
 .sidebar-card .profession {
@@ -81,7 +86,9 @@
     align-items: center;
     justify-content: center;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
-    padding-block: .6rem;
+    padding: 10px 1px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     border-bottom-left-radius: 0.8rem;
     border-bottom-right-radius: 0.8rem;
