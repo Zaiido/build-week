@@ -109,7 +109,7 @@ export const deleteJobAction = (id: string) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
-          id,
+        id,
         {
           method: "DELETE",
 
@@ -154,12 +154,12 @@ export const fetchMyProfileAction = () => {
       console.log(error);
     }
 
+  }
 }
 
 export const setUniqueProfilesAction = (uniqueProfilesArray: IProfile[]) => {
-    return {
-        type: SET_UNIQUE_PROFILES,
-        payload: uniqueProfilesArray
-    }
+  return {
+    type: SET_UNIQUE_PROFILES,
+    payload: uniqueProfilesArray
+  }
 }
-

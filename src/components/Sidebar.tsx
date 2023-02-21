@@ -11,6 +11,7 @@ import Resources from "./Resources";
 import Activity from "./Activity";
 import About from "./About";
 import { IProfile } from "../interfaces/IProfile";
+import Experience from "./Experience";
 
 const Sidebar = () => {
   const [toggleCards, setToggleCards] = useState(false);
@@ -79,6 +80,7 @@ const Sidebar = () => {
           <Resources />
           <About />
           <Activity />
+          <Experience />
         </Col>
         <Col className="col-12 col-sm-4 px-4 profiles-container">
           <div className="sidebar-card">
