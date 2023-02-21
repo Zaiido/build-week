@@ -1,4 +1,4 @@
-import "../styles/SidebarStyles.css";
+import "../css/SidebarStyles.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
