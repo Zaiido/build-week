@@ -18,6 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../css/navbar.css";
 import { useState, useEffect } from "react";
+import React from "react";
 
 const CustomNavbar = () => {
   const fetchData = async () => {
