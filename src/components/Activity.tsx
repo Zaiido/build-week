@@ -23,7 +23,7 @@ const Activity = () => {
             </Button>
           </div>
           <h6 style={{ fontWeight: "600", paddingInline: "23px" }}>
-            You haven't posted lately
+            {"You have'nt posted lately"}
           </h6>
           <p className="about" style={{ paddingInline: "23px" }}>
             Recent posts you share or comment on will be displayed here
