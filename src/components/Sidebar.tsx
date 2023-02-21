@@ -69,7 +69,7 @@ const Sidebar = () => {
     } else if (i >= 4 && toggleCards === false) {
       return "d-none"
     } else {
-      return "d-flex"
+      return "d-block"
     }
   }
 
@@ -87,7 +87,7 @@ const Sidebar = () => {
     } else if (i >= 4 && toggleCards1 === false) {
       return "d-none"
     } else {
-      return "d-flex"
+      return "d-block"
     }
   }
 
