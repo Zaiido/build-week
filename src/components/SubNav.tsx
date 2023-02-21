@@ -1,22 +1,32 @@
 import { Button, Container } from "react-bootstrap";
 import "../css/navbar.css";
-import React from "react";
+import React, { useEffect } from "react";
+import { fetchMyProfileAction } from "../actions";
+import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 
 const SubNav = () => {
+  const profile = useAppSelector((state) => state.myProfile.results);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchMyProfileAction());
+  }, []);
   return (
     <Container className="subNav" fluid>
       <div id="leftSub">
         <img
-          src="http://placekitten.com/40/40"
+          src={profile.image}
           alt="pict here"
-          style={{ borderRadius: "50%" }}
+          style={{ borderRadius: "50%", width: "3em", height: "3em" }}
         />
         <div className="d-flex flex-column mr-auto">
           <span style={{ fontSize: "13px" }}>
-            <b>Mantas Petrosius</b>
+            <b>
+              {profile.name} {profile.surname}
+            </b>
           </span>
 
-          <span>Student at EPICODE</span>
+          <span>{profile.title}</span>
         </div>
       </div>
 

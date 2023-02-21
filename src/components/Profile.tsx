@@ -35,7 +35,6 @@ const Profile = () => {
     getProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(myProfile);
   return (
     <Container>
       <Row>
