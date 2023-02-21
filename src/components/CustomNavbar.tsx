@@ -28,6 +28,7 @@ const CustomNavbar = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
 
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(fetchMyProfileAction());
   }, []);
