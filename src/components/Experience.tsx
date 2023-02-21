@@ -33,23 +33,38 @@ const Experience = () => {
     description: "",
     area: "",
   });
-  //  const [expToEdit, setExpToEdit] = useState("");
+
   let exp = useAppSelector((state) => state.experience.results);
+
   let expToEdit: string;
 
-  const editJob = (id: string) => {
+  const editJob = async (id: string) => {
     let jobtoEdit = exp.find((j: IExperience) => j._id === id);
 
     setJob(jobtoEdit);
     expToEdit = id;
-    // console.log(expToEdit);
+    console.log(expToEdit);
   };
-  const handleSubmit2 = () => {
+  const handleSubmit2 = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+
     console.log(expToEdit);
     // dispatch(editJobAction(job, expToEdit));
   };
+
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setJob({
+      role: "",
+      company: "",
+      startDate: "",
+      endDate: "",
+      stillWorkingHere: true,
+      description: "",
+      area: "",
+    });
+    setShow(true);
+  };
 
   const handleClose2 = () => setShow2(false);
 
@@ -341,6 +356,7 @@ const Experience = () => {
                       <Button
                         onClick={() => {
                           dispatch(deleteJobAction(ex._id));
+                          handleClose2();
                         }}
                       >
                         Delete Experience
@@ -350,8 +366,8 @@ const Experience = () => {
                       </Button>
                       <Button
                         variant="primary"
-                        onClick={() => {
-                          handleSubmit2();
+                        onClick={(e) => {
+                          handleSubmit2(e);
                         }}
                       >
                         Save Changes

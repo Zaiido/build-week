@@ -168,26 +168,26 @@ export const editJobAction = (
 ) => {
   return async (dispatch: Dispatch) => {
     try {
-      // console.log(id);
-      // let response = await fetch(
-      //   "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
-      //     id,
-      //   {
-      //     method: "PUT",
-      //     body: JSON.stringify(job),
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization:
-      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzNmZmNTgzODFmYzAwMTNmZmZhZGYiLCJpYXQiOjE2NzY4OTgyOTQsImV4cCI6MTY3ODEwNzg5NH0.n_FTGhlX9c6j23fCYIPFM6lg70LgdPtYXQ8thi09Ges",
-      //     },
-      //   }
-      // );
-      // if (response.ok) {
-      //   let data = await response.json();
-      //   console.log(data);
-      // } else {
-      //   alert("Error");
-      // }
+      console.log(id);
+      let response = await fetch(
+        "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
+          id,
+        {
+          method: "PUT",
+          body: JSON.stringify(job),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzNmZmNTgzODFmYzAwMTNmZmZhZGYiLCJpYXQiOjE2NzY4OTgyOTQsImV4cCI6MTY3ODEwNzg5NH0.n_FTGhlX9c6j23fCYIPFM6lg70LgdPtYXQ8thi09Ges",
+          },
+        }
+      );
+      if (response.ok) {
+        let data = await response.json();
+        console.log(data);
+      } else {
+        alert("Error");
+      }
     } catch (error) {
       console.log(error);
     }
