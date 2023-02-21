@@ -59,8 +59,8 @@ const Profile = () => {
                 {myProfile ? myProfile.title : ""}
               </p>
               <span className="place ">
-                {myProfile ? myProfile.area : ""}
-                <a href="#home" className="ml-2 link">
+                {myProfile ? myProfile.area : ""} ∙
+                <a href="#home" className="ml-1 link-connections">
                   Contact info
                 </a>
               </span>
