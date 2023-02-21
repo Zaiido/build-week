@@ -1,4 +1,4 @@
-import { Button, Container } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import "../css/navbar.css";
 import React, { useEffect, useState } from "react";
 import { fetchMyProfileAction } from "../actions";
@@ -27,6 +27,7 @@ const SubNav = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -41,34 +42,43 @@ const SubNav = () => {
         backgroundColor: "white",
       }}
     >
-      <Container className="subNav" fluid>
-        <div id="leftSub">
-          <img
-            src={profile.image}
-            alt="pict here"
-            style={{ borderRadius: "50%", width: "3em", height: "3em" }}
-          />
-          <div className="d-flex flex-column mr-auto">
-            <span style={{ fontSize: "13px" }}>
-              <b>
-                {profile.name} {profile.surname}
-              </b>
-            </span>
+      <div className="subNav">
+        <Container>
+          <Row>
+            <Col className="col-12 col-sm-6 p-1 d-flex">
+              <div id="leftSub">
+                <img
+                  src={profile.image}
+                  alt="pict here"
+                  style={{ borderRadius: "50%", width: "3em", height: "3em" }}
+                />
+                <div className="d-flex flex-column mr-auto">
+                  <span style={{ fontSize: "13px" }}>
+                    <b>
+                      {profile.name} {profile.surname}
+                    </b>
+                  </span>
 
-            <span>{profile.title}</span>
-          </div>
-        </div>
+                  <span>{profile.title}</span>
+                </div>
+              </div>
+            </Col>
+            <Col className="col-12 col-sm-6 p-1 d-flex justify-content-md-end justify-content-center ">
+              <div>
+                <Button className="mr-2 badge-pill subnav-button" variant="outline-secondary">
+                  More
+                </Button>
+                <Button className="mr-2 badge-pill subnav-button" variant="outline-primary">
+                  Add profile section
+                </Button>
+                <Button style={{ backgroundColor: "#0a66c2" }} className="badge-pill subnav-button">Open to</Button>
+              </div>
+            </Col>
+          </Row>
 
-        <div className="subButtons">
-          <Button className="mr-2" variant="outline-secondary">
-            More
-          </Button>
-          <Button className="mr-2" variant="outline-primary">
-            Add profile section
-          </Button>
-          <Button style={{ backgroundColor: "#0a66c2" }}>Open to</Button>
-        </div>
-      </Container>
+
+        </Container>
+      </div>
     </div>
   );
 };
