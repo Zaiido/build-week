@@ -91,3 +91,9 @@ a.footer-icon-link {
 .language a:not(:first-child):hover {
     background-color: #007bff;
 }
+
+.dropdown-link:hover {
+    text-decoration: underline;
+    text-decoration-color: #0A66C2;
+    padding: 0;
+}
