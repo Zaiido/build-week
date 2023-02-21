@@ -3,10 +3,10 @@ import {
   NavDropdown,
   Form,
   Modal,
-  Button,
   Card,
   Col,
   Row,
+  Container,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,6 +23,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchMyProfileAction } from "../actions";
+import { Link } from "react-router-dom";
 
 const CustomNavbar = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
@@ -31,6 +32,7 @@ const CustomNavbar = () => {
 
   useEffect(() => {
     dispatch(fetchMyProfileAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [show, setShow] = useState(false);
@@ -41,203 +43,210 @@ const CustomNavbar = () => {
   return (
     <>
       <Navbar bg="light" sticky="top">
-        <Navbar.Brand className="underline" href="/">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            data-supported-dps="24x24"
-            fill="rgb(10, 102, 194)"
-            width="44"
-            height="44"
-            focusable="false"
-          >
-            <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
-          </svg>
-        </Navbar.Brand>
-        <div id="nav-search">
-          <Form className="d-flex">
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2 search-input"
-              aria-label="Search"
-            />
-          </Form>
-        </div>
-        <div id="nav-main" className="d-flex">
-          <div className="onHover">
-            <FontAwesomeIcon icon={faHouse} />
-            <a href="/" id="navs">
-              Home
-            </a>
-          </div>
-          <div className="onHover">
-            <FontAwesomeIcon icon={faPeopleGroup} />
-            <a href="/" id="navs">
-              My Network
-            </a>
-          </div>
-          <div className="onHover">
-            <FontAwesomeIcon icon={faSuitcase} />
-            <a id="navs" href="/">
-              Jobs
-            </a>
-          </div>
-          <div className="onHover">
-            <FontAwesomeIcon icon={faCommentDots} />
-            <a href="/" id="navs">
-              Messaging
-            </a>
-          </div>
-          <div className="onHover">
-            <FontAwesomeIcon icon={faBell} />
-            <a href="/" id="navs">
-              Notifications
-            </a>
-          </div>
-          <div
-            style={{
-              marginBottom: "-4px",
-              display: "flex",
-              alignItems: "flex-end",
-              flexDirection: "column",
-            }}
-          >
-            <img
-              src={profile.image}
-              id="avatarTiny"
-              alt="avatar"
-              style={{ marginTop: "-1em" }}
-            ></img>
-            <NavDropdown
-              style={{ position: "absolute" }}
-              className="pb-2"
-              title="Me"
-              id="navbarScrollingDropdown"
+        <Container>
+          <Navbar.Brand className="underline" href="/">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              data-supported-dps="24x24"
+              fill="rgb(10, 102, 194)"
+              width="44"
+              height="44"
+              focusable="false"
             >
-              <NavDropdown.Item id="accountDropdown" className="noHover">
+              <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
+            </svg>
+          </Navbar.Brand>
+          <div id="nav-search">
+            <Form className="d-flex">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2 search-input d-none d-lg-block"
+                aria-label="Search"
+              />
+            </Form>
+          </div>
+          <div id="nav-main" className="d-flex">
+            <div className="onHover">
+              <div><FontAwesomeIcon icon={faHouse} /></div>
+              <div><Link to={"/"} id="navs">
+                Home
+              </Link></div>
+
+            </div>
+            <div className="onHover">
+              <div><FontAwesomeIcon icon={faPeopleGroup} /></div>
+              <div><Link to={"/"} id="navs">
+                My Network
+              </Link></div>
+
+            </div>
+            <div className="onHover">
+              <div><FontAwesomeIcon icon={faSuitcase} /></div>
+              <div><Link to={"/"} id="navs">
+                Jobs
+              </Link></div>
+            </div>
+            <div className="onHover">
+              <div><FontAwesomeIcon icon={faCommentDots} /></div>
+              <div><Link to={"/"} id="navs">
+                Messaging
+              </Link></div>
+
+            </div>
+            <div className="onHover">
+              <div><FontAwesomeIcon icon={faBell} /></div>
+              <div><Link to={"/"} id="navs">
+                Notifications
+              </Link></div>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+                paddingRight: "1.5em",
+                paddingLeft: "0.7em",
+                borderRight: "1px solid rgb(220 218 211)",
+              }}
+            >
+              <div style={{ width: "1.3em", height: "1.3em", overflow: "hidden", borderRadius: "50%", marginTop: "2px" }}>
                 <img
                   src={profile.image}
-                  id="avatar"
                   alt="avatar"
-                  style={{ width: "50px", height: "50px" }}
-                ></img>
-                <div>
-                  <span
-                    style={{ color: "rgba(37,37,37,255)", fontWeight: "bold" }}
-                  >
-                    {profile.name} {profile.surname}
-                  </span>
-                  <span style={{ color: "rgba(37,37,37,255)" }}>
-                    {profile.title}
-                  </span>
-                </div>
-              </NavDropdown.Item>
-              <div className="px-2 py-2">
-                <NavDropdown.Item
-                  href="#action4"
-                  id="view-profile"
-                  className="mb-2"
-                >
-                  View Profile
-                </NavDropdown.Item>
+                  style={{ height: "100%", width: "100%", objectFit: "cover", position: "relative", bottom: "4px" }}
+                />
               </div>
-              <NavDropdown.Divider />
-              <NavDropdown.ItemText>
-                <span>
-                  <b>Account</b>
-                </span>
-              </NavDropdown.ItemText>
-              <NavDropdown.Item href="#action5" id="premium">
+
+
+              <NavDropdown
+                title="Me"
+                id="navbarScrolling"
+              >
+                <NavDropdown.Item id="accountDropdown">
+                  <img
+                    src={profile.image}
+                    id="avatar"
+                    alt="avatar"
+                    style={{ width: "50px", height: "50px" }}
+                  ></img>
+                  <div>
+                    <span
+                      style={{ color: "rgba(37,37,37,255)", fontWeight: "bold", fontSize: "16px" }}
+                    >
+                      {profile.name} {profile.surname}
+                    </span>
+                    <span style={{ color: "rgba(37,37,37,255)" }}>
+                      {profile.title}
+                    </span>
+                  </div>
+                </NavDropdown.Item>
+                <div className="px-2 py-2">
+                  <NavDropdown.Item
+                    href="#action4"
+                    id="view-profile"
+                    className="mb-2"
+                  >
+                    View Profile
+                  </NavDropdown.Item>
+                </div>
+                <NavDropdown.Divider />
+                <NavDropdown.ItemText>
+                  <span style={{ fontSize: "16px" }}>
+                    <b>Account</b>
+                  </span>
+                </NavDropdown.ItemText>
+                <NavDropdown.Item href="#action5" id="premium">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    data-supported-dps="24x24"
+                    width="17"
+                    height="17"
+                    focusable="false"
+                    style={{ marginBottom: "5px" }}
+                  >
+                    <path
+                      d="M20 20a3.36 3.36 0 001-2.39V6.38A3.38 3.38 0 0017.62 3H6.38A3.36 3.36 0 004 4z"
+                      fill="#f8c77e"
+                    ></path>
+                    <path
+                      d="M4 4a3.36 3.36 0 00-1 2.38v11.24A3.38 3.38 0 006.38 21h11.24A3.36 3.36 0 0020 20z"
+                      fill="#e7a33e"
+                    ></path>
+                  </svg>
+                  <Link to={"/"} className="premium-link1"> Try Premium for free</Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item className="underline" href="#action5">
+                  Settings & Privacy
+                </NavDropdown.Item>
+                <NavDropdown.Item className="underline" href="#action6">
+                  Help
+                </NavDropdown.Item>
+                <NavDropdown.Item className="underline" href="#action7">
+                  Language
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.ItemText>
+                  <span style={{ fontSize: "16px" }}>
+                    <b>Manage</b>
+                  </span>
+                </NavDropdown.ItemText>
+                <NavDropdown.Item className="underline" href="#action8">
+                  Posts & Activity
+                </NavDropdown.Item>
+                <NavDropdown.Item className="underline" href="#action9">
+                  Job Posting Account
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item className="underline" href="#signout">
+                  Sign Out
+                </NavDropdown.Item>
+              </NavDropdown>
+            </div>
+          </div>
+          <div id="side-nav" className="d-none d-lg-flex">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              onClick={handleShow}
+            >
+              <div
+                style={{
+                  marginTop: "-0.5em",
+                  marginRight: "1.5em",
+                  position: "absolute",
+                }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   data-supported-dps="24x24"
-                  width="17"
-                  height="17"
+                  fill="currentColor"
+                  width="24"
+                  height="24"
                   focusable="false"
                 >
-                  <path
-                    d="M20 20a3.36 3.36 0 001-2.39V6.38A3.38 3.38 0 0017.62 3H6.38A3.36 3.36 0 004 4z"
-                    fill="#f8c77e"
-                  ></path>
-                  <path
-                    d="M4 4a3.36 3.36 0 00-1 2.38v11.24A3.38 3.38 0 006.38 21h11.24A3.36 3.36 0 0020 20z"
-                    fill="#e7a33e"
-                  ></path>
+                  <path d="M3 3h4v4H3zm7 4h4V3h-4zm7-4v4h4V3zM3 14h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4zM3 21h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4z"></path>
                 </svg>
-                Try Premium for free
-              </NavDropdown.Item>
-              <NavDropdown.Item className="underline" href="#action5">
-                Settings & Privacy
-              </NavDropdown.Item>
-              <NavDropdown.Item className="underline" href="#action6">
-                Help
-              </NavDropdown.Item>
-              <NavDropdown.Item className="underline" href="#action7">
-                Language
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.ItemText>
-                <span>
-                  <b>Manager</b>
-                </span>
-              </NavDropdown.ItemText>
-              <NavDropdown.Item className="underline" href="#action8">
-                Posts & Activity
-              </NavDropdown.Item>
-              <NavDropdown.Item className="underline" href="#action9">
-                Job Posting Account
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item className="underline" href="#signout">
-                Sign Out
-              </NavDropdown.Item>
-            </NavDropdown>
-          </div>
-        </div>
-        <div id="side-nav">
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            onClick={handleShow}
-          >
-            <div
-              style={{
-                marginTop: "-0.5em",
-                marginRight: "1.5em",
-                position: "absolute",
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                data-supported-dps="24x24"
-                fill="currentColor"
-                width="24"
-                height="24"
-                focusable="false"
-              >
-                <path d="M3 3h4v4H3zm7 4h4V3h-4zm7-4v4h4V3zM3 14h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4zM3 21h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4z"></path>
-              </svg>
+              </div>
+              <Link to={"/"} style={{ marginTop: "1.5em" }} className="special-link">
+                <span>Work</span>
+                <FontAwesomeIcon icon={faCaretDown} />
+              </Link>
             </div>
-            <a style={{ marginTop: "1em" }}>
-              <span>Work</span>
-              <FontAwesomeIcon icon={faCaretDown} />
-            </a>
+            <div
+              className="ml-4"
+            >
+              <Link to={"/"} className="d-none d-lg-block premium-link truncate">Get Hired Faster, <br /> Try Premium Free</Link>
+            </div>
           </div>
-          <div
-            className="ml-4"
-            style={{ textDecoration: "underline", color: "rgb(187, 115, 88)" }}
-          >
-            <div>Try Premium for </div>
-            <div>free</div>
-          </div>
-        </div>
+        </Container>
       </Navbar>
       <Modal
         show={show}
@@ -256,7 +265,7 @@ const CustomNavbar = () => {
               <blockquote className="blockquote mb-0">
                 <Row className="row-cols-4">
                   <Col>
-                    <a>
+                    <Link to={"/"}>
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -313,10 +322,10 @@ const CustomNavbar = () => {
                         </svg>
                       </div>
                       <span>Learning</span>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a>
+                    <Link to={"/"}>
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -351,10 +360,10 @@ const CustomNavbar = () => {
                         </svg>
                       </div>
                       <span>Insights</span>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a>
+                    <Link to={"/"}>
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -399,11 +408,11 @@ const CustomNavbar = () => {
                         </svg>
                       </div>
                       <span>Post a job</span>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
                     {" "}
-                    <a>
+                    <Link to={"/"}>
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -448,10 +457,10 @@ const CustomNavbar = () => {
                         </svg>
                       </div>
                       <span>Advertise</span>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a>
+                    <Link to={"/"}>
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -493,10 +502,10 @@ const CustomNavbar = () => {
                         </svg>
                       </div>
                       <span>Find Leads</span>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a>
+                    <Link to={"/"}>
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -544,10 +553,10 @@ const CustomNavbar = () => {
                         </svg>
                       </div>
                       <span>Groups</span>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a>
+                    <Link to={"/"}>
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -574,7 +583,7 @@ const CustomNavbar = () => {
                         </svg>
                       </div>
                       <span>Services Marketplace</span>
-                    </a>
+                    </Link>
                   </Col>
                 </Row>
               </blockquote>
@@ -590,66 +599,60 @@ const CustomNavbar = () => {
               <blockquote className="blockquote mb-0">
                 <Row className="row-cols-1">
                   <Col>
-                    <a
+                    <Link to={"https://business.linkedin.com/talent-solutions?trk=flagship_nav&veh=li-header-dropdown-lts-control&src=li-nav"}
                       target="_blank"
-                      href="https://business.linkedin.com/talent-solutions?trk=flagship_nav&veh=li-header-dropdown-lts-control&src=li-nav"
                     >
                       <h5>Talent Solutions</h5>
                       <p>Find, attract and recruit talent</p>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a
+                    <Link to={"https://business.linkedin.com/sales-solutions?trk=flagship_nav&amp;veh=li-header-dropdown-lss-control&amp;src=li-nav"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://business.linkedin.com/sales-solutions?trk=flagship_nav&amp;veh=li-header-dropdown-lss-control&amp;src=li-nav"
                       data-test-app-aware-link=""
                     >
                       <h5>Sales Solutions</h5>
                       <p>Unlock sales opportunities</p>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a
+                    <Link to={"https://www.linkedin.com/talent/post-a-job?trk=nav_biz_serv_job_post_nept"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://www.linkedin.com/talent/post-a-job?trk=nav_biz_serv_job_post_nept"
                       data-test-app-aware-link=""
                     >
                       <h5>Post a job for free</h5>
                       <p>Get your job in front of quality candidates</p>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a
+                    <Link to={"https://business.linkedin.com/marketing-solutions/ads?trk=n_nav_ads_rr_b&amp;src=li-nav"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://business.linkedin.com/marketing-solutions/ads?trk=n_nav_ads_rr_b&amp;src=li-nav"
                       data-test-app-aware-link=""
                     >
                       <h5>Marketing Solutions</h5>
                       <p>Acquire customers and grow your business</p>
-                    </a>
+                    </Link>
                   </Col>
                   <Col>
-                    <a
+                    <Link to={"https://learning.linkedin.com/?trk=d_flagship3_nav&amp;veh=learning_solutions&amp;src=li-nav"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://learning.linkedin.com/?trk=d_flagship3_nav&amp;veh=learning_solutions&amp;src=li-nav"
                       data-test-app-aware-link=""
                     >
                       <h5>Learning Solutions</h5>
                       <p>Develop talent across your organization</p>
-                    </a>
+                    </Link>
                   </Col>
                 </Row>
                 <hr />
                 <Row>
                   <Col>
-                    <a
+                    <Link to={"https://www.linkedin.com/company/setup/new/"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      href="https://www.linkedin.com/company/setup/new/"
                       data-test-app-aware-link=""
                     >
                       <h5 className="t-14 t-black t-bold">
@@ -668,7 +671,7 @@ const CustomNavbar = () => {
                           <path d="M14 9H9v5H7V9H2V7h5V2h2v5h5z"></path>
                         </svg>
                       </h5>
-                    </a>
+                    </Link>
                   </Col>
                 </Row>
               </blockquote>
@@ -680,3 +683,5 @@ const CustomNavbar = () => {
   );
 };
 export default CustomNavbar;
+
+
