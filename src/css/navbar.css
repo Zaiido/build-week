@@ -1,6 +1,7 @@
 .navbar {
   padding-left: 375px;
   height: 52px;
+  border-bottom: 1px solid #6666;
 }
 .form > input {
   background-color: rgb(238, 243, 248);
@@ -61,6 +62,7 @@
 }
 #navbarScrollingDropdown {
   color: #666666;
+  padding-top: 0.3em;
 }
 #navbarScrollingDropdown:hover {
   color: black;
@@ -100,6 +102,9 @@
   font-weight: 450;
   text-decoration: none;
 }
+.onHover svg {
+  padding-left: 8px;
+}
 .onHover:hover svg,
 .onHover:hover a {
   color: black;
@@ -121,10 +126,12 @@
   flex-direction: column;
   align-items: center;
 }
-#side-nav:nth-child(2) {
+#side-nav > :nth-child(2) {
   display: flex;
+  text-decoration: underline;
+  color: rgb(187, 115, 88);
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
 svg.svg-inline--fa {
   color: #666666;
@@ -141,14 +148,19 @@ svg.svg-inline--fa {
 }
 #leftSub {
   display: flex;
-  padding-left: 37.5em;
+  padding-left: 31.5em;
+}
+#leftSub > div {
+  align-items: flex-start;
+  padding-left: 1.5em;
 }
 .subButtons {
   display: flex;
-  padding-left: 52em;
+  padding-left: 50em;
 }
 .subButtons .btn {
   border-radius: 20px;
+  width: 10em;
 }
 .subButtons:hover :nth-child(3) {
   background-color: rgb(0, 26, 53);
