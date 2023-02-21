@@ -1,6 +1,8 @@
 .navbar {
   padding-left: 375px;
   height: 52px;
+  border-bottom: 1px solid #6666;
+  z-index: 1050;
 }
 .form > input {
   background-color: rgb(238, 243, 248);
@@ -61,6 +63,7 @@
 }
 #navbarScrollingDropdown {
   color: #666666;
+  padding-top: 0.3em;
 }
 #navbarScrollingDropdown:hover {
   color: black;
@@ -83,6 +86,8 @@
   border-radius: 50%;
   display: flex;
   margin-left: 1em;
+  width: 1.5em;
+  height: 1.5em;
 }
 #nav-main > a {
   display: flex;
@@ -97,6 +102,9 @@
   color: #666666;
   font-weight: 450;
   text-decoration: none;
+}
+.onHover svg {
+  padding-left: 8px;
 }
 .onHover:hover svg,
 .onHover:hover a {
@@ -119,10 +127,12 @@
   flex-direction: column;
   align-items: center;
 }
-#side-nav:nth-child(2) {
+#side-nav > :nth-child(2) {
   display: flex;
+  text-decoration: underline;
+  color: rgb(187, 115, 88);
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
 svg.svg-inline--fa {
   color: #666666;
@@ -139,15 +149,89 @@ svg.svg-inline--fa {
 }
 #leftSub {
   display: flex;
-  padding-left: 37.5em;
+  padding-left: 31.5em;
+}
+#leftSub > div {
+  align-items: flex-start;
+  padding-left: 1.5em;
 }
 .subButtons {
   display: flex;
-  padding-left: 52em;
+  padding-left: 50em;
 }
 .subButtons .btn {
   border-radius: 20px;
+  width: 10em;
 }
 .subButtons:hover :nth-child(3) {
   background-color: rgb(0, 26, 53);
+}
+
+.modal-backdrop-right {
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog {
+  position: fixed;
+  top: 52px;
+  right: 0;
+  margin: 0;
+}
+
+.modal-content {
+  border-radius: 0;
+  border: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top-left-radius: 2%;
+  border-bottom-left-radius: 2%;
+}
+.modal-backdrop.show {
+  opacity: 1;
+}
+.modal-header {
+  margin-bottom: auto;
+  border-bottom: none;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.modal-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  height: 100%;
+}
+.my-modal {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  transform: translate(100%);
+  animation: appear 500ms ease-out forwards;
+}
+
+@keyframes appear {
+  0% {
+    position: absolute;
+    display: flex;
+    transition: all 500ms ease-out, transform-origin 1ms;
+  }
+  100% {
+    position: fixed;
+    z-index: 100;
+    display: flex;
+    opacity: 1;
+    transform: translate(0%);
+    justify-content: center;
+    align-items: center;
+  }
 }
