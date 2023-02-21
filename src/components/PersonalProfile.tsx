@@ -6,6 +6,7 @@ import Resources from "./Resources";
 import About from "./About";
 import Activity from "./Activity";
 import React from "react";
+import Experience from "./Experience";
 
 const PersonalProfile = () => {
   return (
@@ -17,7 +18,7 @@ const PersonalProfile = () => {
       <Resources />
       <About />
       <Activity />
-
+      <Experience />
       <Footer />
     </>
   );
