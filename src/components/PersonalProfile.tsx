@@ -1,13 +1,17 @@
-import Footer from "./Footer"
-import Sidebar from "./Sidebar"
+import CustomNavbar from "./CustomNavbar";
+import SubNav from "./SubNav";
+import Footer from "./Footer";
+import Sidebar from "./Sidebar";
 
 const PersonalProfile = () => {
-    return (
-        <>
-            <Sidebar />
-            <Footer />
-        </>
-    )
-}
+  return (
+    <>
+      <CustomNavbar />
+      <SubNav />
+      <Sidebar />
+      <Footer />
+    </>
+  );
+};
 
-export default PersonalProfile
+export default PersonalProfile;
