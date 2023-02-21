@@ -35,7 +35,6 @@ const Profile = () => {
     getProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // console.log(myProfile);
 
   return (
     <Container>
@@ -65,7 +64,9 @@ const Profile = () => {
                 </a>
               </span>
               <p className="connections mt-2 mb-1">
-                <a href="#home" className="link-connections">486 connections</a>
+                <a href="#home" className="link-connections">
+                  486 connections
+                </a>
               </p>
               <div
                 className="d-flex justify-content-evenly align-items-start jumbotron-btns"
@@ -87,12 +88,17 @@ const Profile = () => {
           <Row style={{ padding: "15px 23px" }}>
             <Col xs={12}>
               <div className="open-to-work mt-3 d-flex flex-column mb-2 align-items-start">
-                <h6 style={{ fontSize: "14px", fontWeight: "600" }}>Open to work</h6>
+                <h6 style={{ fontSize: "14px", fontWeight: "600" }}>
+                  Open to work
+                </h6>
                 <p className="mb-n1 mt-n1 truncate">
                   Computer Science Engineer, Trainee, Intern, Test Engineer and
                   Quality Assurance Analyst roles
                 </p>
-                <a href="#home" className="link"> See all details</a>
+                <a href="#home" className="link">
+                  {" "}
+                  See all details
+                </a>
               </div>
             </Col>
           </Row>
