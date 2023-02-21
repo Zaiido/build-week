@@ -53,22 +53,21 @@ const Footer = () => {
                 <Link to="/">Marketing Solutions</Link>
               </Col>
               <Col className="col-12 col-sm-4">
-                <Link to="/">
-                  <NavDropdown title="Privacy & Terms" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">
-                      Privacy Policy
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                      User Agreement
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">
-                      Cookie Policy
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">
-                      Copyright Policy
-                    </NavDropdown.Item>
-                  </NavDropdown>
-                </Link>
+                <NavDropdown title="Privacy & Terms" id="basic-nav-dropdown" className="dropdown-link">
+                  <NavDropdown.Item href="#action/3.1">
+                    Privacy Policy
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    User Agreement
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">
+                    Cookie Policy
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">
+                    Copyright Policy
+                  </NavDropdown.Item>
+                </NavDropdown>
+
               </Col>
 
               <Col className="col-12 col-sm-4">
