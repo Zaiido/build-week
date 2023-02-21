@@ -80,7 +80,14 @@ const CustomNavbar = () => {
               Notifications
             </a>
           </div>
-          <div style={{ marginBottom: "10px" }}>
+          <div
+            style={{
+              marginBottom: "-4px",
+              display: "flex",
+              alignItems: "flex-end",
+              flexDirection: "column",
+            }}
+          >
             <img
               src={profile.image}
               id="avatarTiny"
@@ -88,7 +95,7 @@ const CustomNavbar = () => {
               style={{ marginTop: "-1em" }}
             ></img>
             <NavDropdown
-              style={{ position: "absolute", marginTop: "-0.5em" }}
+              style={{ position: "absolute" }}
               className="pb-2"
               title="Me"
               id="navbarScrollingDropdown"
