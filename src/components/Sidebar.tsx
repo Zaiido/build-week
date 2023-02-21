@@ -62,11 +62,32 @@ const Sidebar = () => {
       return "d-none"
     }
   }
+
+  const getClassNameHr = (i: any) => {
+    if (i === 9) {
+      return "d-none"
+    } else if (i >= 4 && toggleCards === false) {
+      return "d-none"
+    } else {
+      return "d-block"
+    }
+  }
+
   const getClassName1 = (i: any) => {
     if (i < 5 || toggleCards1) {
       return "d-flex"
     } else {
       return "d-none"
+    }
+  }
+
+  const getClassNameHr1 = (i: any) => {
+    if (i === 9) {
+      return "d-none"
+    } else if (i >= 4 && toggleCards1 === false) {
+      return "d-none"
+    } else {
+      return "d-block"
     }
   }
 
@@ -155,7 +176,7 @@ const Sidebar = () => {
                         </Button>
                       </div>
                     </div>
-                    <hr className={getClassName1(i)} />
+                    <hr className={getClassNameHr1(i)} />
                   </div>
                 )
               })}
@@ -238,7 +259,7 @@ const Sidebar = () => {
                         </Button>
                       </div>
                     </div>
-                    <hr className={getClassName(i)} />
+                    <hr className={getClassNameHr(i)} />
                   </div>
                 )
               })}

@@ -49,8 +49,6 @@ export const fetchExperienceAction = () => {
 
       if (response.ok) {
         let exp = await response.json();
-        console.log(exp);
-
         dispatch({
           type: GET_EXPERIENCE,
           payload: exp,
