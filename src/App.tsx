@@ -2,13 +2,13 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import CustomNavbar from "./components/CustomNavbar";
-import Canvas from "./components/Canvas";
+import SubNav from "./components/SubNav";
 
 function App() {
   return (
     <div className="App">
       <CustomNavbar />
-      <Canvas />
+      <SubNav />
     </div>
   );
 }

@@ -1,4 +1,11 @@
-import { Navbar, NavDropdown, Form } from "react-bootstrap";
+import {
+  Navbar,
+  NavDropdown,
+  Form,
+  ListGroup,
+  ListGroupItem,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -10,8 +17,32 @@ import {
   faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 import "../css/navbar.css";
+import { useState, useEffect } from "react";
 
 const CustomNavbar = () => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://striveschool-api.herokuapp.com/api/profile/me",
+        {
+          method: "GET",
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <Navbar bg="light" sticky="top">
@@ -40,33 +71,45 @@ const CustomNavbar = () => {
           </Form>
         </div>
         <div id="nav-main" className="d-flex">
-          <a className="onHover" href="/">
+          <div className="onHover">
             <FontAwesomeIcon icon={faHouse} />
-            <span id="navs">Home</span>
-          </a>
-          <a className="onHover" href="/">
+            <a href="/" id="navs">
+              Home
+            </a>
+          </div>
+          <div className="onHover">
             <FontAwesomeIcon icon={faPeopleGroup} />
-            <span id="navs">My Network</span>
-          </a>
-          <a className="onHover" href="/">
+            <a href="/" id="navs">
+              My Network
+            </a>
+          </div>
+          <div className="onHover">
             <FontAwesomeIcon icon={faSuitcase} />
-            <span id="navs">Jobs</span>
-          </a>
-          <a className="onHover" href="/">
+            <a id="navs" href="/">
+              Jobs
+            </a>
+          </div>
+          <div className="onHover">
             <FontAwesomeIcon icon={faCommentDots} />
-            <span id="navs">Messaging</span>
-          </a>
-          <a className="onHover" href="/">
+            <a href="/" id="navs">
+              Messaging
+            </a>
+          </div>
+          <div className="onHover">
             <FontAwesomeIcon icon={faBell} />
-            <span id="navs">Notifications</span>
-          </a>
-          <div>
+            <a href="/" id="navs">
+              Notifications
+            </a>
+          </div>
+          <div style={{ marginBottom: "10px" }}>
             <img
               src="http://placekitten.com/25/25"
               id="avatarTiny"
               alt="avatar"
+              style={{ marginTop: "-1em" }}
             ></img>
             <NavDropdown
+              style={{ position: "absolute", marginTop: "-0.5em" }}
               className="pb-2"
               title="Me"
               id="navbarScrollingDropdown"
@@ -159,25 +202,27 @@ const CustomNavbar = () => {
               alignItems: "center",
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              data-supported-dps="24x24"
-              fill="currentColor"
-              width="24"
-              height="24"
-              focusable="false"
+            <div
+              style={{
+                marginTop: "-0.5em",
+                marginRight: "1.5em",
+                position: "absolute",
+              }}
             >
-              <path d="M3 3h4v4H3zm7 4h4V3h-4zm7-4v4h4V3zM3 14h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4zM3 21h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4z"></path>
-            </svg>
-            <a
-              className="btn"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasRight"
-              aria-controls="offcanvasRight"
-            >
-              Work
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                data-supported-dps="24x24"
+                fill="currentColor"
+                width="24"
+                height="24"
+                focusable="false"
+              >
+                <path d="M3 3h4v4H3zm7 4h4V3h-4zm7-4v4h4V3zM3 14h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4zM3 21h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4z"></path>
+              </svg>
+            </div>
+            <a style={{ marginTop: "1em" }}>
+              <span>Work</span>
               <FontAwesomeIcon icon={faCaretDown} />
             </a>
           </div>
@@ -185,20 +230,11 @@ const CustomNavbar = () => {
             className="ml-4"
             style={{ textDecoration: "underline", color: "rgb(187, 115, 88)" }}
           >
-            Try Premium for free
+            <div>Try Premium for </div>
+            <div>free</div>
           </div>
         </div>
       </Navbar>
-
-      <button
-        className="btn btn-primary"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasRight"
-        aria-controls="offcanvasRight"
-      >
-        Toggle right offcanvas
-      </button>
     </>
   );
 };
