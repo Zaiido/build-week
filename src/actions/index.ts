@@ -1,6 +1,8 @@
 import { Dispatch } from 'redux';
+import { IProfile } from '../interfaces/IProfile';
 
 export const GET_ALL_PROFILES = "GET_ALL_PROFILES";
+export const SET_UNIQUE_PROFILES = "SET_UNIQUE_PROFILES";
 
 export const fetchAllProfilesAction = () => {
     return async (dispatch: Dispatch) => {
@@ -23,5 +25,13 @@ export const fetchAllProfilesAction = () => {
         } catch (error) {
             console.log(error)
         }
+    }
+}
+
+
+export const setUniqueProfilesAction = (uniqueProfilesArray: IProfile[]) => {
+    return {
+        type: SET_UNIQUE_PROFILES,
+        payload: uniqueProfilesArray
     }
 }
