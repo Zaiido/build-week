@@ -1,23 +1,16 @@
-import React from "react";
-import Profile from "./components/Profile";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import "./App.css";
-import "./css/profile.css";
-import Analytics from "./components/Analytics";
-import Resources from "./components/Resources";
-import About from "./components/About";
-import Activity from "./components/Activity";
+import { BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router";
+import "bootstrap/dist/css/bootstrap.min.css";
+import PersonalProfile from "./components/PersonalProfile";
 
 function App() {
   return (
-    <div>
-      <Profile />
-      <Analytics />
-      <Resources />
-      <About />
-      <Activity />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<PersonalProfile />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
