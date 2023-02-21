@@ -27,6 +27,7 @@ a.dropdown-item {
     color: rgba(0, 0, 0, 0.9) !important;
     font-weight: 600;
     padding-block: 0;
+    line-height: 1.5;
 }
 
 .footer-icon path {
