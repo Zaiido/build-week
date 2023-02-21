@@ -1,10 +1,15 @@
-import "../styles/SidebarStyles.css";
+import "../css/SidebarStyles.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAllProfilesAction } from "../actions";
 import { useAppDispatch } from "../hooks/hooks";
 import React from "react";
+import Profile from "./Profile";
+import Analytics from "./Analytics";
+import Resources from "./Resources";
+import Activity from "./Activity";
+import About from "./About";
 
 const Sidebar = () => {
   const [toggleCards, setToggleCards] = useState(false);
@@ -20,7 +25,14 @@ const Sidebar = () => {
   return (
     <Container className="my-5">
       <Row>
-        <Col className="col-12 col-sm-8"></Col>
+        <Col className="col-12 col-sm-8 pr-0 overflow-hidden">
+
+          <Profile />
+          <Analytics />
+          <Resources />
+          <About />
+          <Activity />
+        </Col>
         <Col className="col-12 col-sm-4 px-4 profiles-container">
           <div className="sidebar-card">
             <div className="card-spacing">

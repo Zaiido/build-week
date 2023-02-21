@@ -1,143 +1,243 @@
-body{
-    background-color: rgb(220, 230, 241) ;
-    font-family:Sans-Serif;
+body {
+  background-color: rgb(220, 230, 241);
+  font-family: Sans-Serif;
 }
 
 
-.main{
-    height:100%;
-  
-    border-radius:10px;
-    background-color: white;
-  }
-  .cover{
-    position: relative;
-    height:35vh;
-  
-    width:100%;
-    background-image: url("https://leratomonareng.co.za/wp-content/uploads/2021/03/192adf06PCF91kCYu1nPLQg.jpeg");
-  }
-  .profile-pic{
-  position:absolute;
-  bottom:-40px;
-  left:30px
+.main {
+  height: 100%;
+  border-radius: 10px;
+  background-color: white;
+  padding-inline: 0;
+}
 
-  }
-  .profile-pic img{
-    height:150px;
-    width:150px;
-    border-radius: 50%;
-    border:5px solid white
-  }
-  .edu{
-    font-size: 11px;
-  }
-  .open-to-work{
-    background-color: rgb(220, 230, 241) ;
-    display:inline-block;
-    font-size: 14px;
-    border-radius:10px;
-    /* height:75px; */
-   
-    
-    
-  }
-  .name{
-    font-size:24px;
-    font-weight:600;
+.cover {
+  position: relative;
+  min-height: 150px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  background-image: url("https://leratomonareng.co.za/wp-content/uploads/2021/03/192adf06PCF91kCYu1nPLQg.jpeg");
+}
 
-  }
-  .sub{
-    font-size: 16px;
-    font-weight: 400;
+.profile-pic {
+  position: absolute;
+  bottom: -40px;
+  left: 30px
+}
 
-  }
+.profile-pic img {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 5px solid white
+}
 
-  .place{
-    font-size: 14px;
-    color:rgba(0,0,0,0.6)
-  }
-  .place a{
-    font-weight: 600;
-    color:rgb(10,102,194)
-  }
-  .connections{
-    color:rgb(10,102,194);
-    font-weight: 600 ;
-    font-size: 14px;
-  }
-  .jumbotron-btns button{
-    padding: 0.2rem .7rem
-  }
+.edu {
+  font-size: 11px;
+}
 
-  .jumbotron-btns button:nth-of-type(1){
-    background-color: #0a66c2;
-    font-weight:600;
-    font-size:16px
-  }
+.open-to-work {
+  background-color: #E9E5DF;
+  display: inline-block;
+  padding: 1rem;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
-  .jumbotron-btns button:nth-of-type(2){
-   color: #0a66c2;
-    font-weight:600;
-    font-size:16px
-  }
-  .jumbotron-btns button:nth-of-type(2):hover{
-    border:1px solid #0a66c2;
-    background-color: white;
-  }
-  .jumbotron-btns button:nth-of-type(3){
-    color: rgb(0,0,0,0.6);
-     font-weight:600;
-     font-size:16px
-   }
-  .camera{
-    background-color: white;
-    border-radius: 50%;
-    position:absolute;
-    right:0;
-    top:10px
-  }
+a.link {
+  color: #0a66c2 !important;
+}
 
-  .sub-sections{
-    background-color: white;
-    height:100%;
-    border-radius: 10px;
-  }
+a.link-connections {
+  color: #0a66c2 !important;
+  font-size: 14px !important;
+}
 
-  .list .list-group-item{
-    border-top:none;
-    border-left: none;
-    border-right: none;
-    padding: 0rem 1rem;
-   
-  }
-  .list .list-group-item:nth-of-type(3) a{
-    color:grey;
-    font-weight: 600;
-    font-size: 14px;
+.name {
+  font-size: 24px;
+  font-weight: 600;
 
-  }
-  .list .list-group-item:nth-of-type(3) a:hover{
-   text-decoration: none;
-  }
-  .list .list-group-item:nth-of-type(3):hover{
-    background-color: rgba(0,0,0,0.2);
-  }
- 
-  .list .list-group-item:nth-of-type(3){
-    padding: .75rem 1rem
-  }
-  .about{
-    font-size: 14px;
-    color:rgb(0,0,0,0.9)
-  }
-  .post{
-    padding: 0.2rem .7rem;
-    color: #0a66c2;
-    font-weight:600;
-    font-size:16px
-  }
-  .post:hover{
-    border:1px solid #0a66c2;
-    background-color: white;
-  }
+}
+
+.sub {
+  font-size: 16px;
+  font-weight: 400;
+
+}
+
+.place {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6)
+}
+
+.place a {
+  font-weight: 600;
+  color: rgb(10, 102, 194)
+}
+
+.connections {
+  color: rgb(10, 102, 194);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.jumbotron-btns button {
+  padding: 0.2rem .7rem
+}
+
+.jumbotron-btns button:nth-of-type(1) {
+  background-color: #0a66c2;
+  font-weight: 600;
+  font-size: 16px
+}
+
+.jumbotron-btns button:nth-of-type(2) {
+  color: #0a66c2;
+  font-weight: 600;
+  font-size: 16px
+}
+
+.jumbotron-btns button:nth-of-type(2):hover {
+  border: 1px solid #0a66c2;
+  background-color: white;
+}
+
+.jumbotron-btns button:nth-of-type(3) {
+  color: rgb(0, 0, 0, 0.6);
+  font-weight: 600;
+  font-size: 16px
+}
+
+.camera {
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  top: 10px
+}
+
+.sub-sections {
+  background-color: white;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.list .list-group-item {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0rem 1rem;
+}
+
+.list .list-group-item:first-of-type {
+  border: none;
+}
+
+.list .list-group-item:nth-of-type(3) a {
+  color: grey;
+  font-weight: 600;
+  font-size: 14px;
+
+}
+
+.list .list-group-item:nth-of-type(3) a:hover {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.6) !important;
+
+}
+
+.list .list-group-item:nth-of-type(3):hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.list .list-group-item:nth-of-type(3) {
+  padding: 5px 1px;
+
+}
+
+.about {
+  font-size: 14px;
+  color: rgb(0, 0, 0, 0.9)
+}
+
+.post {
+  padding: 0.2rem .7rem;
+  color: #0a66c2;
+  font-weight: 600;
+  font-size: 16px
+}
+
+.post:hover {
+  border: 1px solid #0a66c2;
+  background-color: white;
+}
+
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eye-icon {
+  margin-bottom: 3px;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: relative;
+  top: .4rem
+}
+
+
+.list-group-item.activity-item {
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 5px 1px;
+}
+
+
+.list-group-item.activity-item a {
+  color: rgb(0, 0, 0, 0.6);
+  font-weight: 600;
+  font-size: 14px;
+
+}
+
+.list-group-item.activity-item a:hover {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.6) !important;
+
+}
+
+.list-group-item.activity-item:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+button.btn-outline-primary:hover {
+  color: #0a66c2;
+  background-color: rgba(95, 146, 200, 0.181) !important;
+  box-shadow: inset 0 0 0 2px rgba(84, 106, 122, 0.3);
+}
+
+button.btn-outline-secondary:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+button.btn-primary:hover {
+  background-color: #0a66c2;
+}
