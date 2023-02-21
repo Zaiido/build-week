@@ -105,5 +105,13 @@ const Footer = () => {
                                         <span>Go to your Settings.</span>
                                     </div>
                                 </div>
+                                </Col>
+                                </Row>
+                                </Col>
+                                </Row>
+                                </Container>
+                                </div>
+  )
+}
 
 export default Footer;
