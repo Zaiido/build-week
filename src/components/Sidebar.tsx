@@ -14,6 +14,7 @@ import { IProfile } from "../interfaces/IProfile";
 
 const Sidebar = () => {
   const [toggleCards, setToggleCards] = useState(false);
+  const [toggleCards1, setToggleCards1] = useState(false);
   const profiles = useAppSelector(state => state.allProfiles.results)
   const dispatch = useAppDispatch();
   const [numbers, setNumbers] = useState<number[]>([]);
@@ -21,27 +22,29 @@ const Sidebar = () => {
 
 
 
-  useEffect(() => {
-    dispatch(fetchAllProfilesAction());
-    generateRandomNumbers()
-    uniqueProfile()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const uniqueProfile = () => {
-    const uniqueProfilesArray: IProfile[] = [];
-
+    const uniqueProfilesArray: IProfile[] = []
     for (const index of numbers) {
       uniqueProfilesArray.push(profiles[index])
     }
     dispatch(setUniqueProfilesAction(uniqueProfilesArray))
-
   }
 
+  useEffect(() => {
+    dispatch(fetchAllProfilesAction());
+    generateRandomNumbers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (numbers.length > 0 && profiles.length > 0) {
+      uniqueProfile();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numbers, profiles]);
 
   const generateRandomNumbers = () => {
     const newNumbers: number[] = [];
-
     while (newNumbers.length < 20) {
       const randomNumber = Math.floor(Math.random() * 101);
       if (!newNumbers.includes(randomNumber)) {
@@ -49,6 +52,21 @@ const Sidebar = () => {
       }
     }
     setNumbers(newNumbers);
+  };
+
+  const getClassName = (i: any) => {
+    if (i < 5 || toggleCards) {
+      return "d-flex"
+    } else {
+      return "d-none"
+    }
+  }
+  const getClassName1 = (i: any) => {
+    if (i < 5 || toggleCards1) {
+      return "d-flex"
+    } else {
+      return "d-none"
+    }
   }
 
   return (
@@ -98,244 +116,130 @@ const Sidebar = () => {
               </div>
             </div>
           </div>
-          <div className="sidebar-card my-2">
-            <div className="card-spacing">
-              <h2>People also viewed</h2>
-              <div className="d-flex">
-                <div className="image-container">
-                  <img
-                    src="https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <Link className="username" to={"/"}>
-                    Name Surname
-                  </Link>{" "}
-                  <span>• 2nd</span>
-                  <p className="profession">Profession</p>
-                  <Button variant="outline-secondary">
-                    <svg
-                      className="mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      data-supported-dps="16x16"
-                      fill="currentColor"
-                      width="16"
-                      height="16"
-                      focusable="false"
-                    >
-                      <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                    </svg>{" "}
-                    Connect
-                  </Button>
-                </div>
-              </div>
-              <hr />
-              <div className="d-flex">
-                <div className="image-container">
-                  <img
-                    src="https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <Link className="username" to={"/"}>
-                    Name Surname
-                  </Link>{" "}
-                  <span>• 2nd</span>
-                  <p className="profession">Profession</p>
-                  <Button variant="outline-secondary">
-                    <svg
-                      className="mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      data-supported-dps="16x16"
-                      fill="currentColor"
-                      width="16"
-                      height="16"
-                      focusable="false"
-                    >
-                      <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                    </svg>{" "}
-                    Connect
-                  </Button>
-                </div>
-              </div>
-              <hr />
-              <div className="d-flex">
-                <div className="image-container">
-                  <img
-                    src="https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <Link className="username" to={"/"}>
-                    Name Surname
-                  </Link>{" "}
-                  <span>• 2nd</span>
-                  <p className="profession">Profession</p>
-                  <Button variant="outline-secondary">
-                    <svg
-                      className="mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      data-supported-dps="16x16"
-                      fill="currentColor"
-                      width="16"
-                      height="16"
-                      focusable="false"
-                    >
-                      <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                    </svg>{" "}
-                    Connect
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <div className="toggle">
-              Show more{" "}
-              <svg
-                className="ml-1"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                data-supported-dps="16x16"
-                fill="currentColor"
-                width="16"
-                height="16"
-                focusable="false"
-              >
-                <path d="M1 5l7 4.61L15 5v2.39L8 12 1 7.39z"></path>
-              </svg>
-            </div>
-          </div>
+
           <div className="sidebar-card my-2">
             <div className="card-spacing">
               <h2>People you may know</h2>
-              <div className="d-flex">
-                <div className="image-container">
-                  <img
-                    src="https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <Link className="username" to={"/"}>
-                    Name Surname
-                  </Link>{" "}
-                  <span>• 2nd</span>
-                  <p className="profession">Profession</p>
-                  <Button variant="outline-secondary">
-                    <svg
-                      className="mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      data-supported-dps="16x16"
-                      fill="currentColor"
-                      width="16"
-                      height="16"
-                      focusable="false"
-                    >
-                      <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                    </svg>{" "}
-                    Connect
-                  </Button>
-                </div>
-              </div>
-              <hr />
-              <div className="d-flex">
-                <div className="image-container">
-                  <img
-                    src="https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <Link className="username" to={"/"}>
-                    Name Surname
-                  </Link>{" "}
-                  <span>• 2nd</span>
-                  <p className="profession">Profession</p>
-                  <Button variant="outline-secondary">
-                    <svg
-                      className="mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      data-supported-dps="16x16"
-                      fill="currentColor"
-                      width="16"
-                      height="16"
-                      focusable="false"
-                    >
-                      <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                    </svg>{" "}
-                    Connect
-                  </Button>
-                </div>
-              </div>
-              <hr />
-              <div className="d-flex">
-                <div className="image-container">
-                  <img
-                    src="https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <Link className="username" to={"/"}>
-                    Name Surname
-                  </Link>{" "}
-                  <span>• 2nd</span>
-                  <p className="profession">Profession</p>
-                  <Button variant="outline-secondary">
-                    <svg
-                      className="mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      data-supported-dps="16x16"
-                      fill="currentColor"
-                      width="16"
-                      height="16"
-                      focusable="false"
-                    >
-                      <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                    </svg>{" "}
-                    Connect
-                  </Button>
-                </div>
-              </div>
-              <hr />
-              <div className={toggleCards ? "d-flex" : "d-none"}>
-                <div className="image-container">
-                  <img
-                    src="https://images.unsplash.com/photo-1536590158209-e9d615d525e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    alt=""
-                  />
-                </div>
-                <div>
-                  <Link className="username" to={"/"}>
-                    Name Surname
-                  </Link>{" "}
-                  <span>• 2nd</span>
-                  <p className="profession">Profession</p>
-                  <Button variant="outline-secondary">
-                    <svg
-                      className="mr-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      data-supported-dps="16x16"
-                      fill="currentColor"
-                      width="16"
-                      height="16"
-                      focusable="false"
-                    >
-                      <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                    </svg>{" "}
-                    Connect
-                  </Button>
-                </div>
-              </div>
+              {uniqueProfiles.length !== 0 && uniqueProfiles.slice(0, 10).map((profile: IProfile, i: any) => {
+                return (
+                  <div key={i}>
+                    <div className={getClassName1(i)} >
+                      <div className="image-container">
+                        <img
+                          src={profile.image}
+                          alt=""
+                        />
+                      </div>
+                      <div>
+                        <Link className="username" to={"/"}>
+                          {profile.name} {profile.surname}
+                        </Link>{" "}
+                        <span>• 2nd</span>
+                        <p className="profession">{profile.title}</p>
+                        <Button variant="outline-secondary">
+                          <svg
+                            className="mr-1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            data-supported-dps="16x16"
+                            fill="currentColor"
+                            width="16"
+                            height="16"
+                            focusable="false"
+                          >
+                            <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
+                          </svg>{" "}
+                          Connect
+                        </Button>
+                      </div>
+                    </div>
+                    <hr className={getClassName1(i)} />
+                  </div>
+                )
+              })}
+            </div>
+            <div
+              className="toggle"
+              onClick={() => {
+                setToggleCards1(!toggleCards1);
+              }}
+            >
+              {toggleCards1 ? (
+                <>
+                  Show less{" "}
+                  <svg
+                    className="ml-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    data-supported-dps="16x16"
+                    fill="currentColor"
+                    width="16"
+                    height="16"
+                    focusable="false"
+                  >
+                    <path d="M15 11L8 6.39 1 11V8.61L8 4l7 4.61z"></path>
+                  </svg>
+                </>
+              ) : (
+                <>
+                  Show more{" "}
+                  <svg
+                    className="ml-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    data-supported-dps="16x16"
+                    fill="currentColor"
+                    width="16"
+                    height="16"
+                    focusable="false"
+                  >
+                    <path d="M1 5l7 4.61L15 5v2.39L8 12 1 7.39z"></path>
+                  </svg>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="sidebar-card my-2">
+            <div className="card-spacing">
+              <h2>People you may know</h2>
+              {uniqueProfiles.length !== 0 && uniqueProfiles.slice(10, 20).map((profile: IProfile, i: any) => {
+                return (
+                  <div key={i}>
+                    <div className={getClassName(i)} >
+                      <div className="image-container">
+                        <img
+                          src={profile.image}
+                          alt=""
+                        />
+                      </div>
+                      <div>
+                        <Link className="username" to={"/"}>
+                          {profile.name} {profile.surname}
+                        </Link>{" "}
+                        <span>• 2nd</span>
+                        <p className="profession">{profile.title}</p>
+                        <Button variant="outline-secondary">
+                          <svg
+                            className="mr-1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            data-supported-dps="16x16"
+                            fill="currentColor"
+                            width="16"
+                            height="16"
+                            focusable="false"
+                          >
+                            <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
+                          </svg>{" "}
+                          Connect
+                        </Button>
+                      </div>
+                    </div>
+                    <hr className={getClassName(i)} />
+                  </div>
+                )
+              })}
             </div>
             <div
               className="toggle"
