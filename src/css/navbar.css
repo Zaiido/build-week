@@ -2,6 +2,7 @@
   padding-left: 375px;
   height: 52px;
   border-bottom: 1px solid #6666;
+  z-index: 1050;
 }
 .form > input {
   background-color: rgb(238, 243, 248);
@@ -178,7 +179,7 @@ svg.svg-inline--fa {
 
 .modal-dialog {
   position: fixed;
-  top: 0;
+  top: 52px;
   right: 0;
   margin: 0;
 }
@@ -189,8 +190,12 @@ svg.svg-inline--fa {
   height: 100%;
   display: flex;
   flex-direction: column;
+  border-top-left-radius: 2%;
+  border-bottom-left-radius: 2%;
 }
-
+.modal-backdrop.show {
+  opacity: 1;
+}
 .modal-header {
   margin-bottom: auto;
   border-bottom: none;
@@ -210,4 +215,23 @@ svg.svg-inline--fa {
   margin: 0;
   height: 100%;
   width: 100%;
+  transform: translate(100%);
+  animation: appear 500ms ease-out forwards;
+}
+
+@keyframes appear {
+  0% {
+    position: absolute;
+    display: flex;
+    transition: all 500ms ease-out, transform-origin 1ms;
+  }
+  100% {
+    position: fixed;
+    z-index: 100;
+    display: flex;
+    opacity: 1;
+    transform: translate(0%);
+    justify-content: center;
+    align-items: center;
+  }
 }
