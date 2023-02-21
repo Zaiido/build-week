@@ -1,13 +1,13 @@
-import { GET_ALL_PROFILES } from "../actions";
+import { GET_MY_PROFILE } from "../actions";
 import { IAllProfiles } from "../interfaces/IAllProfiles";
 
 const initialState: IAllProfiles = {
   results: [],
 };
 
-const fetchAllProfilesReducer = (state = initialState, action: any) => {
+const fetchMyProfilesReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case GET_ALL_PROFILES:
+    case GET_MY_PROFILE:
       return {
         ...state,
         results: action.payload,
@@ -17,5 +17,4 @@ const fetchAllProfilesReducer = (state = initialState, action: any) => {
       return state;
   }
 };
-
-export default fetchAllProfilesReducer;
+export default fetchMyProfilesReducer;

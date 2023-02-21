@@ -1,11 +1,4 @@
-import {
-  Navbar,
-  NavDropdown,
-  Form,
-  ListGroup,
-  ListGroupItem,
-} from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Navbar, NavDropdown, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -19,30 +12,15 @@ import {
 import "../css/navbar.css";
 import { useState, useEffect } from "react";
 import React from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { fetchMyProfileAction } from "../actions";
 
 const CustomNavbar = () => {
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
-        {
-          method: "GET",
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const profile = useAppSelector((state) => state.myProfile.results);
+
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    fetchData();
+    dispatch(fetchMyProfileAction());
   }, []);
   return (
     <>
@@ -104,7 +82,7 @@ const CustomNavbar = () => {
           </div>
           <div style={{ marginBottom: "10px" }}>
             <img
-              src="http://placekitten.com/25/25"
+              src={profile.image}
               id="avatarTiny"
               alt="avatar"
               style={{ marginTop: "-1em" }}
@@ -125,10 +103,10 @@ const CustomNavbar = () => {
                   <span
                     style={{ color: "rgba(37,37,37,255)", fontWeight: "bold" }}
                   >
-                    Mantas Petrosius
+                    {profile.name} {profile.surname}
                   </span>
                   <span style={{ color: "rgba(37,37,37,255)" }}>
-                    Student at EPICODE
+                    {profile.title}
                   </span>
                 </div>
               </NavDropdown.Item>
