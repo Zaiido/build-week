@@ -35,7 +35,7 @@ const CustomNavbar = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
       }
     } catch (error) {
       console.log(error);

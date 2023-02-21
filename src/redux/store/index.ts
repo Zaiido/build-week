@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import fetchAllProfilesReducer from "../../reducers/fetchAllProfilesReducer";
 import { combineReducers } from '@reduxjs/toolkit'
+import setUniqueProfilesReducer from "../../reducers/setUniqueProfilesReducer";
 
 
 const combinedReducers = combineReducers({
-    allProfiles: fetchAllProfilesReducer
+    allProfiles: fetchAllProfilesReducer,
+    uniqueProfiles: setUniqueProfilesReducer
 })
 
 const store = configureStore({

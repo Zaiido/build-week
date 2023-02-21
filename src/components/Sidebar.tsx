@@ -2,25 +2,54 @@ import "../css/SidebarStyles.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchAllProfilesAction } from "../actions";
-import { useAppDispatch } from "../hooks/hooks";
+import { fetchAllProfilesAction, setUniqueProfilesAction } from "../actions";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import React from "react";
 import Profile from "./Profile";
 import Analytics from "./Analytics";
 import Resources from "./Resources";
 import Activity from "./Activity";
 import About from "./About";
+import { IProfile } from "../interfaces/IProfile";
 
 const Sidebar = () => {
   const [toggleCards, setToggleCards] = useState(false);
-  // const profiles = useAppSelector(state => state.allProfiles.results)
+  const profiles = useAppSelector(state => state.allProfiles.results)
   const dispatch = useAppDispatch();
+  const [numbers, setNumbers] = useState<number[]>([]);
+  const uniqueProfiles = useAppSelector(state => state.uniqueProfiles.results)
+
+
 
   useEffect(() => {
     dispatch(fetchAllProfilesAction());
-    // console.log(profiles)
+    generateRandomNumbers()
+    uniqueProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const uniqueProfile = () => {
+    const uniqueProfilesArray: IProfile[] = [];
+
+    for (const index of numbers) {
+      uniqueProfilesArray.push(profiles[index])
+    }
+    dispatch(setUniqueProfilesAction(uniqueProfilesArray))
+
+  }
+
+
+  const generateRandomNumbers = () => {
+    const newNumbers: number[] = [];
+
+    while (newNumbers.length < 20) {
+      const randomNumber = Math.floor(Math.random() * 101);
+      if (!newNumbers.includes(randomNumber)) {
+        newNumbers.push(randomNumber);
+      }
+    }
+    setNumbers(newNumbers);
+  }
 
   return (
     <Container className="my-5">
