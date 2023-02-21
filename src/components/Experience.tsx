@@ -13,6 +13,7 @@ import { Plus, Pencil } from "react-bootstrap-icons";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import {
   deleteJobAction,
+  editJobAction,
   fetchExperienceAction,
   postJobAction,
 } from "../actions";
@@ -23,13 +24,6 @@ import { parseISO, format } from "date-fns";
 const Experience = () => {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleClose2 = () => setShow2(false);
-  const handleShow2 = () => setShow2(true);
-
   const [job, setJob] = useState({
     role: "",
     company: "",
@@ -39,10 +33,32 @@ const Experience = () => {
     description: "",
     area: "",
   });
+  //  const [expToEdit, setExpToEdit] = useState("");
+  let exp = useAppSelector((state) => state.experience.results);
+  let expToEdit: string;
+
+  const editJob = (id: string) => {
+    let jobtoEdit = exp.find((j: IExperience) => j._id === id);
+
+    setJob(jobtoEdit);
+    expToEdit = id;
+    // console.log(expToEdit);
+  };
+  const handleSubmit2 = () => {
+    console.log(expToEdit);
+    // dispatch(editJobAction(job, expToEdit));
+  };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleClose2 = () => setShow2(false);
+
+  const handleShow2 = (id: string) => {
+    setShow2(true);
+    editJob(id);
+  };
 
   const dispatch = useAppDispatch();
-
-  let exp = useAppSelector((state) => state.experience.results);
 
   useEffect(() => {
     dispatch(fetchExperienceAction());
@@ -210,8 +226,11 @@ const Experience = () => {
                   <Pencil
                     size={18}
                     className="mr-2 ml-auto"
-                    onClick={handleShow2}
+                    onClick={() => {
+                      handleShow2(ex._id);
+                    }}
                   />
+
                   <Modal show={show2} onHide={handleClose2} scrollable>
                     <Modal.Header closeButton>
                       <Modal.Title>Modal heading</Modal.Title>
@@ -329,7 +348,12 @@ const Experience = () => {
                       <Button variant="secondary" onClick={handleClose2}>
                         Close
                       </Button>
-                      <Button variant="primary" onClick={handleClose2}>
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          handleSubmit2();
+                        }}
+                      >
                         Save Changes
                       </Button>
                     </Modal.Footer>
