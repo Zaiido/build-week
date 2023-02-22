@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import "../css/SidebarStyles.css";
 import FeedSidebar from "./FeedSidebar";
 import StartPost from "./StartPost";
+import SinglePost from "./SinglePost";
 
 export const Feed = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
@@ -28,7 +29,6 @@ export const Feed = () => {
   return (
     <Container className="mt-3">
       <Row>
-
         <Col id="col1" className="col col-sm-3">
           <Card id="leftCard">
             <Card.Img
@@ -160,6 +160,7 @@ export const Feed = () => {
         </Col>
         <Col className="col-12 col-sm-5">
           <StartPost />
+          <SinglePost />
         </Col>
         <Col className="col-12 col-sm-4 px-4 profiles-container">
           <FeedSidebar />
