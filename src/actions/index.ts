@@ -88,6 +88,7 @@ export const postJobAction = (job: {
 
       if (response.ok) {
         console.log("posted");
+        // fetchExperienceAction();
       } else {
         alert("Error");
       }
