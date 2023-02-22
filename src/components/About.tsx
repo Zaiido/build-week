@@ -38,7 +38,7 @@ const About = () => {
                   <Modal.Title>Edit about</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <Form.Group controlId="exampleForm.ControlTextarea1">
+                  <Form.Group>
                     <Form.Label>
                       {" "}
                       You can write about your years of experience, industry, or
