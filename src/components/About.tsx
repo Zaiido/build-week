@@ -32,7 +32,9 @@ const About = () => {
           <div className="d-flex justify-content-between">
             <h4 className="name pt-4 mb-n1 px-2">About</h4>
             <span className="mt-2">
-              <Pencil onClick={handleShow} />
+              <div className="icons-bg-hover">
+                <Pencil onClick={handleShow} />
+              </div>
               <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Edit about</Modal.Title>
