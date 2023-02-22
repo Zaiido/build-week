@@ -1,44 +1,50 @@
-import React, { useState } from "react"
-import '../css/Post.css'
-import { Button, Col, Form, Modal, Row } from "react-bootstrap"
+import React, { useState } from "react";
+import "../css/Post.css";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useAppSelector } from "../hooks/hooks";
 import { Link } from "react-router-dom";
 
 const StartPost = () => {
-    let profile = useAppSelector((state) => state.myProfile.results);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  let profile = useAppSelector((state) => state.myProfile.results);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    const [newPost, setNewPost] = useState("")
+  const [newPost, setNewPost] = useState("");
 
-    const handleOnClick = () => {
-        createNewPost()
-        handleClose()
-    }
+  const handleOnClick = () => {
+    createNewPost();
+    handleClose();
+  };
 
-    const createNewPost = async () => {
-        try {
-            let response = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
-                method: "POST",
-                body: JSON.stringify({ text: newPost }),
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization:
-                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-                },
-            })
-            if (response.ok) {
-                console.log("OK")
-            } else {
-                console.log("error")
-            }
-        } catch (error) {
-            console.log(error)
+  const createNewPost = async () => {
+    try {
+      let response = await fetch(
+        "https://striveschool-api.herokuapp.com/api/posts/",
+        {
+          method: "POST",
+          body: JSON.stringify({ text: newPost }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+          },
         }
+      );
+      if (response.ok) {
+        console.log("OK");
+        let data = await response.json();
+        console.log(data);
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    return (
+
+   return (
         <>
             <Row className="mt-2">
                 <Col className="col-12 p-0">
@@ -144,4 +150,4 @@ const StartPost = () => {
     )
 }
 
-export default StartPost
+export default StartPost;
