@@ -49,7 +49,8 @@ const Experience = () => {
     // console.log(expToEdit);
     dispatch(editJobAction(job, expToEdit));
     // eslint-disable-next-line no-restricted-globals
-    location.reload();
+    // location.reload();
+    handleClose2();
   };
 
   const handleClose = () => setShow(false);
@@ -85,17 +86,17 @@ const Experience = () => {
     dispatch(postJobAction(job));
     handleClose();
     // eslint-disable-next-line no-restricted-globals
-    location.reload();
+    // location.reload();
   };
 
   return (
-    <Container className="mb-2">
+    <Container className="mb-1">
       <Row>
-        <Col xs={9} className="mt-2 sub-sections">
+        <Col className="mt-2 sub-sections" style={{ paddingInline: "0" }}>
           <div className="d-flex justify-content-between align-items-center">
             <h4 className="name pt-4 mb-n1 px-2">Experience</h4>
             <div>
-              <Plus size={25} className="mr-2" onClick={handleShow} />
+              <Plus size={25} className="mr-4 mt-2" onClick={handleShow} />
               <Modal show={show} onHide={handleClose} scrollable>
                 <Modal.Header closeButton>
                   <Modal.Title>Modal heading</Modal.Title>
@@ -214,30 +215,45 @@ const Experience = () => {
             </div>
           </div>
 
-          <ListGroup className="mt-2">
+          <ListGroup className="mt-2 list ">
             {exp.map((ex: IExperience) => (
-              <ListGroup.Item key={ex._id}>
+              <ListGroup.Item
+                key={ex._id}
+                style={{ borderBottom: "1px solid rgb(235, 229, 229) " }}
+                className="pt-2"
+              >
                 <div
                   className="d-flex align-items-center"
                   style={{ gap: "5px" }}
                 >
-                  <img
-                    src="http://placekitten.com/200/300"
-                    alt=""
-                    height="40px"
-                    width="40px"
-                  />
+                  <div className="mt-n5">
+                    <img
+                      src="http://placekitten.com/200/300"
+                      alt=""
+                      height="40px"
+                      width="40px"
+                    />
+                  </div>
                   <div>
-                    <h6>{ex.role}</h6>
-                    <span>{ex.company}</span>
-                    <h6>
+                    <h6 style={{ fontWeight: "600", paddingInline: "10px" }}>
+                      {ex.role}
+                    </h6>
+                    <p
+                      className="about mb-0 mt-n1"
+                      style={{ paddingInline: "10px" }}
+                    >
+                      {ex.company}
+                    </p>
+                    <p className="place mb-0" style={{ paddingInline: "10px" }}>
                       {" "}
                       {format(parseISO(ex.startDate), "MMMM, yyyy")} -{" "}
                       {ex.endDate === null
                         ? "Present"
                         : format(parseISO(ex.endDate), "MMMM, yyyy")}
-                    </h6>
-                    <h6>{ex.area}</h6>
+                    </p>
+                    <p className="place mb-0" style={{ paddingInline: "10px" }}>
+                      {ex.area}
+                    </p>
                   </div>
 
                   <Pencil
@@ -360,7 +376,7 @@ const Experience = () => {
                           dispatch(deleteJobAction(expToEdit));
                           handleClose2();
                           // eslint-disable-next-line no-restricted-globals
-                          location.reload();
+                          // location.reload();
                         }}
                       >
                         Delete Experience
@@ -388,39 +404,3 @@ const Experience = () => {
   );
 };
 export default Experience;
-
-//     <div
-//       className="d-flex justify-content-between align-items-center"
-//       style={{ paddingInline: "15px" }}
-//     >
-//       <div>
-//         <h4 className="name pt-4 mb-n1 px-2">Activity</h4>
-//         <p className="connections mt-2 mb-1 px-2 ">
-//           <a href="#home" className="link-connections">
-//             494 Followers
-//           </a>
-//         </p>
-//       </div>
-//       <Button variant="outline-primary" className="rounded-pill post">
-//         Start a post
-//       </Button>
-//     </div>
-//     <h6 style={{ fontWeight: "600", paddingInline: "23px" }}>
-//       You haven't posted lately
-//     </h6>
-//     <p className="about" style={{ paddingInline: "23px" }}>
-//       Recent posts you share or comment on will be displayed here
-//     </p>
-//     <ListGroup>
-//       <ListGroup.Item className="activity-item">
-//         <div className="text-center">
-//           <a href="#home">
-//             Show all activity
-//             <ArrowRight className="ml-2" />
-//           </a>
-//         </div>
-//       </ListGroup.Item>
-//     </ListGroup>
-//   </Col>
-// </Row>
-// </Container>
