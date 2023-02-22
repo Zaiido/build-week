@@ -1,9 +1,11 @@
 import { Dispatch } from "redux";
+import { IAllPosts } from "../interfaces/IAllPosts";
 import { IProfile } from "../interfaces/IProfile";
 
 export const GET_ALL_PROFILES = "GET_ALL_PROFILES";
 export const GET_EXPERIENCE = "GET_EXPERIENCE";
 export const GET_MY_PROFILE = "GET_MY_PROFILE";
+export const GET_POST = "GET_POST";
 export const SET_UNIQUE_PROFILES = "SET_UNIQUE_PROFILES";
 
 export const fetchAllProfilesAction = () => {
@@ -103,7 +105,7 @@ export const deleteJobAction = (id: string) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
-        id,
+          id,
         {
           method: "DELETE",
 
@@ -174,7 +176,7 @@ export const editJobAction = (
       // console.log(id);
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
-        id,
+          id,
         {
           method: "PUT",
           body: JSON.stringify(job),
@@ -186,9 +188,35 @@ export const editJobAction = (
         }
       );
       if (response.ok) {
-        console.log("OK")
+        console.log("OK");
       } else {
         alert("Error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const fetchPostsAction = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      let response = await fetch(
+        "https://striveschool-api.herokuapp.com/api/posts/",
+        {
+          method: "GET",
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+          },
+        }
+      );
+      if (response.ok) {
+        let post = await response.json();
+        const posts = post.slice(-20) as IAllPosts[];
+        dispatch({ type: GET_POST, payload: posts });
+      } else {
+        console.log("Error");
       }
     } catch (error) {
       console.log(error);

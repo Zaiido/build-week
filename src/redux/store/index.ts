@@ -4,13 +4,14 @@ import setUniqueProfilesReducer from "../../reducers/setUniqueProfilesReducer";
 import fetchExperienceReducer from "../../reducers/fetchExperienceReducer";
 import { combineReducers } from "@reduxjs/toolkit";
 import fetchMyProfilesReducer from "../../reducers/fetchMyProfile";
+import fetchPostsReducer from "../../reducers/fetchPostsReducer";
 
 const combinedReducers = combineReducers({
-
   allProfiles: fetchAllProfilesReducer,
   experience: fetchExperienceReducer,
   myProfile: fetchMyProfilesReducer,
-  uniqueProfiles: setUniqueProfilesReducer
+  uniqueProfiles: setUniqueProfilesReducer,
+  posts: fetchPostsReducer,
 });
 
 const store = configureStore({
