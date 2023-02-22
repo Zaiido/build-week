@@ -49,7 +49,7 @@ const Experience = () => {
     // console.log(expToEdit);
     dispatch(editJobAction(job, expToEdit));
     // eslint-disable-next-line no-restricted-globals
-    // location.reload();
+    location.reload();
   };
 
   const handleClose = () => setShow(false);
@@ -85,7 +85,7 @@ const Experience = () => {
     dispatch(postJobAction(job));
     handleClose();
     // eslint-disable-next-line no-restricted-globals
-    // location.reload();
+    location.reload();
   };
 
   return (
@@ -361,7 +361,7 @@ const Experience = () => {
                           dispatch(deleteJobAction(expToEdit));
                           handleClose2();
                           // eslint-disable-next-line no-restricted-globals
-                          // location.reload();
+                          location.reload();
                         }}
                       >
                         Delete Experience
