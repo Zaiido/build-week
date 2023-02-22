@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { IProfile } from '../interfaces/IProfile';
+import { IProfile } from "../interfaces/IProfile";
 
 export const GET_ALL_PROFILES = "GET_ALL_PROFILES";
 export const GET_EXPERIENCE = "GET_EXPERIENCE";
@@ -88,6 +88,7 @@ export const postJobAction = (job: {
 
       if (response.ok) {
         console.log("posted");
+        // fetchExperienceAction();
       } else {
         alert("Error");
       }
@@ -97,17 +98,12 @@ export const postJobAction = (job: {
   };
 };
 
-//   let movies = await res.json();
-//   onLoadActions();
-
-// }
-
 export const deleteJobAction = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
-        id,
+          id,
         {
           method: "DELETE",
 
@@ -151,13 +147,51 @@ export const fetchMyProfileAction = () => {
     } catch (error) {
       console.log(error);
     }
-
-  }
-}
+  };
+};
 
 export const setUniqueProfilesAction = (uniqueProfilesArray: IProfile[]) => {
   return {
     type: SET_UNIQUE_PROFILES,
-    payload: uniqueProfilesArray
-  }
-}
+    payload: uniqueProfilesArray,
+  };
+};
+
+export const editJobAction = (
+  job: {
+    role: string;
+    company: string;
+    startDate: string;
+    endDate: string;
+    stillWorkingHere: boolean;
+    description: string;
+    area: string;
+  },
+  id: string
+) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      // console.log(id);
+      let response = await fetch(
+        "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
+          id,
+        {
+          method: "PUT",
+          body: JSON.stringify(job),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzNmZmNTgzODFmYzAwMTNmZmZhZGYiLCJpYXQiOjE2NzY4OTgyOTQsImV4cCI6MTY3ODEwNzg5NH0.n_FTGhlX9c6j23fCYIPFM6lg70LgdPtYXQ8thi09Ges",
+          },
+        }
+      );
+      if (response.ok) {
+        let data = await response.json();
+      } else {
+        alert("Error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
