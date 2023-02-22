@@ -70,37 +70,54 @@ const CustomNavbar = () => {
           </div>
           <div id="nav-main" className="d-flex">
             <div className="onHover">
-              <div><FontAwesomeIcon icon={faHouse} /></div>
-              <div><Link to={"/"} id="navs">
-                Home
-              </Link></div>
-
+              <div>
+                <FontAwesomeIcon icon={faHouse} />
+              </div>
+              <div>
+                <Link to={"/"} id="navs">
+                  Home
+                </Link>
+              </div>
             </div>
             <div className="onHover">
-              <div><FontAwesomeIcon icon={faPeopleGroup} /></div>
-              <div><Link to={"/"} id="navs">
-                My Network
-              </Link></div>
-
+              <div>
+                <FontAwesomeIcon icon={faPeopleGroup} />
+              </div>
+              <div>
+                <Link to={"/"} id="navs">
+                  My Network
+                </Link>
+              </div>
             </div>
             <div className="onHover">
-              <div><FontAwesomeIcon icon={faSuitcase} /></div>
-              <div><Link to={"/"} id="navs">
-                Jobs
-              </Link></div>
+              <div>
+                <FontAwesomeIcon icon={faSuitcase} />
+              </div>
+              <div>
+                <Link to={"/"} id="navs">
+                  Jobs
+                </Link>
+              </div>
             </div>
             <div className="onHover">
-              <div><FontAwesomeIcon icon={faCommentDots} /></div>
-              <div><Link to={"/"} id="navs">
-                Messaging
-              </Link></div>
-
+              <div>
+                <FontAwesomeIcon icon={faCommentDots} />
+              </div>
+              <div>
+                <Link to={"/"} id="navs">
+                  Messaging
+                </Link>
+              </div>
             </div>
             <div className="onHover">
-              <div><FontAwesomeIcon icon={faBell} /></div>
-              <div><Link to={"/"} id="navs">
-                Notifications
-              </Link></div>
+              <div>
+                <FontAwesomeIcon icon={faBell} />
+              </div>
+              <div>
+                <Link to={"/"} id="navs">
+                  Notifications
+                </Link>
+              </div>
             </div>
 
             <div
@@ -113,19 +130,29 @@ const CustomNavbar = () => {
                 borderRight: "1px solid rgb(220 218 211)",
               }}
             >
-              <div style={{ width: "1.3em", height: "1.3em", overflow: "hidden", borderRadius: "50%", marginTop: "2px" }}>
+              <div
+                style={{
+                  width: "1.3em",
+                  height: "1.3em",
+                  overflow: "hidden",
+                  borderRadius: "50%",
+                  marginTop: "2px",
+                }}
+              >
                 <img
                   src={profile.image}
                   alt="avatar"
-                  style={{ height: "100%", width: "100%", objectFit: "cover", position: "relative", bottom: "4px" }}
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "cover",
+                    position: "relative",
+                    bottom: "4px",
+                  }}
                 />
               </div>
 
-
-              <NavDropdown
-                title="Me"
-                id="navbarScrolling"
-              >
+              <NavDropdown title="Me" id="navbarScrolling">
                 <NavDropdown.Item id="accountDropdown">
                   <img
                     src={profile.image}
@@ -135,7 +162,11 @@ const CustomNavbar = () => {
                   ></img>
                   <div>
                     <span
-                      style={{ color: "rgba(37,37,37,255)", fontWeight: "bold", fontSize: "16px" }}
+                      style={{
+                        color: "rgba(37,37,37,255)",
+                        fontWeight: "bold",
+                        fontSize: "16px",
+                      }}
                     >
                       {profile.name} {profile.surname}
                     </span>
@@ -178,7 +209,10 @@ const CustomNavbar = () => {
                       fill="#e7a33e"
                     ></path>
                   </svg>
-                  <Link to={"/"} className="premium-link1"> Try Premium for free</Link>
+                  <Link to={"/"} className="premium-link1">
+                    {" "}
+                    Try Premium for free
+                  </Link>
                 </NavDropdown.Item>
                 <NavDropdown.Item className="underline" href="#action5">
                   Settings & Privacy
@@ -222,7 +256,8 @@ const CustomNavbar = () => {
                   marginTop: "-0.5em",
                   marginRight: "1.5em",
                   position: "absolute",
-                }}>
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -235,20 +270,28 @@ const CustomNavbar = () => {
                   <path d="M3 3h4v4H3zm7 4h4V3h-4zm7-4v4h4V3zM3 14h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4zM3 21h4v-4H3zm7 0h4v-4h-4zm7 0h4v-4h-4z"></path>
                 </svg>
               </div>
-              <Link to={"/"} style={{ marginTop: "1.5em" }} className="special-link">
+              <Link
+                to={"/"}
+                style={{ marginTop: "1.5em" }}
+                className="special-link"
+              >
                 <span>Work</span>
                 <FontAwesomeIcon icon={faCaretDown} />
               </Link>
             </div>
-            <div
-              className="ml-4"
-            >
-              <Link to={"/"} className="d-none d-lg-block premium-link truncate">Get Hired Faster, <br /> Try Premium Free</Link>
+            <div className="ml-4">
+              <Link
+                to={"/"}
+                className="d-none d-lg-block premium-link truncate"
+              >
+                Get Hired Faster, <br /> Try Premium Free
+              </Link>
             </div>
           </div>
         </Container>
       </Navbar>
       <Modal
+        className="nav-modal"
         show={show}
         onHide={handleClose}
         animation={false}
@@ -599,7 +642,10 @@ const CustomNavbar = () => {
               <blockquote className="blockquote mb-0">
                 <Row className="row-cols-1">
                   <Col>
-                    <Link to={"https://business.linkedin.com/talent-solutions?trk=flagship_nav&veh=li-header-dropdown-lts-control&src=li-nav"}
+                    <Link
+                      to={
+                        "https://business.linkedin.com/talent-solutions?trk=flagship_nav&veh=li-header-dropdown-lts-control&src=li-nav"
+                      }
                       target="_blank"
                     >
                       <h5>Talent Solutions</h5>
@@ -607,7 +653,10 @@ const CustomNavbar = () => {
                     </Link>
                   </Col>
                   <Col>
-                    <Link to={"https://business.linkedin.com/sales-solutions?trk=flagship_nav&amp;veh=li-header-dropdown-lss-control&amp;src=li-nav"}
+                    <Link
+                      to={
+                        "https://business.linkedin.com/sales-solutions?trk=flagship_nav&amp;veh=li-header-dropdown-lss-control&amp;src=li-nav"
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       data-test-app-aware-link=""
@@ -617,7 +666,10 @@ const CustomNavbar = () => {
                     </Link>
                   </Col>
                   <Col>
-                    <Link to={"https://www.linkedin.com/talent/post-a-job?trk=nav_biz_serv_job_post_nept"}
+                    <Link
+                      to={
+                        "https://www.linkedin.com/talent/post-a-job?trk=nav_biz_serv_job_post_nept"
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       data-test-app-aware-link=""
@@ -627,7 +679,10 @@ const CustomNavbar = () => {
                     </Link>
                   </Col>
                   <Col>
-                    <Link to={"https://business.linkedin.com/marketing-solutions/ads?trk=n_nav_ads_rr_b&amp;src=li-nav"}
+                    <Link
+                      to={
+                        "https://business.linkedin.com/marketing-solutions/ads?trk=n_nav_ads_rr_b&amp;src=li-nav"
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       data-test-app-aware-link=""
@@ -637,7 +692,10 @@ const CustomNavbar = () => {
                     </Link>
                   </Col>
                   <Col>
-                    <Link to={"https://learning.linkedin.com/?trk=d_flagship3_nav&amp;veh=learning_solutions&amp;src=li-nav"}
+                    <Link
+                      to={
+                        "https://learning.linkedin.com/?trk=d_flagship3_nav&amp;veh=learning_solutions&amp;src=li-nav"
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       data-test-app-aware-link=""
@@ -650,7 +708,8 @@ const CustomNavbar = () => {
                 <hr />
                 <Row>
                   <Col>
-                    <Link to={"https://www.linkedin.com/company/setup/new/"}
+                    <Link
+                      to={"https://www.linkedin.com/company/setup/new/"}
                       target="_blank"
                       rel="noopener noreferrer"
                       data-test-app-aware-link=""
@@ -683,5 +742,3 @@ const CustomNavbar = () => {
   );
 };
 export default CustomNavbar;
-
-
