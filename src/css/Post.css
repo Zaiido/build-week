@@ -1,0 +1,155 @@
+.main-container {
+    background-color: white;
+    padding: 1rem;
+    border: 1px solid #d9d9d8;
+    border-radius: 0.8rem;
+
+}
+
+.image-container {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: .5rem;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.button-container {
+    flex-grow: 1;
+}
+
+.btn.start-post-btn {
+    width: 100%;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+.btn.start-post-btn:hover {
+    background-color: rgba(0, 0, 0, 0.099) !important;
+}
+
+.btn.start-post-btn:active {
+    background-color: white !important;
+    border-color: rgba(0, 0, 0, 0.3) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.btn.start-post-btn:focus {
+    box-shadow: none !important;
+}
+
+
+.btn.option-btn {
+    background-color: white;
+    border-color: white;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+}
+
+.options-container .btn.option-btn svg {
+    margin-right: .5rem;
+}
+
+.options-container .btn.option-btn:first-child svg {
+    fill: #378FE9;
+}
+
+.options-container .btn.option-btn:nth-child(2) svg {
+    fill: #5F9B41;
+}
+
+.options-container .btn.option-btn:nth-child(3) svg {
+    fill: #C37D16;
+}
+
+.options-container .btn.option-btn:last-child svg {
+    fill: #E16745;
+}
+
+
+.btn.option-btn:hover {
+    background-color: rgba(0, 0, 0, 0.099) !important;
+}
+
+.btn.option-btn:active {
+    background-color: white !important;
+    border-color: rgba(0, 0, 0, 0.3) !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.btn.option-btn:focus {
+    box-shadow: none !important;
+}
+
+.modal-backdrop {
+    opacity: 0.5 !important;
+}
+
+.post-modal .modal-body {
+    padding-bottom: 0;
+}
+
+.post-modal .modal-dialog {
+    position: relative;
+    margin: 28px 518px;
+}
+
+.post-modal .modal-content {
+    border-radius: 10px;
+}
+
+.post-modal .modal-header {
+    border-bottom: 1px solid #F3F2EF;
+}
+
+.textarea {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    resize: none;
+    height: 100px !important;
+}
+
+.textarea:focus {
+    box-shadow: none !important;
+}
+
+a.hashtag-link {
+    font-size: 15px;
+    color: #0961b9 !important;
+    padding-inline: 5px;
+}
+
+a.hashtag-link:hover {
+    background-color: #0961b926;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.emoji:hover {
+    fill: rgba(0, 0, 0, 0.9) !important;
+}
+
+.post-modal .modal-footer {
+    border-top: none;
+}
+
+.post-icons {
+    fill: rgba(0, 0, 0, 0.6);
+}
+
+.icon-container:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+}
