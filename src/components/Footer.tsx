@@ -34,25 +34,25 @@ const Footer = () => {
         <Row className="mt-2">
           <Col className="col-12 col-sm-6">
             <Row>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">About</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Accessibility</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Talent Solutions</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Community Guidelines</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Careers</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Marketing Solutions</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <NavDropdown title="Privacy & Terms" id="basic-nav-dropdown" className="dropdown-link">
                   <NavDropdown.Item href="#action/3.1">
                     Privacy Policy
@@ -70,22 +70,22 @@ const Footer = () => {
 
               </Col>
 
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Ad Choices </Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Advertising</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Sales Solutions</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Mobile</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Small Business</Link>
               </Col>
-              <Col className="col-12 col-sm-4">
+              <Col className="col-12 col-sm-6 col-md-4">
                 <Link to="/">Safety Center</Link>
               </Col>
             </Row>
