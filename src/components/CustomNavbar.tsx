@@ -74,7 +74,7 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faHouse} />
               </div>
               <div>
-                <Link to={"/Feed"} id="navs">
+                <Link to={"/"} id="navs">
                   Home
                 </Link>
               </div>
@@ -177,11 +177,11 @@ const CustomNavbar = () => {
                 </NavDropdown.Item>
                 <div className="px-2 py-2">
                   <NavDropdown.Item
-                    href="#action4"
+                    href="/profile"
                     id="view-profile"
                     className="mb-2"
                   >
-                    <Link to="/PersonalProfile">View Profile</Link>
+                    View Profile
                   </NavDropdown.Item>
                 </div>
                 <NavDropdown.Divider />

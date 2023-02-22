@@ -14,7 +14,7 @@ function App() {
       <CustomNavbar />
       <Routes>
         <Route path="/profile" element={<PersonalProfile />} />
-        <Route path="/feed" element={<Feed />} />
+        <Route path="/" element={<Feed />} />
       </Routes>
     </BrowserRouter>
   );
