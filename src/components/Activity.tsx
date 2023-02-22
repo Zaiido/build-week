@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, ListGroup } from "react-bootstrap";
 import { ArrowRight } from "react-bootstrap-icons";
 const Activity = () => {
   return (
-    <Container className="mb-5">
+    <Container className="mb-1">
       <Row>
         <Col className="mt-2 sub-sections" style={{ paddingInline: "0" }}>
           <div
