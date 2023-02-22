@@ -49,7 +49,8 @@ const Experience = () => {
     // console.log(expToEdit);
     dispatch(editJobAction(job, expToEdit));
     // eslint-disable-next-line no-restricted-globals
-    location.reload();
+    // location.reload();
+    handleClose2();
   };
 
   const handleClose = () => setShow(false);
@@ -85,29 +86,38 @@ const Experience = () => {
     dispatch(postJobAction(job));
     handleClose();
     // eslint-disable-next-line no-restricted-globals
-    location.reload();
+    // location.reload();
   };
 
   return (
-    <Container className="mb-2">
+    <Container className="mb-1">
       <Row>
-        <Col xs={9} className="mt-2 sub-sections">
-          {/* <h4 className="name pt-4 mb-n1 px-2">Experience</h4> */}
+        <Col className="mt-2 sub-sections" style={{ paddingInline: "0" }}>
           <div className="d-flex justify-content-between align-items-center">
             <h4 className="name pt-4 mb-n1 px-2">Experience</h4>
             <div>
-              <Plus size={25} className="mr-2" onClick={handleShow} />
-              <Modal show={show} onHide={handleClose} scrollable>
+              <Plus
+                size={30}
+                className="mr-4 mt-2 icon-bg"
+                onClick={handleShow}
+              />
+              <Modal
+                show={show}
+                onHide={handleClose}
+                scrollable
+                className="add-exp-modal"
+              >
                 <Modal.Header closeButton>
-                  <Modal.Title>Modal heading</Modal.Title>
+                  <Modal.Title>Add Experience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
                     <Form.Group>
-                      <Form.Label>Role</Form.Label>
+                      <Form.Label className="place">Title*</Form.Label>
                       <Form.Control
+                        className="inputs"
                         type="text"
-                        placeholder="Enter role"
+                        placeholder="Ex:Retail Sales Manager"
                         value={job.role}
                         onChange={(e) => {
                           setJob({
@@ -118,10 +128,11 @@ const Experience = () => {
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>Company</Form.Label>
+                      <Form.Label className="place">Company name*</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter Company"
+                        className="inputs"
+                        placeholder="Ex:Microsoft"
                         value={job.company}
                         onChange={(e) => {
                           setJob({
@@ -133,8 +144,9 @@ const Experience = () => {
                     </Form.Group>
 
                     <Form.Group>
-                      <Form.Label>Start date</Form.Label>
+                      <Form.Label className="place">Start date</Form.Label>
                       <Form.Control
+                        className="inputs"
                         type="date"
                         value={job.startDate}
                         onChange={(e) => {
@@ -147,6 +159,7 @@ const Experience = () => {
                     </Form.Group>
                     <Form.Group>
                       <Form.Check
+                        className="place"
                         type="checkbox"
                         label="I'm working here right now"
                         checked={job.stillWorkingHere}
@@ -160,8 +173,9 @@ const Experience = () => {
                     </Form.Group>
                     {job.stillWorkingHere === false && (
                       <Form.Group>
-                        <Form.Label>End date</Form.Label>
+                        <Form.Label className="place">End date</Form.Label>
                         <Form.Control
+                          className="inputs"
                           type="date"
                           value={job.endDate}
                           onChange={(e) => {
@@ -174,9 +188,15 @@ const Experience = () => {
                       </Form.Group>
                     )}
                     <Form.Group>
-                      <Form.Label>description</Form.Label>
+                      <Form.Label
+                        className="place "
+                        style={{ backgroundColor: "white " }}
+                      >
+                        Description
+                      </Form.Label>
                       <Form.Control
-                        type="text"
+                        as="textarea"
+                        rows={5}
                         placeholder="Enter description"
                         value={job.description}
                         onChange={(e) => {
@@ -188,10 +208,11 @@ const Experience = () => {
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>area</Form.Label>
+                      <Form.Label className="place">Location</Form.Label>
                       <Form.Control
+                        className="inputs"
                         type="text"
-                        placeholder="Enter area"
+                        placeholder="Ex:London, United Kingdom"
                         value={job.area}
                         onChange={(e) => {
                           setJob({
@@ -204,46 +225,63 @@ const Experience = () => {
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={handleSubmit}>
-                    Save Changes
+                  <Button
+                    style={{ fontSize: "14px" }}
+                    variant="primary"
+                    onClick={handleSubmit}
+                    className="rounded-pill py-1 px-2"
+                  >
+                    Save
                   </Button>
                 </Modal.Footer>
               </Modal>
             </div>
           </div>
 
-          <ListGroup className="mt-2">
+          <ListGroup className="mt-2 list-exp ">
             {exp.map((ex: IExperience) => (
-              <ListGroup.Item key={ex._id}>
+              <ListGroup.Item
+                key={ex._id}
+                style={{ borderBottom: "1px solid rgb(235, 229, 229) " }}
+                className="pt-2"
+              >
                 <div
                   className="d-flex align-items-center"
                   style={{ gap: "5px" }}
                 >
-                  <img
-                    src="http://placekitten.com/200/300"
-                    alt=""
-                    height="40px"
-                    width="40px"
-                  />
+                  <div className="mt-n5">
+                    <img
+                      src="http://placekitten.com/200/300"
+                      alt=""
+                      height="40px"
+                      width="40px"
+                    />
+                  </div>
                   <div>
-                    <h6>{ex.role}</h6>
-                    <span>{ex.company}</span>
-                    <h6>
+                    <h6 style={{ fontWeight: "600", paddingInline: "10px" }}>
+                      {ex.role}
+                    </h6>
+                    <p
+                      className="about mb-0 mt-n1"
+                      style={{ paddingInline: "10px" }}
+                    >
+                      {ex.company}
+                    </p>
+                    <p className="place mb-0" style={{ paddingInline: "10px" }}>
                       {" "}
                       {format(parseISO(ex.startDate), "MMMM, yyyy")} -{" "}
                       {ex.endDate === null
                         ? "Present"
                         : format(parseISO(ex.endDate), "MMMM, yyyy")}
-                    </h6>
-                    <h6>{ex.area}</h6>
+                    </p>
+                    <p className="place mb-0" style={{ paddingInline: "10px" }}>
+                      {ex.area}
+                    </p>
                   </div>
 
                   <Pencil
-                    size={18}
-                    className="mr-2 ml-auto"
+                    size={32}
+                    className="mr-2 ml-auto icon-bg p-2 "
                     onClick={() => {
                       handleShow2(ex._id);
                     }}
@@ -357,25 +395,26 @@ const Experience = () => {
                     </Modal.Body>
                     <Modal.Footer>
                       <Button
+                        variant="light"
                         onClick={() => {
                           dispatch(deleteJobAction(expToEdit));
                           handleClose2();
                           // eslint-disable-next-line no-restricted-globals
-                          location.reload();
+                          // location.reload();
                         }}
                       >
                         Delete Experience
                       </Button>
-                      <Button variant="secondary" onClick={handleClose2}>
-                        Close
-                      </Button>
+
                       <Button
+                        style={{ fontSize: "14px" }}
                         variant="primary"
+                        className="rounded-pill py-1 px-2"
                         onClick={(e) => {
                           handleSubmit2(e);
                         }}
                       >
-                        Save Changes
+                        Save
                       </Button>
                     </Modal.Footer>
                   </Modal>

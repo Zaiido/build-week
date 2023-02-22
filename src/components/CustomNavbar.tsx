@@ -293,6 +293,7 @@ const CustomNavbar = () => {
         </Container>
       </Navbar>
       <Modal
+        className="nav-modal"
         show={show}
         onHide={handleClose}
         animation={false}
