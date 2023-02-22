@@ -7,9 +7,36 @@ import { Link } from "react-router-dom";
 const StartPost = () => {
     let profile = useAppSelector((state) => state.myProfile.results);
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [newPost, setNewPost] = useState("")
+
+    const handleOnClick = () => {
+        createNewPost()
+        handleClose()
+    }
+
+    const createNewPost = async () => {
+        try {
+            let response = await fetch("https://striveschool-api.herokuapp.com/api/posts/", {
+                method: "POST",
+                body: JSON.stringify({ text: newPost }),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization:
+                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+                },
+            })
+            if (response.ok) {
+                console.log("OK")
+            } else {
+                console.log("error")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <>
@@ -80,6 +107,10 @@ const StartPost = () => {
                             as="textarea"
                             placeholder="What do you want to talk about?"
                             className="textarea"
+                            value={newPost}
+                            onChange={(e) => {
+                                setNewPost(e.target.value)
+                            }}
                         />
                     </div>
                     <div className="d-flex align-items-center">
@@ -102,7 +133,7 @@ const StartPost = () => {
                         </svg></div>
                     </div>
                     <div>
-                        <Button className="py-0" style={{ paddingInline: "25px" }} variant="primary badge-pill" onClick={handleClose}>
+                        <Button className="py-0" style={{ paddingInline: "25px" }} variant="primary badge-pill" onClick={handleOnClick}>
                             Post
                         </Button>
                     </div>
