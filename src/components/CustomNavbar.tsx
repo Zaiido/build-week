@@ -183,7 +183,7 @@ const CustomNavbar = () => {
                     id="view-profile"
                     className="mb-2"
                   >
-                    <Link to="/profile">View Profile</Link>
+                    View Profile
                   </NavDropdown.Item>
                 </div>
                 <NavDropdown.Divider />
