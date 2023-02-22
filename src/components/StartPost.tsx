@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import '../css/Feed.css'
+import '../css/Post.css'
 import { Button, Col, Form, Modal, Row } from "react-bootstrap"
 import { useAppSelector } from "../hooks/hooks";
 import { Link } from "react-router-dom";
