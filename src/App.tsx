@@ -6,10 +6,12 @@ import PersonalProfile from "./components/PersonalProfile";
 import React from "react";
 import "./css/profile.css";
 import { Feed } from "./components/Feed";
+import CustomNavbar from "./components/CustomNavbar";
 
 function App() {
   return (
     <BrowserRouter>
+      <CustomNavbar />
       <Routes>
         <Route path="/profile" element={<PersonalProfile />} />
         <Route path="/feed" element={<Feed />} />

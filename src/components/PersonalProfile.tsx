@@ -7,7 +7,6 @@ import React from "react";
 const PersonalProfile = () => {
   return (
     <>
-      <CustomNavbar />
       <SubNav />
       <Sidebar />
       <Footer />
