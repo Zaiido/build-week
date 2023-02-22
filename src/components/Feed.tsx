@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../css/SidebarStyles.css";
 import FeedSidebar from "./FeedSidebar";
 import React from "react";
+import StartPost from "./StartPost";
 
 
 export const Feed = () => {
@@ -12,7 +13,9 @@ export const Feed = () => {
     <Container className="mt-3">
       <Row>
         <Col></Col>
-        <Col className="col-12 col-sm-6"></Col>
+        <Col className="col-12 col-sm-6">
+          <StartPost />
+        </Col>
         <Col className="col-12 col-sm-4 px-4 profiles-container">
           <FeedSidebar />
           <div className="feed-footer">
