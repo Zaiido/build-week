@@ -13,23 +13,17 @@ import { Plus, Pencil } from "react-bootstrap-icons";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import {
   deleteJobAction,
+  editJobAction,
   fetchExperienceAction,
   postJobAction,
 } from "../actions";
 import { useState } from "react";
 import { IExperience } from "../interfaces/IExperience";
 import { parseISO, format } from "date-fns";
-
+let expToEdit: string;
 const Experience = () => {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleClose2 = () => setShow2(false);
-  const handleShow2 = () => setShow2(true);
-
   const [job, setJob] = useState({
     role: "",
     company: "",
@@ -40,18 +34,58 @@ const Experience = () => {
     area: "",
   });
 
-  const dispatch = useAppDispatch();
-
   let exp = useAppSelector((state) => state.experience.results);
+
+  const editJob = async (id: string) => {
+    let jobtoEdit = exp.find((j: IExperience) => j._id === id);
+
+    setJob(jobtoEdit);
+    expToEdit = id;
+    // console.log(expToEdit);
+  };
+  const handleSubmit2 = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+
+    // console.log(expToEdit);
+    dispatch(editJobAction(job, expToEdit));
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+  };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    setJob({
+      role: "",
+      company: "",
+      startDate: "",
+      endDate: "",
+      stillWorkingHere: true,
+      description: "",
+      area: "",
+    });
+    setShow(true);
+  };
+
+  const handleClose2 = () => setShow2(false);
+
+  const handleShow2 = (id: string) => {
+    setShow2(true);
+    editJob(id);
+  };
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchExperienceAction());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const handleSubmit = () => {
     dispatch(postJobAction(job));
     handleClose();
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
   };
 
   return (
@@ -210,8 +244,11 @@ const Experience = () => {
                   <Pencil
                     size={18}
                     className="mr-2 ml-auto"
-                    onClick={handleShow2}
+                    onClick={() => {
+                      handleShow2(ex._id);
+                    }}
                   />
+
                   <Modal show={show2} onHide={handleClose2} scrollable>
                     <Modal.Header closeButton>
                       <Modal.Title>Modal heading</Modal.Title>
@@ -321,7 +358,10 @@ const Experience = () => {
                     <Modal.Footer>
                       <Button
                         onClick={() => {
-                          dispatch(deleteJobAction(ex._id));
+                          dispatch(deleteJobAction(expToEdit));
+                          handleClose2();
+                          // eslint-disable-next-line no-restricted-globals
+                          location.reload();
                         }}
                       >
                         Delete Experience
@@ -329,7 +369,12 @@ const Experience = () => {
                       <Button variant="secondary" onClick={handleClose2}>
                         Close
                       </Button>
-                      <Button variant="primary" onClick={handleClose2}>
+                      <Button
+                        variant="primary"
+                        onClick={(e) => {
+                          handleSubmit2(e);
+                        }}
+                      >
                         Save Changes
                       </Button>
                     </Modal.Footer>

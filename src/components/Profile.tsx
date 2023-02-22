@@ -1,40 +1,13 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import { IProfile } from "../interfaces/IProfile";
+// import { useEffect, useState } from "react";
+// import { IProfile } from "../interfaces/IProfile";
 import { CameraFill } from "react-bootstrap-icons";
+import { useAppSelector } from "../hooks/hooks";
 
 import React from "react";
 const Profile = () => {
-  const [myProfile, setMyProfile] = useState<null | IProfile>(null);
-  const options = {
-    headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzNmZmNTgzODFmYzAwMTNmZmZhZGYiLCJpYXQiOjE2NzY4OTgyOTQsImV4cCI6MTY3ODEwNzg5NH0.n_FTGhlX9c6j23fCYIPFM6lg70LgdPtYXQ8thi09Ges",
-    },
-  };
-  const getProfile = async () => {
-    try {
-      let res = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
-        options
-      );
-
-      if (res.ok) {
-        let data = await res.json();
-
-        setMyProfile(data);
-      } else {
-        console.log("error");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const [myProfile, setMyProfile] = useState<null | IProfile>(null);
+  let prof = useAppSelector((state) => state.myProfile.results);
 
   return (
     <Container>
@@ -42,7 +15,7 @@ const Profile = () => {
         <Col className="main">
           <div className="cover">
             <div className="profile-pic">
-              <img src={myProfile ? myProfile.image : ""} alt="" />
+              <img src={prof ? prof.image : ""} alt="" />
             </div>
             <div className="d-flex align-items-center justify-content-center camera p-2">
               <CameraFill />
@@ -52,13 +25,11 @@ const Profile = () => {
           <Row className="mt-5" style={{ paddingInline: "23px" }}>
             <Col xs={8}>
               <h4 className="name">
-                {myProfile ? myProfile.name + " " + myProfile.surname : ""}
+                {prof ? prof.name + " " + prof.surname : ""}
               </h4>
-              <p className="sub mt-n1 mb-n1 ">
-                {myProfile ? myProfile.title : ""}
-              </p>
+              <p className="sub mt-n1 mb-n1 ">{prof ? prof.title : ""}</p>
               <span className="place ">
-                {myProfile ? myProfile.area : ""} ∙
+                {prof ? prof.area : ""} ∙
                 <a href="#home" className="ml-1 link-connections">
                   Contact info
                 </a>
