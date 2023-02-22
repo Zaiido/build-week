@@ -1,4 +1,3 @@
-import CustomNavbar from "./CustomNavbar";
 import SubNav from "./SubNav";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar";
