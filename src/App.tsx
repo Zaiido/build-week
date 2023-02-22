@@ -5,14 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PersonalProfile from "./components/PersonalProfile";
 import React from "react";
 import "./css/profile.css";
-
+import { Feed } from "./components/Feed";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PersonalProfile />} />
-
+        <Route path="/profile" element={<PersonalProfile />} />
+        <Route path="/feed" element={<Feed />} />
       </Routes>
     </BrowserRouter>
   );
