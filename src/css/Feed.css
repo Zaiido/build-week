@@ -3,7 +3,6 @@
   padding-top: 0.5em;
 }
 #leftCard {
-  width: 18.5em;
   left: -0.85em;
   font-size: 12px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -17,8 +16,8 @@
   width: 68px;
   aspect-ratio: 1 / 1;
   position: absolute;
-  left: 6.5em;
-  top: 1.5em;
+  left: 8em;
+  top: 1.8em;
 }
 #leftCardBody {
   padding-top: 2em;
