@@ -1,14 +1,38 @@
-import { Container, Row, Col, Button } from "react-bootstrap";
-// import { useEffect, useState } from "react";
+import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
+import React from "react";
+import { useState } from "react";
 // import { IProfile } from "../interfaces/IProfile";
 import { CameraFill } from "react-bootstrap-icons";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppSelector, useAppDispatch } from "../hooks/hooks";
+import { Pencil } from "react-bootstrap-icons";
 
-import React from "react";
+import { editMyProfileAction } from "../actions";
 const Profile = () => {
-  // const [myProfile, setMyProfile] = useState<null | IProfile>(null);
-  let prof = useAppSelector((state) => state.myProfile.results);
+  const dispatch = useAppDispatch();
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    setShow(true);
+    console.log(prof);
+    setEditProfile(prof);
+  };
+
+  let prof = useAppSelector((state) => state.myProfile.results);
+  const [editprofile, setEditProfile] = useState({
+    name: "",
+    surname: "",
+    area: "",
+    image: "",
+    title: "",
+  });
+  const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+
+    dispatch(editMyProfileAction(editprofile));
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+  };
   return (
     <Container>
       <Row>
@@ -53,6 +77,101 @@ const Profile = () => {
                   More
                 </Button>
               </div>
+            </Col>
+            <Col xs={4}>
+              <Pencil style={{ marginLeft: "7rem" }} onClick={handleShow} />
+              <Modal show={show} onHide={handleClose} scrollable>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit intro</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Group>
+                      <Form.Label>First name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="First name"
+                        value={editprofile.name}
+                        onChange={(e) => {
+                          setEditProfile({
+                            ...editprofile,
+                            name: e.target.value,
+                          });
+                        }}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>last name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="last name"
+                        value={editprofile.surname}
+                        onChange={(e) => {
+                          setEditProfile({
+                            ...editprofile,
+                            surname: e.target.value,
+                          });
+                        }}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>place</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="place"
+                        value={editprofile.area}
+                        onChange={(e) => {
+                          setEditProfile({
+                            ...editprofile,
+                            area: e.target.value,
+                          });
+                        }}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="title"
+                        value={editprofile.title}
+                        onChange={(e) => {
+                          setEditProfile({
+                            ...editprofile,
+                            title: e.target.value,
+                          });
+                        }}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>image</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="image"
+                        value={editprofile.image}
+                        onChange={(e) => {
+                          setEditProfile({
+                            ...editprofile,
+                            image: e.target.value,
+                          });
+                        }}
+                      />
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={(e) => {
+                      handleSubmit(e);
+                    }}
+                  >
+                    Save Changes
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </Col>
           </Row>
 

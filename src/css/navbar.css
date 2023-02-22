@@ -237,7 +237,7 @@ svg.svg-inline--fa {
   background-color: rgb(0, 26, 53);
 }
 
-.modal-backdrop-right {
+.nav-modal .modal-backdrop-right {
   height: 100%;
   position: fixed;
   top: 0;
@@ -247,14 +247,14 @@ svg.svg-inline--fa {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-dialog {
+.nav-modal .modal-dialog {
   position: fixed;
   top: 52px;
   right: 0;
   margin: 0;
 }
 
-.modal-content {
+.nav-modal .modal-content {
   border-radius: 0;
   border: none;
   height: 100%;
@@ -264,27 +264,27 @@ svg.svg-inline--fa {
   border-bottom-left-radius: 2%;
 }
 
-.modal-backdrop.show {
+.nav-modal .modal-backdrop.show {
   opacity: 1;
 }
 
-.modal-header {
+.nav-modal .modal-header {
   margin-bottom: auto;
   border-bottom: none;
 }
 
-.modal-title {
+.nav-modal .modal-title {
   font-size: 1.5rem;
   font-weight: bold;
 }
 
-.modal-body {
+.nav-modal .modal-body {
   flex-grow: 1;
   overflow-y: auto;
   height: 100%;
 }
 
-.my-modal {
+.nav-modal .my-modal {
   margin: 0;
   height: 100%;
   width: 100%;
