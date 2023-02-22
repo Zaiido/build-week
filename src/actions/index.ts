@@ -103,7 +103,7 @@ export const deleteJobAction = (id: string) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
-          id,
+        id,
         {
           method: "DELETE",
 
@@ -174,7 +174,7 @@ export const editJobAction = (
       // console.log(id);
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
-          id,
+        id,
         {
           method: "PUT",
           body: JSON.stringify(job),
@@ -186,7 +186,7 @@ export const editJobAction = (
         }
       );
       if (response.ok) {
-        let data = await response.json();
+        console.log("OK")
       } else {
         alert("Error");
       }
