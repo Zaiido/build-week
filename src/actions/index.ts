@@ -168,7 +168,7 @@ export const editJobAction = (
 ) => {
   return async (dispatch: Dispatch) => {
     try {
-      console.log(id);
+      // console.log(id);
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f36ff58381fc0013fffadf/experiences/" +
           id,
@@ -184,7 +184,6 @@ export const editJobAction = (
       );
       if (response.ok) {
         let data = await response.json();
-        console.log(data);
       } else {
         alert("Error");
       }

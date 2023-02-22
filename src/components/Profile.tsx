@@ -1,6 +1,6 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 // import { useEffect, useState } from "react";
-import { IProfile } from "../interfaces/IProfile";
+// import { IProfile } from "../interfaces/IProfile";
 import { CameraFill } from "react-bootstrap-icons";
 import { useAppSelector } from "../hooks/hooks";
 
@@ -8,7 +8,7 @@ import React from "react";
 const Profile = () => {
   // const [myProfile, setMyProfile] = useState<null | IProfile>(null);
   let prof = useAppSelector((state) => state.myProfile.results);
-  console.log(prof);
+
   // const options = {
   //   headers: {
   //     Authorization:
