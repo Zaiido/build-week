@@ -57,7 +57,7 @@ const Sidebar = () => {
 
   const getClassName = (i: any) => {
     if (i < 5 || toggleCards) {
-      return "d-flex"
+      return "d-flex flex-wrap"
     } else {
       return "d-none"
     }
@@ -75,7 +75,7 @@ const Sidebar = () => {
 
   const getClassName1 = (i: any) => {
     if (i < 5 || toggleCards1) {
-      return "d-flex"
+      return "d-flex flex-wrap"
     } else {
       return "d-none"
     }
@@ -154,11 +154,11 @@ const Sidebar = () => {
                         />
                       </div>
                       <div>
-                        <Link className="username" to={"/"}>
+                        <Link className="username truncate2" to={"/"}>
                           {profile.name} {profile.surname}
                         </Link>{" "}
-                        <span>• 2nd</span>
-                        <p className="profession">{profile.title}</p>
+                        <span> • 2nd</span>
+                        <p className="profession truncate3">{profile.title}</p>
                         <Button variant="outline-secondary">
                           <svg
                             className="mr-1"
@@ -237,11 +237,13 @@ const Sidebar = () => {
                         />
                       </div>
                       <div>
-                        <Link className="username" to={"/"}>
-                          {profile.name} {profile.surname}
-                        </Link>{" "}
-                        <span>• 2nd</span>
-                        <p className="profession">{profile.title}</p>
+                        <div className="d-flex align-items-center">
+                          <Link className="username truncate2" to={"/"}>
+                            {profile.name} {profile.surname}
+                          </Link>
+                          <span className="ml-1"> • 2nd</span>
+                        </div>
+                        <p className="profession truncate3">{profile.title}</p>
                         <Button variant="outline-secondary">
                           <svg
                             className="mr-1"

@@ -53,7 +53,7 @@ const FeedSidebar = () => {
                 {uniqueProfiles.length !== 0 && uniqueProfiles.slice(0, 4).map((profile: IProfile, i: any) => {
                     return (
                         <div key={i}>
-                            <div className="d-flex">
+                            <div className="d-flex flex-wrap">
                                 <div className="image-container">
                                     <img
                                         src={profile.image}
@@ -61,11 +61,13 @@ const FeedSidebar = () => {
                                     />
                                 </div>
                                 <div>
-                                    <Link className="username" to={"/"}>
-                                        {profile.name} {profile.surname}
-                                    </Link>{" "}
-                                    <span>• 2nd</span>
-                                    <p className="profession">{profile.title}</p>
+                                    <div className="d-flex align-items-center">
+                                        <Link className="username truncate2" to={"/"}>
+                                            {profile.name} {profile.surname}
+                                        </Link>
+                                        <span className="ml-1">• 2nd</span>
+                                    </div>
+                                    <p className="profession truncate3">{profile.title}</p>
                                     <Button variant="outline-secondary">
                                         <svg
                                             className="mr-1"

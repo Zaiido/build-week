@@ -242,39 +242,76 @@ button.btn-outline-secondary:hover {
 button.btn-primary:hover {
   background-color: #0a66c2;
 }
-.icon-bg:hover{
+
+.icon-bg:hover {
   background-color: #e3e5e7;
   border-radius: 50%;
 }
 
 .list-exp .list-group-item {
-  border-top: none;
-  border-left: none;
-  border-right: none;
-
-  padding: 0rem 1rem;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem 1rem;
 }
 
 .list-exp .list-group-item:first-of-type {
   border: none;
 }
 
-.add-exp-modal .h4{
- font-size: 20px;
- font-weight: 400;
+.add-exp-modal .h4 {
+  font-size: 20px;
+  font-weight: 400;
 }
-.add-exp-modal{
+
+.add-exp-modal {
   border-radius: 10px;
 }
-.add-exp-modal .inputs{
+
+.add-exp-modal .inputs {
   background-color: white;
-    border: 1px solid black;
-    
-
-    height: 30px;
-
+  border: 1px solid black;
+  height: 30px;
 }
 
-.add-exp-modal .form-control:focus{
+.add-exp-modal .form-control:focus {
   border: 2px solid black;
+}
+
+.experience {
+  border: none;
+}
+
+.experience:hover {
+  background-color: white !important;
+  border-top: none !important;
+}
+
+
+.resources-link:hover {
+  background-color: white !important;
+  border-top: none !important;
+}
+
+.resources-more {
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+}
+
+.resources-more:hover {
+  border: none !important;
+}
+
+.icons-bg-hover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.icons-bg-hover:hover {
+  background-color: #e3e5e7;
+  cursor: pointer;
 }
