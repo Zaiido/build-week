@@ -20,7 +20,7 @@ import {
 import { useState } from "react";
 import { IExperience } from "../interfaces/IExperience";
 import { parseISO, format } from "date-fns";
-
+let expToEdit: string;
 const Experience = () => {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
@@ -36,20 +36,18 @@ const Experience = () => {
 
   let exp = useAppSelector((state) => state.experience.results);
 
-  let expToEdit: string;
-
   const editJob = async (id: string) => {
     let jobtoEdit = exp.find((j: IExperience) => j._id === id);
 
     setJob(jobtoEdit);
     expToEdit = id;
-    console.log(expToEdit);
+    // console.log(expToEdit);
   };
   const handleSubmit2 = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
 
-    console.log(expToEdit);
-    // dispatch(editJobAction(job, expToEdit));
+    // console.log(expToEdit);
+    dispatch(editJobAction(job, expToEdit));
   };
 
   const handleClose = () => setShow(false);
