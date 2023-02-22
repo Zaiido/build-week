@@ -79,7 +79,9 @@ const Profile = () => {
               </div>
             </Col>
             <Col xs={4}>
-              <Pencil style={{ marginLeft: "7rem" }} onClick={handleShow} />
+              <div className="icons-bg-hover ml-auto">
+                <Pencil onClick={handleShow} />
+              </div>
               <Modal show={show} onHide={handleClose} scrollable>
                 <Modal.Header closeButton>
                   <Modal.Title>Edit intro</Modal.Title>
