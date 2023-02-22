@@ -48,6 +48,8 @@ const Experience = () => {
 
     // console.log(expToEdit);
     dispatch(editJobAction(job, expToEdit));
+    // eslint-disable-next-line no-restricted-globals
+    // location.reload();
   };
 
   const handleClose = () => setShow(false);
@@ -78,9 +80,12 @@ const Experience = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const handleSubmit = () => {
     dispatch(postJobAction(job));
     handleClose();
+    // eslint-disable-next-line no-restricted-globals
+    // location.reload();
   };
 
   return (
@@ -353,8 +358,10 @@ const Experience = () => {
                     <Modal.Footer>
                       <Button
                         onClick={() => {
-                          dispatch(deleteJobAction(ex._id));
+                          dispatch(deleteJobAction(expToEdit));
                           handleClose2();
+                          // eslint-disable-next-line no-restricted-globals
+                          // location.reload();
                         }}
                       >
                         Delete Experience
