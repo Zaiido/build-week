@@ -89,3 +89,66 @@
 .btn.option-btn:focus {
     box-shadow: none !important;
 }
+
+.modal-backdrop {
+    opacity: 0.5 !important;
+}
+
+.post-modal .modal-body {
+    padding-bottom: 0;
+}
+
+.post-modal .modal-dialog {
+    position: relative;
+    margin: 28px 518px;
+}
+
+.post-modal .modal-content {
+    border-radius: 10px;
+}
+
+.post-modal .modal-header {
+    border-bottom: 1px solid #F3F2EF;
+}
+
+.textarea {
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    resize: none;
+    height: 100px !important;
+}
+
+.textarea:focus {
+    box-shadow: none !important;
+}
+
+a.hashtag-link {
+    font-size: 15px;
+    color: #0961b9 !important;
+    padding-inline: 5px;
+}
+
+a.hashtag-link:hover {
+    background-color: #0961b926;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.emoji:hover {
+    fill: rgba(0, 0, 0, 0.9) !important;
+}
+
+.post-modal .modal-footer {
+    border-top: none;
+}
+
+.post-icons {
+    fill: rgba(0, 0, 0, 0.6);
+}
+
+.icon-container:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+}

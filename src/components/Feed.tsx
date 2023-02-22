@@ -13,7 +13,7 @@ export const Feed = () => {
     <Container className="mt-3">
       <Row>
         <Col></Col>
-        <Col className="col-12 col-sm-6">
+        <Col className="col-12 col-sm-5">
           <StartPost />
         </Col>
         <Col className="col-12 col-sm-4 px-4 profiles-container">
