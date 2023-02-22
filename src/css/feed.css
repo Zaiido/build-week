@@ -1,0 +1,99 @@
+#col1 {
+  padding-top: 1.5em;
+}
+#leftCard {
+  width: 225px;
+  left: -0.85em;
+  font-size: 12px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: 400;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.6);
+}
+#CardTinyImg {
+  border-radius: 50%;
+  width: 68px;
+  aspect-ratio: 1 / 1;
+  position: absolute;
+  left: 6.5em;
+  top: 1.5em;
+}
+#leftCardBody {
+  padding-top: 2em;
+}
+#leftCardBody > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+#leftSideAd {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  text-decoration: underline;
+}
+.leftSideMyItems {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+}
+.list-group-item:hover,
+#leftC:hover {
+  background-color: #ebebeb;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+.list-group-item:hover #leftSideAd.ad {
+  color: #005fbe;
+}
+#listedItems {
+  font-weight: 600;
+  color: rgb(92, 153, 214);
+  list-style-type: none;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  left: -4em;
+  top: -1em;
+}
+#listedItems svg {
+  position: absolute;
+  left: 21%;
+  top: 22%;
+  color: gray;
+}
+#listedItems .svgDiv {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+#listedItems .svgDiv:hover {
+  border: 1px;
+  border-radius: 50%;
+  background-color: #ebebeb;
+}
+#listedItems li {
+  padding-top: 0.7em;
+}
+#leftC {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: center;
+}
+
+#leftCTitle {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.62);
+}
+#listList {
+  position: relative;
+  height: 5.44em;
+}
+#plusBtn {
+  display: flex;
+  width: 17em;
+  justify-content: space-between;
+}
