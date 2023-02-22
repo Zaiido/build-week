@@ -27,7 +27,7 @@ export const Feed = () => {
   return (
     <Container className="mt-3">
       <Row>
-        <Col id="col1">
+        <Col id="col1" className="col col-sm-3">
           <Card id="leftCard">
             <Card.Img
               variant="top"
@@ -156,8 +156,8 @@ export const Feed = () => {
             </div>
           </Card>
         </Col>
-        <Col className="col-12 col-sm-6"></Col>
-        <Col className="col-12 col-sm-4 px-4 profiles-container">
+        <Col className="col col-sm-5"></Col>
+        <Col className="col col-sm-4 px-4 profiles-container">
           <FeedSidebar />
           <div className="feed-footer">
             <div className="d-flex flex-wrap justify-content-center">
