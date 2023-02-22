@@ -15,16 +15,17 @@ const Resources = () => {
 
 
           <ListGroup className="list">
-            <ListGroup.Item > <div className="d-flex mt-2 align-items-baseline" style={{ gap: "5px", paddingInline: "7px" }}>
-              <Broadcast color='grey' className='icon' />
-              <div>
-                <Link to={"/"} className="mb-0" style={{ fontSize: "15px" }}>Creator mode  <Badge variant="secondary">Off</Badge></Link>
-                <p className="place mb-0">Get discovered, showcase content on your profile, and get access to creator tools</p>
+            <ListGroup.Item className='resources-link'>
+              <div className="d-flex mt-2 align-items-baseline" style={{ gap: "5px", paddingInline: "7px" }}>
+                <Broadcast color='grey' className='icon' />
+                <div>
+                  <Link to={"/"} className="mb-0" style={{ fontSize: "15px" }}>Creator mode  <Badge variant="secondary">Off</Badge></Link>
+                  <p className="place mb-0">Get discovered, showcase content on your profile, and get access to creator tools</p>
+                </div>
               </div>
-            </div>
             </ListGroup.Item>
             <hr style={{ width: "45vw" }} />
-            <ListGroup.Item> <div className="d-flex mt-2 align-items-baseline" style={{ gap: "5px", paddingInline: "7px" }}>
+            <ListGroup.Item className='resources-link'> <div className="d-flex mt-2 align-items-baseline" style={{ gap: "5px", paddingInline: "7px" }}>
               <PeopleFill color='grey' className='icon' />
               <div>
                 <Link to={"/"} className="mb-0" style={{ fontSize: "15px" }}>My network</Link>
@@ -32,7 +33,7 @@ const Resources = () => {
               </div>
             </div>
             </ListGroup.Item>
-            <ListGroup.Item><div className='text-center'>
+            <ListGroup.Item className='resources-more'><div className='text-center'>
               <a href="#home">Show all 5 resources<ArrowRight className='ml-2' /></a>
             </div></ListGroup.Item>
 
