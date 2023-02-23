@@ -16,6 +16,7 @@ import "../css/SidebarStyles.css";
 import FeedSidebar from "./FeedSidebar";
 import StartPost from "./StartPost";
 import PostCard from "./PostCard";
+import LeftFeedCard from "./LeftFeedCards";
 
 export const Feed = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
@@ -30,7 +31,7 @@ export const Feed = () => {
     <Container className="mt-3">
       <Row>
         <Col id="col1" className="col col-sm-3">
-          <Card id="leftCard">
+          {/* <Card id="leftCard">
             <Card.Img
               variant="top"
               src="https://static.licdn.com/sc/h/55k1z8997gh8dwtihm11aajyq"
@@ -156,7 +157,8 @@ export const Feed = () => {
             <div id="leftC">
               <span id="leftCTitle">Discover More</span>
             </div>
-          </Card>
+          </Card> */}
+          <LeftFeedCard />
         </Col>
         <Col className="col-12 col-sm-5">
           <StartPost />
