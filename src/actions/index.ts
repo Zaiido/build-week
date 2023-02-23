@@ -285,3 +285,29 @@ export const fetchPostsAction = () => {
     }
   };
 };
+
+export const deletePost = (id: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      let response = await fetch(
+        "https://striveschool-api.herokuapp.com/api/posts/" + id,
+        {
+          method: "DELETE",
+
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log("deleted");
+      } else {
+        alert("Error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
