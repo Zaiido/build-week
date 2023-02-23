@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, Accordion, Button, ListGroup } from "react-bootstrap";
+import { Row, Col, Dropdown } from "react-bootstrap";
 import {
   ChatRightText,
   HandThumbsUp,
@@ -63,27 +63,22 @@ const PostCard = () => {
                 </div>
 
                 {prof._id === singlePost.user._id ? (
-                  <Accordion className="acco">
-                    <Card>
-                      <Card.Header>
-                        <Accordion.Toggle
-                          as={Button}
-                          variant="link"
-                          eventKey="0"
-                        >
-                          <ThreeDots className="mt-n5 " />
-                        </Accordion.Toggle>
-                      </Card.Header>
-                      <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                          <ListGroup>
-                            <ListGroup.Item>Edit Post</ListGroup.Item>
-                            <ListGroup.Item>Delete Post</ListGroup.Item>
-                          </ListGroup>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
-                  </Accordion>
+                  <Dropdown className="drop-down mt-n5 mr-n3">
+                    <Dropdown.Toggle
+                      variant="secondary"
+                      id="dropdown-basic"
+                      size="sm"
+                    >
+                      <ThreeDots color="black" />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="#/action-1">Edit post</Dropdown.Item>
+                      <Dropdown.Item href="#/action-2">
+                        Delete post
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 ) : (
                   <ThreeDots className="mt-n5" />
                 )}

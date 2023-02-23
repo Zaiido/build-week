@@ -325,11 +325,11 @@ button.btn-primary:hover {
   font-size: 12px;
  
 }
-.acco .card-header{
-  padding:0;
-  background-color: rgb(160, 156, 156);
+.drop-down .btn-secondary{
+  background-color: white;
+    border-color: white;
 }
-.acco .card{
-  border:none
-
+.drop-down .btn-secondary:focus{
+  background-color: white;
+    border-color: white;
 }
