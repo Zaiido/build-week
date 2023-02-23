@@ -64,9 +64,6 @@ const StartPost = (props: IProps) => {
             } else {
                 console.log("error");
             }
-            // setNewPost({ test: "test" })
-            // console.log(newPost)
-
         } catch (error) {
             console.log(error);
         }

@@ -69,7 +69,7 @@ const PostCard = (props: IProps) => {
     e.preventDefault();
     console.log(idToEdit);
     dispatch(editPostAction(editPost, idToEdit));
-
+    props.addedNewPost(true)
     setShow(false);
   };
 
@@ -133,6 +133,7 @@ const PostCard = (props: IProps) => {
                           style={{ fontWeight: "100", lineHeight: "2" }}
                           onClick={() => {
                             dispatch(deletePost(singlePost._id));
+                            props.addedNewPost(true)
                           }}
                         >
                           Delete post
@@ -189,7 +190,7 @@ const PostCard = (props: IProps) => {
               </div>
               <hr />
               <div className="d-flex justify-content-between mb-2">
-                <div className="about" id="like">
+                <div className="about about-btn p-3" id="like">
                   {isLiked.some(
                     (likedPost) => likedPost._id === singlePost._id
                   ) ? (
