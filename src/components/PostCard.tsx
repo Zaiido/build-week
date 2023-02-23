@@ -43,6 +43,7 @@ const PostCard = (props: IProps) => {
   };
   let prof = useAppSelector((state) => state.myProfile.results);
   const post = useAppSelector((state) => state.posts.results);
+  console.log(post);
   const isLiked = useAppSelector((state) => state.likes.results);
   // const profiles = useAppSelector((state) => state.allProfiles);
   const dispatch = useAppDispatch();
