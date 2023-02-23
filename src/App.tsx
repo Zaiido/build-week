@@ -7,6 +7,7 @@ import React from "react";
 import "./css/profile.css";
 import { Feed } from "./components/Feed";
 import CustomNavbar from "./components/CustomNavbar";
+import SearchProfile from "./components/SearchProfile";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <CustomNavbar />
       <Routes>
         <Route path="/profile" element={<PersonalProfile />} />
+        <Route path="/user/:id" element={<SearchProfile />} />
         <Route path="/" element={<Feed />} />
       </Routes>
     </BrowserRouter>
