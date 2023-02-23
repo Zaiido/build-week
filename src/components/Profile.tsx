@@ -53,7 +53,7 @@ const Profile = () => {
   };
 
   const handleImageUpload = async (file: any, id: string) => {
-    setChanged(true);
+    // setChanged(true);
     try {
       const formData = new FormData();
       formData.append("profile", file);
