@@ -69,7 +69,7 @@ const PostCard = (props: IProps) => {
     e.preventDefault();
     console.log(idToEdit);
     dispatch(editPostAction(editPost, idToEdit));
-    props.addedNewPost(true)
+    props.addedNewPost(true);
     setShow(false);
   };
 
@@ -133,7 +133,7 @@ const PostCard = (props: IProps) => {
                           style={{ fontWeight: "100", lineHeight: "2" }}
                           onClick={() => {
                             dispatch(deletePost(singlePost._id));
-                            props.addedNewPost(true)
+                            props.addedNewPost(true);
                           }}
                         >
                           Delete post
