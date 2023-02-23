@@ -1,6 +1,10 @@
-import React from "react";
-import { Row, Col, Dropdown } from "react-bootstrap";
-import { ChatRightText, Share, ThreeDots } from "react-bootstrap-icons";
+import { Row, Col, Dropdown, Modal, Button, Form } from "react-bootstrap";
+import {
+  ChatRightText,
+  HandThumbsUp,
+  Share,
+  ThreeDots,
+} from "react-bootstrap-icons";
 import { useEffect } from "react";
 
 import {
@@ -16,12 +20,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as liked } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp as disliked } from "@fortawesome/free-regular-svg-icons";
 
+import { useState } from "react";
+import { deletePost } from "../actions";
+import React from "react";
+
 interface IProps {
   reloadPosts: boolean;
   addedNewPost: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PostCard = (props: IProps) => {
+  const [show, setShow] = useState(false);
+  const [editPost, setEditPost] = useState({
+    text: "",
+  });
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    setShow(true);
+  };
   let prof = useAppSelector((state) => state.myProfile.results);
   const post = useAppSelector((state) => state.posts.results);
   console.log(post);
@@ -82,31 +99,67 @@ const PostCard = (props: IProps) => {
                 </div>
 
                 {prof._id === singlePost.user._id ? (
-                  <Dropdown className="drop-down align-self-start">
-                    <Dropdown.Toggle
-                      variant="secondary"
-                      id="dropdown-basic"
-                      size="sm"
-                      className="special-dropdown icons-bg-hover"
-                    >
-                      <ThreeDots color="black" />
-                    </Dropdown.Toggle>
+                  <>
+                    <Dropdown className="drop-down align-self-start">
+                      <Dropdown.Toggle
+                        variant="secondary"
+                        id="dropdown-basic"
+                        size="sm"
+                        className="special-dropdown icons-bg-hover"
+                      >
+                        <ThreeDots color="black" />
+                      </Dropdown.Toggle>
 
-                    <Dropdown.Menu className="special-dropdown-menu">
-                      <Dropdown.Item
-                        href="#/action-1"
-                        style={{ fontWeight: "100", lineHeight: "2" }}
-                      >
-                        Edit post
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        href="#/action-2"
-                        style={{ fontWeight: "100", lineHeight: "2" }}
-                      >
-                        Delete post
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                      <Dropdown.Menu className="special-dropdown-menu">
+                        <Dropdown.Item
+                          onClick={handleShow}
+                          style={{ fontWeight: "100", lineHeight: "2" }}
+                        >
+                          Edit post
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          style={{ fontWeight: "100", lineHeight: "2" }}
+                          onClick={() => {
+                            dispatch(deletePost(singlePost._id));
+                          }}
+                        >
+                          Delete post
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    <Modal show={show} onHide={handleClose}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Edit Post</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <Form.Group>
+                          <Form.Label
+                            className="place"
+                            style={{ backgroundColor: "white" }}
+                          >
+                            {" "}
+                            Edit your post
+                          </Form.Label>
+                          <Form.Control
+                            as="textarea"
+                            rows={5}
+                            value={editPost.text}
+                            onChange={(e) => {
+                              setEditPost({
+                                ...editPost,
+                                text: e.target.value,
+                              });
+                            }}
+                          />
+                        </Form.Group>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="primary" onClick={handleClose}>
+                          Update
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+                  </>
                 ) : (
                   <ThreeDots className="mt-n5" />
                 )}
