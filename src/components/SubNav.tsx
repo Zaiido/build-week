@@ -50,7 +50,7 @@ const SubNav = () => {
                 <img
                   src={profile.image}
                   alt="pict here"
-                  style={{ borderRadius: "50%", width: "3em", height: "3em" }}
+                  style={{ borderRadius: "50%", width: "3em", height: "3em", objectFit: "cover" }}
                 />
                 <div className="d-flex flex-column mr-auto">
                   <span style={{ fontSize: "13px" }}>
