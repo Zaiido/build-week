@@ -43,6 +43,8 @@ const Experience = () => {
   const [showDate, setShowDate] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
   const [showLoc, setShowLoc] = useState(false);
+  const [file, setFile] = useState<File | null>;
+  const [fileId, setFileId] = useState("");
   let exp = useAppSelector((state) => state.experience.results);
 
   const editJob = async (id: string) => {
@@ -91,12 +93,15 @@ const Experience = () => {
 
   const [changed, setChanged] = useState(false);
   useEffect(() => {
+    if (file) {
+      handleImageUpload(file);
+    }
     dispatch(fetchExperienceAction());
     setChanged(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changed]);
 
-  const handleSubmit = (expToEdit: string) => {
+  const handleSubmit = () => {
     setShowRole(false);
     setShowCompany(false);
     setShowDate(false);
@@ -115,18 +120,48 @@ const Experience = () => {
     } else {
       handleClose();
     }
-    const formData = new FormData();
-    formData.append("experience", job.experience);
     setChanged(true);
 
-    let experienceImageData = {
-      experience: formData.get("experience") as File,
-    };
     dispatch(postJobAction(job));
-    dispatch(postJobImageAction(experienceImageData, expToEdit));
-    console.log(experienceImageData, expToEdit);
     // eslint-disable-next-line no-restricted-globals
     // location.reload();
+  };
+  const handleFileUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setFile(files[0]);
+      setFileId(id);
+    } else {
+      setFile(null);
+      setFileId("");
+    }
+  };
+  const handleImageUpload = async (file: any) => {
+    try {
+      const formData = new FormData();
+      formData.append("experience", file);
+      let response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/${fileId}/picture`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+          },
+        }
+      );
+      if (response.ok) {
+        console.log("You made it!");
+      } else {
+        console.log("Try harder!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -302,9 +337,8 @@ const Experience = () => {
                     )}
                     <Form.Group>
                       <Form.File
-                        id="selectedFile"
-                        onChange={(e: { target: { value: any } }) => {
-                          setJob({ ...job, experience: e.target.value });
+                        onChange={(e: any) => {
+                          handleFileUpload(e, expToEdit);
                         }}
                       ></Form.File>
                     </Form.Group>
@@ -315,7 +349,7 @@ const Experience = () => {
                     style={{ fontSize: "14px" }}
                     variant="primary"
                     onClick={(e) => {
-                      handleSubmit(expToEdit);
+                      handleSubmit();
                     }}
                     className="rounded-pill py-1 px-2"
                   >
@@ -337,7 +371,7 @@ const Experience = () => {
                     <div>
                       <img
                         src={job.experience}
-                        alt=""
+                        alt="jobPic"
                         height="40px"
                         width="40px"
                         style={{ objectFit: "cover" }}
@@ -510,7 +544,11 @@ const Experience = () => {
                             />
                           </Form.Group>
                           <Form.Group>
-                            <Form.File id="selectedFile"></Form.File>
+                            <Form.File
+                              onChange={(e: any) => {
+                                handleFileUpload(e, expToEdit);
+                              }}
+                            ></Form.File>
                           </Form.Group>
                         </Form>
                       </Modal.Body>

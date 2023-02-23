@@ -104,17 +104,20 @@ export const postJobAction = (job: {
 
 export const postJobImageAction = (
   job: {
-    experience: File;
+    experience: File | undefined;
   },
   expId: string
 ) => {
   return async (dispatch: Dispatch) => {
     try {
+      const formData = new FormData();
+      formData.append("experience", job.experience!);
+
       let response = await fetch(
         `https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/${expId}/picture`,
         {
           method: "POST",
-          body: JSON.stringify(job),
+          body: formData,
           headers: {
             Authorization:
               "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
