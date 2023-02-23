@@ -1,4 +1,3 @@
-import React from "react";
 import { Row, Col, Dropdown, Modal, Button, Form } from "react-bootstrap";
 import {
   ChatRightText,
@@ -14,6 +13,7 @@ import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import moment from "moment";
 import { useState } from "react";
 import { deletePost } from "../actions";
+import React from "react";
 
 const PostCard = () => {
   const [show, setShow] = useState(false);
