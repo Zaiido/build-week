@@ -345,6 +345,16 @@ const Experience = () => {
                         Location is a required field
                       </span>
                     )}
+                    <Form.Group className="mb-3">
+                      <Form.Label className="place">
+                        Choose profile picture
+                      </Form.Label>
+                      <Form.Control
+                        className="inputs"
+                        type="file"
+                        onChange={handleFileUpload}
+                      />
+                    </Form.Group>
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>
