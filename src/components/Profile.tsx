@@ -1,16 +1,16 @@
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import { IProfile } from "../interfaces/IProfile";
 import { CameraFill } from "react-bootstrap-icons";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import { Pencil } from "react-bootstrap-icons";
 
-import { editMyProfileAction } from "../actions";
+import { editMyProfileAction, fetchMyProfileAction } from "../actions";
 const Profile = () => {
   const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
-
+  const [changed, setChanged] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
@@ -30,9 +30,16 @@ const Profile = () => {
     e.preventDefault();
 
     dispatch(editMyProfileAction(editprofile));
+    setChanged(true);
+    handleClose();
     // eslint-disable-next-line no-restricted-globals
-    location.reload();
+    // location.reload();
   };
+  useEffect(() => {
+    dispatch(fetchMyProfileAction());
+    setChanged(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [changed]);
   return (
     <Container>
       <Row>
@@ -82,16 +89,22 @@ const Profile = () => {
               <div className="icons-bg-hover ml-auto">
                 <Pencil onClick={handleShow} />
               </div>
-              <Modal show={show} onHide={handleClose} scrollable>
+              <Modal
+                show={show}
+                onHide={handleClose}
+                scrollable
+                className="add-exp-modal"
+              >
                 <Modal.Header closeButton>
                   <Modal.Title>Edit intro</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
                     <Form.Group>
-                      <Form.Label>First name</Form.Label>
+                      <Form.Label className="place">First name</Form.Label>
                       <Form.Control
                         type="text"
+                        className="inputs"
                         placeholder="First name"
                         value={editprofile.name}
                         onChange={(e) => {
@@ -103,8 +116,9 @@ const Profile = () => {
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>last name</Form.Label>
+                      <Form.Label className="place">Last name</Form.Label>
                       <Form.Control
+                        className="inputs"
                         type="text"
                         placeholder="last name"
                         value={editprofile.surname}
@@ -117,8 +131,9 @@ const Profile = () => {
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>place</Form.Label>
+                      <Form.Label className="place">City,Country</Form.Label>
                       <Form.Control
+                        className="inputs"
                         type="text"
                         placeholder="place"
                         value={editprofile.area}
@@ -131,8 +146,9 @@ const Profile = () => {
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>title</Form.Label>
+                      <Form.Label className="place">Title</Form.Label>
                       <Form.Control
+                        className="inputs"
                         type="text"
                         placeholder="title"
                         value={editprofile.title}
@@ -145,8 +161,9 @@ const Profile = () => {
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>image</Form.Label>
+                      <Form.Label className="place">Picture</Form.Label>
                       <Form.Control
+                        className="inputs"
                         type="text"
                         placeholder="image"
                         value={editprofile.image}
@@ -161,16 +178,15 @@ const Profile = () => {
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
-                    Close
-                  </Button>
                   <Button
+                    style={{ fontSize: "14px" }}
+                    className="rounded-pill py-1 px-2"
                     variant="primary"
                     onClick={(e) => {
                       handleSubmit(e);
                     }}
                   >
-                    Save Changes
+                    Save
                   </Button>
                 </Modal.Footer>
               </Modal>
