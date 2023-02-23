@@ -103,7 +103,7 @@ const PostCard = () => {
             </Col>
           ))
       ) : (
-        <p>No posts found.</p>
+        <p>Loading...</p>
       )}
     </Row>
   );
