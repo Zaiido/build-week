@@ -258,7 +258,7 @@ const SearchProfile = () => {
                                                 >
                                                     <div>
                                                         <img
-                                                            src={exp.image ? exp.image : "http://placekitten.com/200/300"}
+                                                            src={ex.image ? ex.image : ""}
                                                             alt=""
                                                             height="40px"
                                                             width="40px"
