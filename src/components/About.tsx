@@ -9,7 +9,7 @@ const About = () => {
   const [about, setAbout] = useState({
     bio: "",
   });
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(about.bio.length);
   let prof = useAppSelector((state) => state.myProfile.results);
   const [changed, setChanged] = useState(false);
   const handleClose = () => setShow(false);
