@@ -92,7 +92,7 @@ export const postJobAction = (job: {
         console.log("posted");
         // fetchExperienceAction();
       } else {
-        alert("Error");
+        console.log("Error");
       }
     } catch (error) {
       console.log(error);
@@ -105,7 +105,7 @@ export const deleteJobAction = (id: string) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-        id,
+          id,
         {
           method: "DELETE",
 
@@ -178,7 +178,7 @@ export const editJobAction = (
       // console.log(id);
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-        id,
+          id,
         {
           method: "PUT",
           body: JSON.stringify(job),
@@ -190,7 +190,7 @@ export const editJobAction = (
         }
       );
       if (response.ok) {
-        let data = await response.json();
+        // let data = await response.json();
         console.log("edited");
       } else {
         alert("Error");
@@ -223,7 +223,7 @@ export const editMyProfileAction = (editProfile: {
         }
       );
       if (response.ok) {
-        let data = await response.json();
+        // let data = await response.json();
         console.log("Edited");
       } else {
         alert("Error");

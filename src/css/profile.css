@@ -272,7 +272,9 @@ button.btn-primary:hover {
   border: 1px solid black;
   height: 30px;
 }
-
+.add-exp-modal .form-control{
+  font-size: 13px;
+}
 .add-exp-modal .form-control:focus {
   border: 2px solid black;
 }
@@ -314,4 +316,20 @@ button.btn-primary:hover {
 .icons-bg-hover:hover {
   background-color: #e3e5e7;
   cursor: pointer;
+}
+/* .error{
+  border:2px solid red !important
+} */
+.error{
+  color:red;
+  font-size: 12px;
+ 
+}
+.acco .card-header{
+  padding:0;
+  background-color: rgb(160, 156, 156);
+}
+.acco .card{
+  border:none
+
 }
