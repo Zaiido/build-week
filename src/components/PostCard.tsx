@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Dropdown } from "react-bootstrap";
+import { Row, Col, Dropdown, Modal, Button, Form } from "react-bootstrap";
 import {
   ChatRightText,
   HandThumbsUp,
@@ -12,8 +12,19 @@ import { fetchPostsAction } from "../actions";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 
 import moment from "moment";
+import { useState } from "react";
+import { deletePost } from "../actions";
 
 const PostCard = () => {
+  const [show, setShow] = useState(false);
+  const [editPost, setEditPost] = useState({
+    text: "",
+  });
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    setShow(true);
+  };
   let prof = useAppSelector((state) => state.myProfile.results);
   console.log(prof);
   const post = useAppSelector((state) => state.posts.results);
@@ -26,6 +37,7 @@ const PostCard = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
+
   return (
     <Row>
       {Array.isArray(post) && post.length > 0 ? (
@@ -63,22 +75,62 @@ const PostCard = () => {
                 </div>
 
                 {prof._id === singlePost.user._id ? (
-                  <Dropdown className="drop-down mt-n5 mr-n3">
-                    <Dropdown.Toggle
-                      variant="secondary"
-                      id="dropdown-basic"
-                      size="sm"
-                    >
-                      <ThreeDots color="black" />
-                    </Dropdown.Toggle>
+                  <>
+                    <Dropdown className="drop-down mt-n5 mr-n3">
+                      <Dropdown.Toggle
+                        variant="secondary"
+                        id="dropdown-basic"
+                        size="sm"
+                      >
+                        <ThreeDots color="black" />
+                      </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">Edit post</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">
-                        Delete post
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={handleShow}>
+                          Edit post
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => {
+                            dispatch(deletePost(singlePost._id));
+                          }}
+                        >
+                          Delete post
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    <Modal show={show} onHide={handleClose}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Edit Post</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <Form.Group>
+                          <Form.Label
+                            className="place"
+                            style={{ backgroundColor: "white" }}
+                          >
+                            {" "}
+                            Edit your post
+                          </Form.Label>
+                          <Form.Control
+                            as="textarea"
+                            rows={5}
+                            value={editPost.text}
+                            onChange={(e) => {
+                              setEditPost({
+                                ...editPost,
+                                text: e.target.value,
+                              });
+                            }}
+                          />
+                        </Form.Group>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="primary" onClick={handleClose}>
+                          Update
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+                  </>
                 ) : (
                   <ThreeDots className="mt-n5" />
                 )}
