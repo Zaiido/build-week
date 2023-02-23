@@ -5,6 +5,7 @@ import fetchExperienceReducer from "../../reducers/fetchExperienceReducer";
 import { combineReducers } from "@reduxjs/toolkit";
 import fetchMyProfilesReducer from "../../reducers/fetchMyProfile";
 import fetchPostsReducer from "../../reducers/fetchPostsReducer";
+import likesReducer from "../../reducers/likesReducer";
 
 const combinedReducers = combineReducers({
   allProfiles: fetchAllProfilesReducer,
@@ -12,6 +13,7 @@ const combinedReducers = combineReducers({
   myProfile: fetchMyProfilesReducer,
   uniqueProfiles: setUniqueProfilesReducer,
   posts: fetchPostsReducer,
+  likes: likesReducer,
 });
 
 const store = configureStore({

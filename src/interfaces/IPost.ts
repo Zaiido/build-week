@@ -1,6 +1,6 @@
 import { IProfile } from "./IProfile";
 export type IPost = {
-  id?: string;
+  _id?: string;
   text?: string;
   username?: string;
   user?: IProfile | null;
