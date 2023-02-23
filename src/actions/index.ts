@@ -352,3 +352,8 @@ export const editPostAction = (editPost: { text: string }, id: string) => {
     }
   };
 };
+
+// export const editProfilePicture = (userID: string) => {
+//   console.log()
+
+// };
