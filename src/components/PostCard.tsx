@@ -14,19 +14,36 @@ import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-const PostCard = () => {
+
+interface IProps {
+  reloadPosts: boolean;
+  addedNewPost: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+
+const PostCard = (props: IProps) => {
   let prof = useAppSelector((state) => state.myProfile.results);
-  console.log(prof);
   const post = useAppSelector((state) => state.posts.results);
-  console.log(post);
   // const profiles = useAppSelector((state) => state.allProfiles);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchPostsAction());
-
+    setTimeout(() => {
+      props.addedNewPost(false)
+    }, 5000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [dispatch, props.reloadPosts]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(fetchPostsAction());
+    }, 120000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Row>
       {Array.isArray(post) && post.length > 0 ? (
@@ -103,7 +120,7 @@ const PostCard = () => {
             </Col>
           ))
       ) : (
-        <p>No posts found.</p>
+        <p>Loading...</p>
       )}
     </Row>
   );

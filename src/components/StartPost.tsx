@@ -4,7 +4,12 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useAppSelector } from "../hooks/hooks";
 import { Link } from "react-router-dom";
 
-const StartPost = () => {
+
+interface IProps {
+    addedNewPost: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const StartPost = (props: IProps) => {
     let profile = useAppSelector((state) => state.myProfile.results);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -14,6 +19,7 @@ const StartPost = () => {
 
     const handleOnClick = () => {
         createNewPost();
+        props.addedNewPost(true)
         handleClose();
     };
 
@@ -33,8 +39,6 @@ const StartPost = () => {
             );
             if (response.ok) {
                 console.log("OK");
-                let data = await response.json();
-                console.log(data);
             } else {
                 console.log("error");
             }
