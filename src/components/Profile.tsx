@@ -1,12 +1,18 @@
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import React from "react";
 import { useState, useEffect } from "react";
-// import { IProfile } from "../interfaces/IProfile";
+
 import { CameraFill } from "react-bootstrap-icons";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import { Pencil } from "react-bootstrap-icons";
 
 import { editMyProfileAction, fetchMyProfileAction } from "../actions";
+import { ChangeEvent } from "react";
+// import { editProfilePicture } from "../actions";
+//  FormData object
+// IMAGE UPLOAD:- POST
+
+// Name of the picture property in the form-data: profile
 const Profile = () => {
   const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
@@ -17,6 +23,7 @@ const Profile = () => {
     console.log(prof);
     setEditProfile(prof);
   };
+  const [file, setFile] = useState<File>();
 
   let prof = useAppSelector((state) => state.myProfile.results);
   const [editprofile, setEditProfile] = useState({
@@ -26,15 +33,41 @@ const Profile = () => {
     image: "",
     title: "",
   });
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
   const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
 
     dispatch(editMyProfileAction(editprofile));
     setChanged(true);
     handleClose();
-    // eslint-disable-next-line no-restricted-globals
-    // location.reload();
+
+    let userID = prof._id;
+    editprofpic(userID);
   };
+  const editprofpic = (id: string) => {
+    console.log(id);
+    if (!file) {
+      return;
+    }
+    fetch(`https://striveschool-api.herokuapp.com/api/profile/${id}/picture`, {
+      method: "POST",
+      body: file,
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+  };
+
+  // };
   useEffect(() => {
     dispatch(fetchMyProfileAction());
     setChanged(false);
@@ -160,33 +193,34 @@ const Profile = () => {
                         }}
                       />
                     </Form.Group>
-                    <Form.Group>
-                      <Form.Label className="place">Picture</Form.Label>
+                    {
+                      // <Form.Group>
+                      //   <Form.Label className="place">Picture</Form.Label>
+                      //   <Form.Control
+                      //     className="inputs"
+                      //     type="text"
+                      //     placeholder="image"
+                      //     value={editprofile.image}
+                      //     onChange={(e) => {
+                      //       setEditProfile({
+                      //         ...editprofile,
+                      //         image: e.target.value,
+                      //       });
+                      //     }}
+                      //   />
+                      // </Form.Group>
+                    }
+
+                    <Form.Group className="mb-3">
+                      <Form.Label className="place">
+                        Choose profile picture
+                      </Form.Label>
                       <Form.Control
                         className="inputs"
-                        type="text"
-                        placeholder="image"
-                        value={editprofile.image}
-                        onChange={(e) => {
-                          setEditProfile({
-                            ...editprofile,
-                            image: e.target.value,
-                          });
-                        }}
+                        type="file"
+                        onChange={handleFileChange}
                       />
                     </Form.Group>
-
-                    {
-                      //<Form.Group>
-                      // <Form.File
-                      //  className="position-relative"
-                      //  required
-                      //  name="file"
-                      //  label="File"
-                      //  feedbackTooltip
-                      // />
-                      //</Form.Group>
-                    }
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>
