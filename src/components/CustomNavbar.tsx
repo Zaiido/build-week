@@ -22,11 +22,14 @@ import "../css/navbar.css";
 import { useState, useEffect } from "react";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { fetchMyProfileAction } from "../actions";
-import { Link } from "react-router-dom";
+import { fetchMyProfileAction, searchProfileAction } from "../actions";
+import { Link, useNavigate } from "react-router-dom";
+import { IProfile } from "../interfaces/IProfile";
 
 const CustomNavbar = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
+  const profiles = useAppSelector(state => state.allProfiles.results)
+
 
   const dispatch = useAppDispatch();
 
@@ -37,14 +40,29 @@ const CustomNavbar = () => {
 
   const [show, setShow] = useState(false);
 
+  const [matchedProfile, setMatchedProfile] = useState<IProfile>()
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (matchedProfile) {
+      console.log(matchedProfile);
+      dispatch(searchProfileAction(matchedProfile));
+      navigate(`/user/${matchedProfile._id}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [matchedProfile, dispatch]);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [query, setQuery] = useState("")
 
   return (
     <>
       <Navbar bg="light" sticky="top">
         <Container>
-          <Navbar.Brand className="underline">
+          <Navbar.Brand>
             <Link to={"/Feed"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -60,13 +78,25 @@ const CustomNavbar = () => {
             </Link>
           </Navbar.Brand>
           <div id="nav-search">
-            <Form className="d-flex">
+            <Form className="d-flex" onSubmit={(e) => {
+              e.preventDefault()
+              if (profiles.some((userProfile: IProfile) => userProfile.name.toLowerCase() === query.toLowerCase())) {
+                let profile = profiles.find((userProfile: IProfile) => userProfile.name.toLowerCase() === query.toLowerCase());
+                setMatchedProfile(profile)
+
+
+              }
+            }}>
               <FontAwesomeIcon icon={faMagnifyingGlass} />
               <Form.Control
                 type="search"
                 placeholder="Search"
                 className="me-2 search-input d-none d-lg-block"
                 aria-label="Search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value)
+                }}
               />
             </Form>
           </div>
