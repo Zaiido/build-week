@@ -21,7 +21,9 @@ const LeftFeedCard = () => {
           variant="top"
           src="https://static.licdn.com/sc/h/55k1z8997gh8dwtihm11aajyq"
         />
-        <Card.Img id="CardTinyImg" variant="top" src={profile.image} />
+        <div id="CardTinyImg" style={{ overflow: "hidden" }}>
+          <Card.Img variant="top" src={profile.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </div>
         <Card.Body id="leftCardBody">
           <div>
             <Card.Title>
