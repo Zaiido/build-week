@@ -2,6 +2,7 @@
   padding-top: 0.5em;
   left: -0.85em;
 }
+
 .leftCard {
   font-size: 12px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -10,12 +11,14 @@
   line-height: 16px;
   color: rgba(0, 0, 0, 0.6);
 }
+
 #stickyLeft {
   position: -webkit-sticky;
   position: sticky;
   top: 6.25em;
   margin-top: -1.5em;
 }
+
 #CardTinyImg {
   border-radius: 50%;
   width: 68px;
@@ -24,19 +27,23 @@
   left: 8em;
   top: 1.8em;
 }
+
 #leftCardBody {
   padding-top: 2em;
 }
-#leftCardBody > div {
+
+#leftCardBody>div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
+
 #leftSideAd {
   font-weight: 600;
   color: rgba(0, 0, 0, 0.9);
   text-decoration: underline;
 }
+
 .leftSideMyItems {
   font-weight: 600;
   color: rgba(0, 0, 0, 0.9);
@@ -45,12 +52,13 @@
 .list-group-item:hover,
 #leftC:hover {
   background-color: #ebebeb;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
   cursor: pointer;
 }
+
 .list-group-item:hover #leftSideAd.ad {
   color: #005fbe;
 }
+
 #listedItems {
   font-weight: 600;
   color: rgb(92, 153, 214);
@@ -61,12 +69,14 @@
   left: -4em;
   top: -1em;
 }
+
 #listedItems svg {
   position: absolute;
   left: 21%;
   top: 22%;
   color: gray;
 }
+
 #listedItems .svgDiv {
   position: relative;
   width: 30px;
@@ -79,13 +89,16 @@
   border-radius: 50%;
   background-color: #ebebeb;
 }
+
 #listedItems li {
   padding-top: 0.7em;
 }
+
 #listedItems li span:hover {
   cursor: pointer;
   text-decoration: underline;
 }
+
 #leftC {
   padding-top: 1em;
   padding-bottom: 1em;
@@ -98,10 +111,12 @@
   line-height: 20px;
   color: rgba(0, 0, 0, 0.62);
 }
+
 #listList {
   position: relative;
   height: 5.44em;
 }
+
 #plusBtn {
   display: flex;
   width: 17em;
