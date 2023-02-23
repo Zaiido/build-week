@@ -12,15 +12,14 @@ import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp as liked } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp as disliked } from "@fortawesome/free-regular-svg-icons";
 
 interface IProps {
   reloadPosts: boolean;
   addedNewPost: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp as liked } from "@fortawesome/free-solid-svg-icons";
-import { faThumbsUp as disliked } from "@fortawesome/free-regular-svg-icons";
 
 const PostCard = (props: IProps) => {
   let prof = useAppSelector((state) => state.myProfile.results);
