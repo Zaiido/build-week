@@ -111,6 +111,9 @@ const PostCard = (props: IProps) => {
                 )}
               </div>
               <p className="about">{singlePost.text}</p>
+              <div className="post-image-container">
+                {singlePost.image ? <img src={singlePost.image} alt="" /> : ""}
+              </div>
               <hr />
               <div className="d-flex justify-content-between mb-2">
                 <div className="about" id="like">
