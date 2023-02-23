@@ -211,6 +211,7 @@ export const editMyProfileAction = (editProfile: {
   title: string;
 }) => {
   return async (dispatch: Dispatch) => {
+    console.log("fetch countinggggg");
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/",

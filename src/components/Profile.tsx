@@ -54,6 +54,7 @@ const Profile = () => {
 
   const handleImageUpload = async (file: any, id: string) => {
     setChanged(true);
+    console.log("fetch counting");
     try {
       const formData = new FormData();
       formData.append("profile", file);
