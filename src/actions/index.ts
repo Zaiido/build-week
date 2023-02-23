@@ -9,6 +9,7 @@ export const GET_POST = "GET_POST";
 export const SET_UNIQUE_PROFILES = "SET_UNIQUE_PROFILES";
 export const ADD_TO_LIKES = "ADD_TO_LIKES";
 export const REMOVE_FROM_LIKES = "REMOVE_FROM_LIKES";
+export const SEARCH_PROFILE = "SEARCH_PROFILE";
 
 export const fetchAllProfilesAction = () => {
   return async (dispatch: Dispatch) => {
@@ -107,7 +108,7 @@ export const deleteJobAction = (id: string) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-          id,
+        id,
         {
           method: "DELETE",
 
@@ -180,7 +181,7 @@ export const editJobAction = (
       // console.log(id);
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-          id,
+        id,
         {
           method: "PUT",
           body: JSON.stringify(job),
@@ -353,7 +354,9 @@ export const editPostAction = (editPost: { text: string }, id: string) => {
   };
 };
 
-// export const editProfilePicture = (userID: string) => {
-//   console.log()
-
-// };
+export const searchProfileAction = (profile: any) => {
+  return {
+    type: SEARCH_PROFILE,
+    payload: profile
+  }
+}
