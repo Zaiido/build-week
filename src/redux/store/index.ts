@@ -6,6 +6,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import fetchMyProfilesReducer from "../../reducers/fetchMyProfile";
 import fetchPostsReducer from "../../reducers/fetchPostsReducer";
 import likesReducer from "../../reducers/likesReducer";
+import searchProfileReducer from "../../reducers/searchProfileReducer";
 
 const combinedReducers = combineReducers({
   allProfiles: fetchAllProfilesReducer,
@@ -14,6 +15,7 @@ const combinedReducers = combineReducers({
   uniqueProfiles: setUniqueProfilesReducer,
   posts: fetchPostsReducer,
   likes: likesReducer,
+  search: searchProfileReducer
 });
 
 const store = configureStore({
