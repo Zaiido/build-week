@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -18,6 +18,8 @@ export const Feed = () => {
 
   const dispatch = useAppDispatch();
 
+  const [addedNewPost, setAddedNewPost] = useState(false)
+
   useEffect(() => {
     dispatch(fetchMyProfileAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,8 +31,8 @@ export const Feed = () => {
           <LeftFeedCard />
         </Col>
         <Col className="col-12 col-sm-5">
-          <StartPost />
-          <PostCard />
+          <StartPost addedNewPost={setAddedNewPost} />
+          <PostCard reloadPosts={addedNewPost} addedNewPost={setAddedNewPost} />
         </Col>
         <Col className="col-12 col-sm-4 px-4 profiles-container">
           <FeedSidebar />
