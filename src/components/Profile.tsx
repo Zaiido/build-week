@@ -35,6 +35,7 @@ const Profile = () => {
     console.log(files);
     if (files && files.length > 0) {
       setFile(files[0]);
+      console.log(file);
     } else {
       setFile(null);
     }

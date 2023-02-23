@@ -34,6 +34,7 @@ const Experience = () => {
     stillWorkingHere: true,
     description: "",
     area: "",
+    image: "",
   });
 
   const [showRole, setShowRole] = useState(false);
@@ -43,6 +44,18 @@ const Experience = () => {
   const [showLoc, setShowLoc] = useState(false);
   let exp = useAppSelector((state) => state.experience.results);
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    console.log(files);
+
+    if (files && files.length > 0) {
+      setFile(files[0]);
+      console.log(file);
+    } else {
+      setFile(null);
+    }
+  };
+
   const editJob = async (id: string) => {
     let jobtoEdit = exp.find((j: IExperience) => j._id === id);
 
@@ -50,12 +63,53 @@ const Experience = () => {
     expToEdit = id;
     // console.log(expToEdit);
   };
-  const handleSubmit2 = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  let prof = useAppSelector((state) => state.myProfile.results);
+  let userID = prof._id;
+
+  const handleSubmit2 = async (
+    e: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    dispatch(editJobAction(job, expToEdit));
-    // eslint-disable-next-line no-restricted-globals
-    // location.reload();
+    if (file) {
+      handleImageUpload(file, expToEdit, userID);
+    }
+
+    await dispatch(editJobAction(job, expToEdit));
+
     handleClose2();
+  };
+
+  const handleImageUpload = async (
+    file: any,
+    expId: string,
+    userID: string
+  ) => {
+    try {
+      console.log(userID, expId);
+      const formData = new FormData();
+      formData.append("experience", file);
+
+      let response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userID}/experiences/${expId}/picture`,
+
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+          },
+        }
+      );
+      console.log(response);
+      if (response.ok) {
+        console.log("You made it!");
+      } else {
+        console.log("Try harder!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClose = () => setShow(false);
@@ -68,6 +122,7 @@ const Experience = () => {
       stillWorkingHere: true,
       description: "",
       area: "",
+      image: "",
     });
     setShow(true);
   };
@@ -92,7 +147,7 @@ const Experience = () => {
     setChanged(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changed]);
-
+  const [file, setFile] = useState<File | null>(null);
   const handleSubmit = () => {
     setShowRole(false);
     setShowCompany(false);
@@ -307,6 +362,7 @@ const Experience = () => {
           </div>
 
           <ListGroup className="mt-4 list-exp ">
+            {console.log(exp)}
             {exp.map((ex: IExperience) => (
               <>
                 <ListGroup.Item key={ex._id} className="pt-2 experience">
@@ -316,7 +372,7 @@ const Experience = () => {
                   >
                     <div>
                       <img
-                        src="http://placekitten.com/200/300"
+                        src={ex.image ? ex.image : ""}
                         alt=""
                         height="40px"
                         width="40px"
@@ -487,6 +543,16 @@ const Experience = () => {
                                   area: e.target.value,
                                 });
                               }}
+                            />
+                          </Form.Group>
+                          <Form.Group className="mb-3">
+                            <Form.Label className="place">
+                              Choose profile picture
+                            </Form.Label>
+                            <Form.Control
+                              className="inputs"
+                              type="file"
+                              onChange={handleFileUpload}
                             />
                           </Form.Group>
                         </Form>
