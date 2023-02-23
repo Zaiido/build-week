@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Post.css";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useAppSelector } from "../hooks/hooks";
 import { Link } from "react-router-dom";
+import { IPost } from "../interfaces/IPost";
 
 
 interface IProps {
@@ -12,16 +13,36 @@ interface IProps {
 const StartPost = (props: IProps) => {
     let profile = useAppSelector((state) => state.myProfile.results);
     const [show, setShow] = useState(false);
+    const [file, setFile] = useState<File | null>(null)
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [newPost, setNewPost] = useState("");
+    const [postText, setPostText] = useState("");
+    const [newPost, setNewPost] = useState<IPost>({});
 
-    const handleOnClick = () => {
-        createNewPost();
-        props.addedNewPost(true)
+
+    const handleOnClick = async () => {
+        await createNewPost();
+        props.addedNewPost(true);
         handleClose();
     };
+
+    useEffect(() => {
+        if (file) {
+            handleImageUpload(file);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [newPost]);
+
+
+    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files && files.length > 0) {
+            setFile(files[0]);
+        } else {
+            setFile(null);
+        }
+    }
 
     const createNewPost = async () => {
         try {
@@ -29,7 +50,7 @@ const StartPost = (props: IProps) => {
                 "https://striveschool-api.herokuapp.com/api/posts/",
                 {
                     method: "POST",
-                    body: JSON.stringify({ text: newPost }),
+                    body: JSON.stringify({ text: postText }),
                     headers: {
                         "Content-Type": "application/json",
                         Authorization:
@@ -38,14 +59,44 @@ const StartPost = (props: IProps) => {
                 }
             );
             if (response.ok) {
-                console.log("OK");
+                let post = await response.json();
+                setNewPost(post);
             } else {
                 console.log("error");
             }
+            // setNewPost({ test: "test" })
+            // console.log(newPost)
+
         } catch (error) {
             console.log(error);
         }
     };
+
+    const handleImageUpload = async (file: any) => {
+        try {
+            const formData = new FormData();
+            formData.append("post", file);
+            console.log(newPost)
+            console.log(newPost._id)
+            let response = await fetch("https://striveschool-api.herokuapp.com/api/posts/" + newPost._id, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    Authorization:
+                        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+                }
+            })
+            if (response.ok) {
+                console.log("You made it!")
+            } else {
+                console.log("Try harder!")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
 
 
     return (
@@ -117,9 +168,9 @@ const StartPost = (props: IProps) => {
                             as="textarea"
                             placeholder="What do you want to talk about?"
                             className="textarea"
-                            value={newPost}
+                            value={postText}
                             onChange={(e) => {
-                                setNewPost(e.target.value)
+                                setPostText(e.target.value)
                             }}
                         />
                     </div>
@@ -132,9 +183,10 @@ const StartPost = (props: IProps) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="mr-auto d-flex" style={{ height: "35px" }}>
-                        <div style={{ height: "100%", width: "35px" }} className="d-flex align-items-center justify-content-center icon-container mr-2"> <svg className="post-icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" width="24" height="24" focusable="false">
-                            <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm1 13a1 1 0 01-.29.71L16 14l-2 2-6-6-4 4V7a1 1 0 011-1h14a1 1 0 011 1zm-2-7a2 2 0 11-2-2 2 2 0 012 2z"></path>
-                        </svg></div>
+                        <div className="d-flex align-items-center justify-content-center mr-2">
+                            <Form.Control type="file" className="post-image-upload"
+                                onChange={handleFileUpload} />
+                        </div>
                         <div style={{ height: "100%", width: "35px" }} className="d-flex align-items-center justify-content-center icon-container mr-2"> <svg className="post-icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" width="24" height="24" focusable="false">
                             <path d="M19 4H5a3 3 0 00-3 3v10a3 3 0 003 3h14a3 3 0 003-3V7a3 3 0 00-3-3zm-9 12V8l6 4z"></path>
                         </svg></div>
