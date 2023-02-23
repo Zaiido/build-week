@@ -16,6 +16,7 @@ import {
   editJobAction,
   fetchExperienceAction,
   postJobAction,
+  postJobImageAction,
 } from "../actions";
 import { useState } from "react";
 import { IExperience } from "../interfaces/IExperience";
@@ -34,6 +35,7 @@ const Experience = () => {
     stillWorkingHere: true,
     description: "",
     area: "",
+    experience: "",
   });
 
   const [showRole, setShowRole] = useState(false);
@@ -68,6 +70,7 @@ const Experience = () => {
       stillWorkingHere: true,
       description: "",
       area: "",
+      experience: "",
     });
     setShow(true);
   };
@@ -93,7 +96,7 @@ const Experience = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changed]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (expToEdit: string) => {
     setShowRole(false);
     setShowCompany(false);
     setShowDate(false);
@@ -112,9 +115,16 @@ const Experience = () => {
     } else {
       handleClose();
     }
-    dispatch(postJobAction(job));
+    const formData = new FormData();
+    formData.append("experience", job.experience);
     setChanged(true);
 
+    let experienceImageData = {
+      experience: formData.get("experience") as File,
+    };
+    dispatch(postJobAction(job));
+    dispatch(postJobImageAction(experienceImageData, expToEdit));
+    console.log(experienceImageData, expToEdit);
     // eslint-disable-next-line no-restricted-globals
     // location.reload();
   };
@@ -290,13 +300,23 @@ const Experience = () => {
                         Location is a required field
                       </span>
                     )}
+                    <Form.Group>
+                      <Form.File
+                        id="selectedFile"
+                        onChange={(e: { target: { value: any } }) => {
+                          setJob({ ...job, experience: e.target.value });
+                        }}
+                      ></Form.File>
+                    </Form.Group>
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>
                   <Button
                     style={{ fontSize: "14px" }}
                     variant="primary"
-                    onClick={handleSubmit}
+                    onClick={(e) => {
+                      handleSubmit(expToEdit);
+                    }}
                     className="rounded-pill py-1 px-2"
                   >
                     Save
@@ -316,7 +336,7 @@ const Experience = () => {
                   >
                     <div>
                       <img
-                        src="http://placekitten.com/200/300"
+                        src={job.experience}
                         alt=""
                         height="40px"
                         width="40px"
@@ -488,6 +508,9 @@ const Experience = () => {
                                 });
                               }}
                             />
+                          </Form.Group>
+                          <Form.Group>
+                            <Form.File id="selectedFile"></Form.File>
                           </Form.Group>
                         </Form>
                       </Modal.Body>

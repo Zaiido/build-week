@@ -10,4 +10,5 @@ export interface IExperience {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  experience: File | null;
 }
