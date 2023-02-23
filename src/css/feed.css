@@ -107,3 +107,6 @@
   width: 17em;
   justify-content: space-between;
 }
+#like:hover {
+  cursor: pointer;
+}
