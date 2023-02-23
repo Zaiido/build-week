@@ -57,7 +57,7 @@ const PostCard = () => {
                     <p className="place mb-n1">{singlePost.user.title}</p>
 
                     <p className="place">
-                      {moment(singlePost.createdAt.split("-")).fromNow()}
+                      {moment(singlePost.createdAt).fromNow()}
                     </p>
                   </div>
                 </div>
