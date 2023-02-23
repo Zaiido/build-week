@@ -7,12 +7,7 @@ import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import { Pencil } from "react-bootstrap-icons";
 
 import { editMyProfileAction, fetchMyProfileAction } from "../actions";
-import { ChangeEvent } from "react";
-// import { editProfilePicture } from "../actions";
-//  FormData object
-// IMAGE UPLOAD:- POST
 
-// Name of the picture property in the form-data: profile
 const Profile = () => {
   const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
@@ -23,9 +18,10 @@ const Profile = () => {
     console.log(prof);
     setEditProfile(prof);
   };
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | null>(null);
 
   let prof = useAppSelector((state) => state.myProfile.results);
+  let userID = prof._id;
   const [editprofile, setEditProfile] = useState({
     name: "",
     surname: "",
@@ -34,41 +30,57 @@ const Profile = () => {
     title: "",
   });
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    console.log(files);
+    if (files && files.length > 0) {
+      setFile(files[0]);
+    } else {
+      setFile(null);
     }
   };
-  const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
 
-    dispatch(editMyProfileAction(editprofile));
+    if (file) {
+      handleImageUpload(file, userID);
+    }
+    await dispatch(editMyProfileAction(editprofile));
+
     setChanged(true);
     handleClose();
-
-    let userID = prof._id;
-    editprofpic(userID);
   };
-  const editprofpic = (id: string) => {
-    console.log(id);
-    if (!file) {
-      return;
+
+  const handleImageUpload = async (file: any, id: string) => {
+    setChanged(true);
+    try {
+      const formData = new FormData();
+      formData.append("profile", file);
+
+      let response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${id}/picture`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+          },
+        }
+      );
+      if (response.ok) {
+        console.log("You made it!");
+      } else {
+        console.log("Try harder!");
+      }
+    } catch (error) {
+      console.log(error);
     }
-    fetch(`https://striveschool-api.herokuapp.com/api/profile/${id}/picture`, {
-      method: "POST",
-      body: file,
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
   };
 
-  // };
   useEffect(() => {
+    handleImageUpload(file, userID);
     dispatch(fetchMyProfileAction());
     setChanged(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -218,7 +230,7 @@ const Profile = () => {
                       <Form.Control
                         className="inputs"
                         type="file"
-                        onChange={handleFileChange}
+                        onChange={handleFileUpload}
                       />
                     </Form.Group>
                   </Form>
