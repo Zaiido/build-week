@@ -109,6 +109,8 @@ const Experience = () => {
       setShowDescription(true);
     } else if (job.area.length === 0) {
       setShowLoc(true);
+    } else {
+      handleClose();
     }
     dispatch(postJobAction(job));
     setChanged(true);
