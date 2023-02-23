@@ -7,6 +7,8 @@ export const GET_EXPERIENCE = "GET_EXPERIENCE";
 export const GET_MY_PROFILE = "GET_MY_PROFILE";
 export const GET_POST = "GET_POST";
 export const SET_UNIQUE_PROFILES = "SET_UNIQUE_PROFILES";
+export const ADD_TO_LIKES = "ADD_TO_LIKES";
+export const REMOVE_FROM_LIKES = "REMOVE_FROM_LIKES";
 
 export const fetchAllProfilesAction = () => {
   return async (dispatch: Dispatch) => {
@@ -283,5 +285,18 @@ export const fetchPostsAction = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+};
+export const addToLikesAction = (like: any) => {
+  return {
+    type: ADD_TO_LIKES,
+    payload: like,
+  };
+};
+
+export const removeFromLikesAction = (i: any) => {
+  return {
+    type: REMOVE_FROM_LIKES,
+    payload: i,
   };
 };

@@ -1,23 +1,26 @@
 import React from "react";
 import { Row, Col, Dropdown } from "react-bootstrap";
-import {
-  ChatRightText,
-  HandThumbsUp,
-  Share,
-  ThreeDots,
-} from "react-bootstrap-icons";
+import { ChatRightText, Share, ThreeDots } from "react-bootstrap-icons";
 import { useEffect } from "react";
 
-import { fetchPostsAction } from "../actions";
+import {
+  addToLikesAction,
+  fetchPostsAction,
+  removeFromLikesAction,
+} from "../actions";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp as liked } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp as disliked } from "@fortawesome/free-regular-svg-icons";
 
 const PostCard = () => {
   let prof = useAppSelector((state) => state.myProfile.results);
   console.log(prof);
   const post = useAppSelector((state) => state.posts.results);
   console.log(post);
+  const isLiked = useAppSelector((state) => state.likes.results);
   // const profiles = useAppSelector((state) => state.allProfiles);
   const dispatch = useAppDispatch();
 
@@ -86,8 +89,23 @@ const PostCard = () => {
               <p className="about">{singlePost.text}</p>
               <hr />
               <div className="d-flex justify-content-between mb-2">
-                <div className="about">
-                  <HandThumbsUp className="mr-1" />
+                <div className="about" id="like">
+                  {isLiked.some(
+                    (likedPost) => likedPost._id === singlePost._id
+                  ) ? (
+                    <FontAwesomeIcon
+                      icon={liked}
+                      style={{ color: "rgb(92, 153, 214)" }}
+                      onClick={() =>
+                        dispatch(removeFromLikesAction(singlePost._id))
+                      }
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={disliked}
+                      onClick={() => dispatch(addToLikesAction(singlePost))}
+                    />
+                  )}
                   Like
                 </div>
                 <div className="about">
