@@ -24,7 +24,7 @@ export const Feed = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Container className="mt-3">
+    <Container className="mt-3 mb-4">
       <Row>
         <Col id="col1" className="col col-sm-3">
           <LeftFeedCard />
