@@ -1,14 +1,10 @@
 import { Row, Col, Dropdown, Modal, Button, Form } from "react-bootstrap";
-import {
-  ChatRightText,
-  HandThumbsUp,
-  Share,
-  ThreeDots,
-} from "react-bootstrap-icons";
+import { ChatRightText, Share, ThreeDots } from "react-bootstrap-icons";
 import { useEffect } from "react";
 
 import {
   addToLikesAction,
+  editPostAction,
   fetchPostsAction,
   removeFromLikesAction,
 } from "../actions";
@@ -23,12 +19,13 @@ import { faThumbsUp as disliked } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
 import { deletePost } from "../actions";
 import React from "react";
+import { IPost } from "../interfaces/IPost";
 
 interface IProps {
   reloadPosts: boolean;
   addedNewPost: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
+let idToEdit: string;
 const PostCard = (props: IProps) => {
   const [show, setShow] = useState(false);
   const [editPost, setEditPost] = useState({
@@ -36,8 +33,13 @@ const PostCard = (props: IProps) => {
   });
 
   const handleClose = () => setShow(false);
-  const handleShow = () => {
+
+  const handleShow = (id: string) => {
+    const found = post.find((p: IPost) => p._id === id);
+
+    setEditPost(found);
     setShow(true);
+    idToEdit = id;
   };
   let prof = useAppSelector((state) => state.myProfile.results);
   const post = useAppSelector((state) => state.posts.results);
@@ -61,6 +63,14 @@ const PostCard = (props: IProps) => {
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+    console.log(idToEdit);
+    dispatch(editPostAction(editPost, idToEdit));
+
+    setShow(false);
+  };
 
   return (
     <Row>
@@ -111,7 +121,9 @@ const PostCard = (props: IProps) => {
 
                       <Dropdown.Menu className="special-dropdown-menu">
                         <Dropdown.Item
-                          onClick={handleShow}
+                          onClick={() => {
+                            handleShow(singlePost._id);
+                          }}
                           style={{ fontWeight: "100", lineHeight: "2" }}
                         >
                           Edit post
@@ -153,7 +165,14 @@ const PostCard = (props: IProps) => {
                         </Form.Group>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button
+                          variant="primary"
+                          onClick={(e) => {
+                            handleSubmit(e);
+                          }}
+                          style={{ fontSize: "14px" }}
+                          className="rounded-pill py-1 px-2"
+                        >
                           Update
                         </Button>
                       </Modal.Footer>
