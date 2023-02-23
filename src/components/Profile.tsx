@@ -175,6 +175,18 @@ const Profile = () => {
                         }}
                       />
                     </Form.Group>
+
+                    {
+                      //<Form.Group>
+                      // <Form.File
+                      //  className="position-relative"
+                      //  required
+                      //  name="file"
+                      //  label="File"
+                      //  feedbackTooltip
+                      // />
+                      //</Form.Group>
+                    }
                   </Form>
                 </Modal.Body>
                 <Modal.Footer>
