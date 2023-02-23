@@ -15,7 +15,14 @@ import { useState } from "react";
 import { deletePost } from "../actions";
 import React from "react";
 
-const PostCard = () => {
+import { Link } from "react-router-dom";
+
+interface IProps {
+  reloadPosts: boolean;
+  addedNewPost: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PostCard = (props: IProps) => {
   const [show, setShow] = useState(false);
   const [editPost, setEditPost] = useState({
     text: "",
@@ -34,9 +41,20 @@ const PostCard = () => {
 
   useEffect(() => {
     dispatch(fetchPostsAction());
-
+    setTimeout(() => {
+      props.addedNewPost(false);
+    }, 5000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [dispatch, props.reloadPosts]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(fetchPostsAction());
+    }, 120000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Row>
@@ -46,29 +64,29 @@ const PostCard = () => {
           .reverse()
           .map((singlePost) => (
             <Col className="mt-3 sub-sections" xs={12} key={singlePost._id}>
-              <div className="d-flex justify-content-between mt-2">
-                <div className="d-flex" style={{ gap: "5px" }}>
-                  <img
-                    src={singlePost.user.image}
-                    alt="vh"
-                    height="40px"
-                    width="40px"
-                    className="mt-n4"
-                  />
+              <div className="d-flex justify-content-between mt-3">
+                <div className="d-flex">
+                  <div className="image-container align-self-start">
+                    <img src={singlePost.user.image} alt="vh" />
+                  </div>
                   <div>
-                    <span
+                    <Link
+                      to={"/"}
+                      className="post-profile-link"
                       style={{
                         lineHeight: "24px",
                         fontWeight: "600",
-                        color: "rgba(0, 0, 0, 0.9)",
                         fontSize: "16px",
                       }}
                     >
                       {singlePost.username}
-                    </span>
-                    <p className="place mb-n1">{singlePost.user.title}</p>
+                    </Link>
 
-                    <p className="place">
+                    <p style={{ fontSize: "12px" }} className="place mb-n1">
+                      {singlePost.user.title}
+                    </p>
+
+                    <p className="place" style={{ fontSize: "12px" }}>
                       {moment(singlePost.createdAt).fromNow()}
                     </p>
                   </div>
@@ -76,20 +94,25 @@ const PostCard = () => {
 
                 {prof._id === singlePost.user._id ? (
                   <>
-                    <Dropdown className="drop-down mt-n5 mr-n3">
+                    <Dropdown className="drop-down align-self-start">
                       <Dropdown.Toggle
                         variant="secondary"
                         id="dropdown-basic"
                         size="sm"
+                        className="special-dropdown icons-bg-hover"
                       >
                         <ThreeDots color="black" />
                       </Dropdown.Toggle>
 
-                      <Dropdown.Menu>
-                        <Dropdown.Item onClick={handleShow}>
+                      <Dropdown.Menu className="special-dropdown-menu">
+                        <Dropdown.Item
+                          onClick={handleShow}
+                          style={{ fontWeight: "100", lineHeight: "2" }}
+                        >
                           Edit post
                         </Dropdown.Item>
                         <Dropdown.Item
+                          style={{ fontWeight: "100", lineHeight: "2" }}
                           onClick={() => {
                             dispatch(deletePost(singlePost._id));
                           }}
@@ -136,17 +159,18 @@ const PostCard = () => {
                 )}
               </div>
               <p className="about">{singlePost.text}</p>
-              <hr />
-              <div className="d-flex justify-content-between mb-2">
-                <div className="about">
+              <hr className="mb-1" />
+
+              <div className="d-flex justify-content-between mb-1">
+                <div className="about about-btn p-3">
                   <HandThumbsUp className="mr-1" />
                   Like
                 </div>
-                <div className="about">
+                <div className="about about-btn p-3">
                   {" "}
                   <ChatRightText className="mr-1" /> Comment
                 </div>
-                <div className="about">
+                <div className="about about-btn p-3">
                   {" "}
                   <Share className="mr-1" /> Share{" "}
                 </div>
@@ -154,7 +178,7 @@ const PostCard = () => {
             </Col>
           ))
       ) : (
-        <p>No posts found.</p>
+        <p>Loading...</p>
       )}
     </Row>
   );
