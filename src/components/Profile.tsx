@@ -42,18 +42,15 @@ const Profile = () => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
-
+    setChanged(true);
     if (file) {
       handleImageUpload(file, userID);
     }
     await dispatch(editMyProfileAction(editprofile));
-
-    setChanged(true);
     handleClose();
   };
 
   const handleImageUpload = async (file: any, id: string) => {
-    setChanged(true);
     try {
       const formData = new FormData();
       formData.append("profile", file);
@@ -82,9 +79,12 @@ const Profile = () => {
   useEffect(() => {
     handleImageUpload(file, userID);
     dispatch(fetchMyProfileAction());
-    setChanged(false);
+    setTimeout(() => {
+      setChanged(false);
+    }, 3000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changed]);
+
   return (
     <Container>
       <Row>
