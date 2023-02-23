@@ -189,7 +189,7 @@ const PostCard = (props: IProps) => {
               </div>
               <hr />
               <div className="d-flex justify-content-between mb-2">
-                <div className="about" id="like">
+                <div className="about about-btn p-3" id="like">
                   {isLiked.some(
                     (likedPost) => likedPost._id === singlePost._id
                   ) ? (
