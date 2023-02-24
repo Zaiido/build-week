@@ -153,6 +153,7 @@ const SearchProfile = () => {
                                 <div className="cover">
                                     <div className="profile-pic">
                                         <>
+                                            {console.log(prof)}
                                             <img src={prof ? prof.image : ""} alt="" />
                                         </>
                                     </div>
