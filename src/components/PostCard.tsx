@@ -47,6 +47,7 @@ const PostCard = (props: IProps) => {
   const isLiked = useAppSelector((state) => state.likes.results);
   // const profiles = useAppSelector((state) => state.allProfiles);
   const dispatch = useAppDispatch();
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     dispatch(fetchPostsAction());
@@ -67,11 +68,47 @@ const PostCard = (props: IProps) => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(idToEdit);
+    if (file) {
+      handleImageUpload(file, idToEdit);
+    }
+
     dispatch(editPostAction(editPost, idToEdit));
     props.addedNewPost(true);
     setShow(false);
   };
+
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setFile(files[0]);
+    } else {
+      setFile(null);
+    }
+  }
+
+
+  const handleImageUpload = async (file: any, postId: any) => {
+    try {
+      const formData = new FormData();
+      formData.append("post", file);
+      let response = await fetch("https://striveschool-api.herokuapp.com/api/posts/" + postId, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+        }
+      })
+      if (response.ok) {
+        console.log("You made it!")
+      } else {
+        console.log("Try harder!")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Row>
@@ -163,6 +200,11 @@ const PostCard = (props: IProps) => {
                                 text: e.target.value,
                               });
                             }}
+                          />
+                          <Form.Control
+                            className="inputs"
+                            type="file"
+                            onChange={handleFileUpload}
                           />
                         </Form.Group>
                       </Modal.Body>
