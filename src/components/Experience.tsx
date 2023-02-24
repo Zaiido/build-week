@@ -171,11 +171,11 @@ const Experience = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
     setChanged(true);
-    // setShowRole(false);
-    // setShowCompany(false);
-    // setShowDate(false);
-    // setShowDescription(false);
-    // setShowLoc(false);
+    setShowRole(false);
+    setShowCompany(false);
+    setShowDate(false);
+    setShowDescription(false);
+    setShowLoc(false);
     // if (job.role.length === 0) {
     //   setShowRole(true);
     // } else if (job.company.length === 0) {
@@ -186,8 +186,6 @@ const Experience = () => {
     //   setShowDescription(true);
     // } else if (job.area.length === 0) {
     //   setShowLoc(true);
-    // } else {
-    //   handleClose();
     // }
 
     let newexp = await dispatch(postJobAction(job));
@@ -198,6 +196,7 @@ const Experience = () => {
     }
 
     setChanged(true);
+    handleClose();
   };
 
   const NewExpImageUpload = async (
