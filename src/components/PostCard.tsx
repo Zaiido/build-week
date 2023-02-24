@@ -223,7 +223,7 @@ const PostCard = (props: IProps) => {
                     </Modal>
                   </>
                 ) : (
-                  <ThreeDots className="mt-n5" />
+                  ""
                 )}
               </div>
               <p className="about">{singlePost.text}</p>
