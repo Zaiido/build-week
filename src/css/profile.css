@@ -391,3 +391,7 @@ button.btn-primary:hover {
   border-top-right-radius: 0 !important;
   left: -140px !important;
 }
+
+.modal-backdrop.fade {
+  opacity: 0.2 !important;
+}

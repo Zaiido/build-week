@@ -369,3 +369,7 @@ button.btn-outline-secondary:hover {
 button.btn-primary:hover {
   background-color: #0e5194 !important;
 }
+
+.modal-backdrop {
+  opacity: 0.2 !important;
+}
