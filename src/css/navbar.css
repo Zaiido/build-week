@@ -6,7 +6,7 @@
 }
 
 .form-control {
-  background-color: #EEF3F8;
+  background-color: #eef3f8;
   border: none;
   min-width: 200px;
   height: 36px;
@@ -51,7 +51,7 @@
   text-decoration: none;
 }
 
-.dropdown-menu>a {
+.dropdown-menu > a {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 500;
   color: rgba(180, 180, 180, 255);
@@ -84,12 +84,12 @@
   background-color: white;
 }
 
-#accountDropdown>img {
+#accountDropdown > img {
   margin-left: -1em;
   margin-top: -0.5em;
 }
 
-#accountDropdown>div {
+#accountDropdown > div {
   display: flex;
   padding-left: 0.5em;
   padding-right: 2.5em;
@@ -143,12 +143,11 @@ a.underline {
   height: 1.5em;
 }
 
-#nav-main>a {
+#nav-main > a {
   display: flex;
   padding-left: 10em;
   margin-right: 1em;
 }
-
 #navs {
   display: flex;
 }
@@ -161,6 +160,7 @@ a.underline {
   flex-direction: column;
   align-items: center;
   margin-inline: 10px;
+  cursor: pointer;
 }
 
 .onHover svg {
@@ -181,7 +181,7 @@ a.underline {
   margin-top: 1em;
 }
 
-#side-nav>div {
+#side-nav > div {
   margin-bottom: 8px;
 }
 
@@ -191,7 +191,7 @@ a.underline {
   align-items: center;
 }
 
-#side-nav> :nth-child(2) {
+#side-nav > :nth-child(2) {
   display: flex;
   text-decoration: underline;
   color: rgb(187, 115, 88);
@@ -218,7 +218,7 @@ svg.svg-inline--fa {
   display: flex;
 }
 
-#leftSub>div {
+#leftSub > div {
   align-items: flex-start;
   padding-left: 1.5em;
 }
@@ -368,6 +368,31 @@ button.btn-outline-secondary:hover {
 
 button.btn-primary:hover {
   background-color: #0e5194 !important;
+}
+/*Underline in progress */
+.navbar {
+  padding: 0;
+}
+#navs.home {
+  padding: 0;
+}
+#navs.home {
+  position: relative;
+}
+#navs.home:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: #000000;
+  width: 0%;
+  content: "";
+  height: 2px;
+  transition: all 0.3s;
+}
+#navs.home.selected:after {
+  width: 100%;
 }
 
 .modal-backdrop {
