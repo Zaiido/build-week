@@ -169,7 +169,6 @@ const Experience = () => {
   const [file, setFile] = useState<File | null>(null);
   const handleSubmit = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
-    setChanged(true);
     setShowRole(false);
     setShowCompany(false);
     setShowDate(false);
