@@ -93,7 +93,8 @@ export const postJobAction = (job: {
 
       if (response.ok) {
         console.log("posted");
-        // fetchExperienceAction();
+        let data = response.json();
+        return data;
       } else {
         console.log("Error");
       }
@@ -108,7 +109,7 @@ export const deleteJobAction = (id: string) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-        id,
+          id,
         {
           method: "DELETE",
 
@@ -181,7 +182,7 @@ export const editJobAction = (
       // console.log(id);
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-        id,
+          id,
         {
           method: "PUT",
           body: JSON.stringify(job),
@@ -357,6 +358,6 @@ export const editPostAction = (editPost: { text: string }, id: string) => {
 export const searchProfileAction = (profile: any) => {
   return {
     type: SEARCH_PROFILE,
-    payload: profile
-  }
-}
+    payload: profile,
+  };
+};

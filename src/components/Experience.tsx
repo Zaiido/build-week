@@ -20,12 +20,15 @@ import {
 import { useState } from "react";
 import { IExperience } from "../interfaces/IExperience";
 import { parseISO, format } from "date-fns";
+
 let expToEdit: string;
+let newexpID: string;
 
 const Experience = () => {
   const [counter, setCounter] = useState(0);
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [fileForNewExp, setFileForNewExp] = useState<File | null>(null);
   const [job, setJob] = useState({
     role: "",
     company: "",
@@ -46,7 +49,6 @@ const Experience = () => {
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    console.log(files);
 
     if (files && files.length > 0) {
       setFile(files[0]);
@@ -56,12 +58,22 @@ const Experience = () => {
     }
   };
 
+  const uploadPictureForNewExp = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files;
+
+    if (files && files.length > 0) {
+      setFileForNewExp(files[0]);
+    } else {
+      setFileForNewExp(null);
+    }
+  };
   const editJob = async (id: string) => {
     let jobtoEdit = exp.find((j: IExperience) => j._id === id);
 
     setJob(jobtoEdit);
     expToEdit = id;
-    // console.log(expToEdit);
   };
   let prof = useAppSelector((state) => state.myProfile.results);
   let userID = prof._id;
@@ -70,6 +82,7 @@ const Experience = () => {
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
     e.preventDefault();
+    setChanged(true);
     if (file) {
       handleImageUpload(file, expToEdit, userID);
     }
@@ -142,36 +155,81 @@ const Experience = () => {
   }, []);
 
   const [changed, setChanged] = useState(false);
+
   useEffect(() => {
+    handleImageUpload(file, expToEdit, userID);
+    NewExpImageUpload(fileForNewExp, newexpID, userID);
     dispatch(fetchExperienceAction());
-    setChanged(false);
+    setTimeout(() => {
+      setChanged(false);
+    }, 3000);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changed]);
-  const [file, setFile] = useState<File | null>(null);
-  const handleSubmit = () => {
-    setShowRole(false);
-    setShowCompany(false);
-    setShowDate(false);
-    setShowDescription(false);
-    setShowLoc(false);
-    if (job.role.length === 0) {
-      setShowRole(true);
-    } else if (job.company.length === 0) {
-      setShowCompany(true);
-    } else if (job.startDate.length === 0) {
-      setShowDate(true);
-    } else if (job.description.length === 0) {
-      setShowDescription(true);
-    } else if (job.area.length === 0) {
-      setShowLoc(true);
-    } else {
-      handleClose();
-    }
-    dispatch(postJobAction(job));
-    setChanged(true);
 
-    // eslint-disable-next-line no-restricted-globals
-    // location.reload();
+  const [file, setFile] = useState<File | null>(null);
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+    setChanged(true);
+    // setShowRole(false);
+    // setShowCompany(false);
+    // setShowDate(false);
+    // setShowDescription(false);
+    // setShowLoc(false);
+    // if (job.role.length === 0) {
+    //   setShowRole(true);
+    // } else if (job.company.length === 0) {
+    //   setShowCompany(true);
+    // } else if (job.startDate.length === 0) {
+    //   setShowDate(true);
+    // } else if (job.description.length === 0) {
+    //   setShowDescription(true);
+    // } else if (job.area.length === 0) {
+    //   setShowLoc(true);
+    // } else {
+    //   handleClose();
+    // }
+
+    let newexp = await dispatch(postJobAction(job));
+    console.log("new ex ", newexp._id);
+    newexpID = newexp._id;
+    if (file) {
+      NewExpImageUpload(fileForNewExp, newexpID, userID);
+    }
+
+    setChanged(true);
+  };
+
+  const NewExpImageUpload = async (
+    fileForNewExp: any,
+    newexpID: string,
+    userID: string
+  ) => {
+    try {
+      const formData = new FormData();
+      formData.append("experience", fileForNewExp);
+
+      let response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userID}/experiences/${newexpID}/picture`,
+
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+          },
+        }
+      );
+      console.log(response);
+      if (response.ok) {
+        console.log("You made it!");
+      } else {
+        console.log("Try harder!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -352,7 +410,7 @@ const Experience = () => {
                       <Form.Control
                         className="inputs"
                         type="file"
-                        onChange={handleFileUpload}
+                        onChange={uploadPictureForNewExp}
                       />
                     </Form.Group>
                   </Form>
@@ -372,7 +430,6 @@ const Experience = () => {
           </div>
 
           <ListGroup className="mt-4 list-exp ">
-            {console.log(exp)}
             {exp.map((ex: IExperience) => (
               <>
                 <ListGroup.Item key={ex._id} className="pt-2 experience">
