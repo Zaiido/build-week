@@ -47,6 +47,8 @@ const Experience = () => {
   const [showLoc, setShowLoc] = useState(false);
   let exp = useAppSelector((state) => state.experience.results);
 
+  const dispatch = useAppDispatch();
+
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
@@ -117,6 +119,7 @@ const Experience = () => {
       console.log(response);
       if (response.ok) {
         console.log("You made it!");
+        console.log(job);
       } else {
         console.log("Try harder!");
       }
@@ -146,8 +149,6 @@ const Experience = () => {
     setShow2(true);
     editJob(id);
   };
-
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchExperienceAction());
