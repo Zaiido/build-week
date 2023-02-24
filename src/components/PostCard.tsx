@@ -123,7 +123,7 @@ const PostCard = (props: IProps) => {
                   </div>
                   <div>
                     <Link
-                      to={"/"}
+                      to={"/user/" + singlePost.user._id}
                       className="post-profile-link"
                       style={{
                         lineHeight: "24px",
