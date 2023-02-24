@@ -15,7 +15,6 @@ const Profile = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
-    console.log(prof);
     setEditProfile(prof);
   };
   const [file, setFile] = useState<File | null>(null);
@@ -32,10 +31,8 @@ const Profile = () => {
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    console.log(files);
     if (files && files.length > 0) {
       setFile(files[0]);
-      console.log(file);
     } else {
       setFile(null);
     }

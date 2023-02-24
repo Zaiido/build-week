@@ -73,8 +73,7 @@ const StartPost = (props: IProps) => {
         try {
             const formData = new FormData();
             formData.append("post", file);
-            console.log(newPost)
-            console.log(newPost._id)
+
             let response = await fetch("https://striveschool-api.herokuapp.com/api/posts/" + newPost._id, {
                 method: "POST",
                 body: formData,

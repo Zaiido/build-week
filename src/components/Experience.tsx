@@ -52,7 +52,6 @@ const Experience = () => {
 
     if (files && files.length > 0) {
       setFile(files[0]);
-      console.log(file);
     } else {
       setFile(null);
     }
@@ -98,7 +97,6 @@ const Experience = () => {
     userID: string
   ) => {
     try {
-      console.log(userID, expId);
       const formData = new FormData();
       formData.append("experience", file);
 
@@ -178,7 +176,6 @@ const Experience = () => {
     setShowLoc(false);
 
     let newexp = await dispatch(postJobAction(job));
-    console.log("new ex ", newexp._id);
     newexpID = newexp._id;
     if (file) {
       NewExpImageUpload(fileForNewExp, newexpID, userID);
@@ -450,7 +447,7 @@ const Experience = () => {
                       >
                         {" "}
                         {format(parseISO(ex.startDate), "MMMM, yyyy")} -{" "}
-                        {ex.endDate === null
+                        {ex.endDate === null || ex.endDate === undefined
                           ? "Present"
                           : format(parseISO(ex.endDate), "MMMM, yyyy")}
                       </p>
