@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Dropdown } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import "../css/feed.css";
 import { fetchMyProfileAction } from "../actions";
 import { useAppDispatch } from "../hooks/hooks";
@@ -18,6 +18,7 @@ export const Feed = () => {
     dispatch(fetchMyProfileAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <Container className="mt-3 mb-4">
       <Row>
@@ -33,7 +34,7 @@ export const Feed = () => {
               paddingTop: "1em",
             }}
           >
-            <hr flex-grow-1 id="postHr"></hr>
+            <hr id="postHr"></hr>
             <div
               style={{
                 display: "flex",
