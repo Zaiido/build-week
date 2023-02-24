@@ -55,6 +55,19 @@ const CustomNavbar = () => {
   const handleShow = () => setShow(true);
 
   const [query, setQuery] = useState("");
+  const [home, setHome] = useState(false);
+  let currentURL = window.location.href;
+  useEffect(() => {
+    const links = document.querySelectorAll(".home");
+    links.forEach((link) => {
+      const to = link.getAttribute("href");
+      if (to + "/" === currentURL) {
+        link.classList.add("selected");
+      } else {
+        link.classList.remove("selected");
+      }
+    });
+  }, [currentURL]);
 
   return (
     <>
@@ -113,7 +126,14 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faHouse} />
               </div>
               <div>
-                <Link to={"/"} id="navs">
+                <Link
+                  to={"http://localhost:3000"}
+                  className="home"
+                  id="navs"
+                  onClick={() => {
+                    setHome(true);
+                  }}
+                >
                   Home
                 </Link>
               </div>
@@ -123,9 +143,7 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faPeopleGroup} />
               </div>
               <div>
-                <Link to={"/"} id="navs">
-                  My Network
-                </Link>
+                <a id="navs">My Network</a>
               </div>
             </div>
             <div className="onHover">
@@ -133,9 +151,7 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faSuitcase} />
               </div>
               <div>
-                <Link to={"/"} id="navs">
-                  Jobs
-                </Link>
+                <a id="navs">Jobs</a>
               </div>
             </div>
             <div className="onHover">
@@ -143,9 +159,7 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faCommentDots} />
               </div>
               <div>
-                <Link to={"/"} id="navs">
-                  Messaging
-                </Link>
+                <a id="navs">Messaging</a>
               </div>
             </div>
             <div className="onHover">
@@ -153,9 +167,7 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faBell} />
               </div>
               <div>
-                <Link to={"/"} id="navs">
-                  Notifications
-                </Link>
+                <a id="navs">Notifications</a>
               </div>
             </div>
 
