@@ -45,7 +45,6 @@ const CustomNavbar = () => {
 
   useEffect(() => {
     if (matchedProfile) {
-      console.log(matchedProfile);
       dispatch(searchProfileAction(matchedProfile));
       navigate(`/user/${matchedProfile._id}`);
     }
