@@ -53,7 +53,7 @@ const Footer = () => {
                 <Link to="/">Marketing Solutions</Link>
               </Col>
               <Col className="col-12 col-sm-6 col-md-4">
-                <NavDropdown title="Privacy & Terms" id="basic-nav-dropdown" className="dropdown-link">
+                <NavDropdown title="Privacy & Terms" id="basic" className="dropdown-link">
                   <NavDropdown.Item href="#action/3.1">
                     Privacy Policy
                   </NavDropdown.Item>
@@ -146,7 +146,7 @@ const Footer = () => {
                 <div className="language">
                   <NavDropdown
                     title="English (English)"
-                    id="basic-nav-dropdown"
+                    id="basic2"
                   >
                     <NavDropdown.Item href="#action/3.3">
                       العربية (Arabic)

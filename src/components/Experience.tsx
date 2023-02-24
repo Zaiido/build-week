@@ -162,7 +162,7 @@ const Experience = () => {
     dispatch(fetchExperienceAction());
     setTimeout(() => {
       setChanged(false);
-    }, 3000);
+    }, 2000);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changed]);
@@ -176,17 +176,6 @@ const Experience = () => {
     setShowDate(false);
     setShowDescription(false);
     setShowLoc(false);
-    // if (job.role.length === 0) {
-    //   setShowRole(true);
-    // } else if (job.company.length === 0) {
-    //   setShowCompany(true);
-    // } else if (job.startDate.length === 0) {
-    //   setShowDate(true);
-    // } else if (job.description.length === 0) {
-    //   setShowDescription(true);
-    // } else if (job.area.length === 0) {
-    //   setShowLoc(true);
-    // }
 
     let newexp = await dispatch(postJobAction(job));
     console.log("new ex ", newexp._id);
