@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import "../css/feed.css";
 import { fetchMyProfileAction } from "../actions";
 import { useAppDispatch } from "../hooks/hooks";
@@ -15,11 +11,9 @@ import LeftFeedCard from "./LeftFeedCards";
 import FeedFooter from "./FeedFooter";
 
 export const Feed = () => {
-
   const dispatch = useAppDispatch();
 
-  const [addedNewPost, setAddedNewPost] = useState(false)
-
+  const [addedNewPost, setAddedNewPost] = useState(false);
   useEffect(() => {
     dispatch(fetchMyProfileAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,6 +26,33 @@ export const Feed = () => {
         </Col>
         <Col className="col-12 col-sm-5">
           <StartPost addedNewPost={setAddedNewPost} />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              paddingTop: "1em",
+            }}
+          >
+            <hr flex-grow-1 id="postHr"></hr>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <label
+                htmlFor="select"
+                className="leftCard"
+                style={{ marginRight: "0.25em", marginLeft: "0.22em" }}
+              >
+                Sort by:
+              </label>
+              <select id="select">
+                <option value="A">Recent</option>
+                <option value="B">Top</option>
+              </select>
+            </div>
+          </div>
           <PostCard reloadPosts={addedNewPost} addedNewPost={setAddedNewPost} />
         </Col>
         <Col className="col-12 col-sm-4 px-4 profiles-container">
