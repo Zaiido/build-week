@@ -152,7 +152,9 @@ const SearchProfile = () => {
                             <Col className="main">
                                 <div className="cover">
                                     <div className="profile-pic">
-                                        <img src={prof ? prof.image : ""} alt="" />
+                                        <>
+                                            <img src={prof ? prof.image : ""} alt="" />
+                                        </>
                                     </div>
                                 </div>
 
@@ -249,58 +251,59 @@ const SearchProfile = () => {
                                 </div>
 
                                 <ListGroup className="mt-4 list-exp ">
-                                    {exp && exp.map((ex: IExperience) => (
-                                        <>
-                                            <ListGroup.Item key={ex._id} className="pt-2 experience">
-                                                <div
-                                                    className="d-flex align-items-start"
-                                                    style={{ gap: "5px", paddingInline: "8px" }}
-                                                >
-                                                    <div>
-                                                        <img
-                                                            src={ex.image ? ex.image : ""}
-                                                            alt=""
-                                                            height="40px"
-                                                            width="40px"
-                                                            style={{ objectFit: "cover" }}
-                                                        />
+                                    <>
+                                        {exp && exp.map((ex: IExperience) => (
+                                            <>
+                                                <ListGroup.Item key={ex._id} className="pt-2 experience">
+                                                    <div
+                                                        className="d-flex align-items-start"
+                                                        style={{ gap: "5px", paddingInline: "8px" }}
+                                                    >
+                                                        <div>
+                                                            <img
+                                                                src={ex.image ? ex.image : ""}
+                                                                alt=""
+                                                                height="40px"
+                                                                width="40px"
+                                                                style={{ objectFit: "cover" }}
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <h6 style={{ fontWeight: "600", paddingInline: "10px" }}>
+                                                                {ex.role}
+                                                            </h6>
+                                                            <p
+                                                                className="about mb-0 mt-n1"
+                                                                style={{ paddingInline: "10px" }}
+                                                            >
+                                                                {ex.company}
+                                                            </p>
+                                                            <p
+                                                                className="place mb-0"
+                                                                style={{ paddingInline: "10px" }}
+                                                            >
+                                                                <> {" "}
+                                                                    {format(parseISO(ex.startDate), "MMMM, yyyy")} -{" "}
+                                                                    {ex.endDate === null || ex.endDate === undefined
+                                                                        ? "Present"
+                                                                        : format(parseISO(ex.endDate), "MMMM, yyyy")}</>
+                                                            </p>
+                                                            <p
+                                                                className="place mb-0"
+                                                                style={{ paddingInline: "10px" }}
+                                                            >
+                                                                {ex.area}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <h6 style={{ fontWeight: "600", paddingInline: "10px" }}>
-                                                            {ex.role}
-                                                        </h6>
-                                                        <p
-                                                            className="about mb-0 mt-n1"
-                                                            style={{ paddingInline: "10px" }}
-                                                        >
-                                                            {ex.company}
-                                                        </p>
-                                                        <p
-                                                            className="place mb-0"
-                                                            style={{ paddingInline: "10px" }}
-                                                        >
-                                                            {" "}
-                                                            {format(parseISO(ex.startDate), "MMMM, yyyy")} -{" "}
-                                                            {ex.endDate === null
-                                                                ? "Present"
-                                                                : format(parseISO(ex.endDate), "MMMM, yyyy")}
-                                                        </p>
-                                                        <p
-                                                            className="place mb-0"
-                                                            style={{ paddingInline: "10px" }}
-                                                        >
-                                                            {ex.area}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </ListGroup.Item>
-                                            {exp.indexOf(ex) < exp.length - 1 ? (
-                                                <hr style={{ width: "90%" }} />
-                                            ) : (
-                                                ""
-                                            )}
-                                        </>
-                                    ))}
+                                                </ListGroup.Item>
+                                                {exp.indexOf(ex) < exp.length - 1 ? (
+                                                    <hr style={{ width: "90%" }} />
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </>
+                                        ))}</>
                                 </ListGroup>
                             </Col>
                         </Row>
