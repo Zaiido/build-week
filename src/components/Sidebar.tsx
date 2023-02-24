@@ -154,7 +154,7 @@ const Sidebar = () => {
                         />
                       </div>
                       <div>
-                        <Link className="username truncate2" to={"/"}>
+                        <Link className="username truncate2" to={"/user/" + profile._id}>
                           {profile.name} {profile.surname}
                         </Link>{" "}
                         <span> • 2nd</span>
@@ -238,7 +238,7 @@ const Sidebar = () => {
                       </div>
                       <div>
                         <div className="d-flex align-items-center">
-                          <Link className="username truncate2" to={"/"}>
+                          <Link className="username truncate2" to={"/user/" + profile._id}>
                             {profile.name} {profile.surname}
                           </Link>
                           <span className="ml-1"> • 2nd</span>
