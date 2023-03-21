@@ -20,6 +20,7 @@ import {
 import { useState } from "react";
 import { IExperience } from "../interfaces/IExperience";
 import { parseISO, format } from "date-fns";
+import { Link } from "react-router-dom";
 
 let expToEdit: string;
 let newexpID: string;
@@ -402,7 +403,7 @@ const Experience = () => {
               </Modal>
             </div>
           </div>
-
+          <Link to={`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/CSV`} className="pt-4 mb-n1 px-4">Download CSV File</Link>
           <ListGroup className="mt-4 list-exp ">
             {exp.map((ex: IExperience) => (
               <>
