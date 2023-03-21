@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import { Pencil } from "react-bootstrap-icons";
 
 import { editMyProfileAction, fetchMyProfileAction } from "../actions";
+import { Link } from "react-router-dom";
 
 
 const { REACT_APP_BE_URL, REACT_APP_USER_ID } = process.env
@@ -109,11 +110,16 @@ const Profile = () => {
                   Contact info
                 </a>
               </span>
+              <div>
+                <Link to={`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/CV`}>Download CV</Link>
+              </div>
+
               <p className="connections mt-2 mb-1">
                 <a href="#home" className="link-connections">
                   486 connections
                 </a>
               </p>
+
               <div
                 className="d-flex justify-content-evenly align-items-start jumbotron-btns"
                 style={{ gap: "10px" }}

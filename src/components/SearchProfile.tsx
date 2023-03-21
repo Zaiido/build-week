@@ -167,6 +167,10 @@ const SearchProfile = () => {
                                                 Contact info
                                             </a>
                                         </span>
+                                        <div>
+                                            <Link to={`${process.env.REACT_APP_BE_URL}/users/${params.id}/CV`}>Download CV</Link>
+                                        </div>
+
                                         <p className="connections mt-2 mb-1">
                                             <a href="#home" className="link-connections">
                                                 486 connections
