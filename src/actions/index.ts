@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { IAllPosts } from "../interfaces/IAllPosts";
 import { IProfile } from "../interfaces/IProfile";
 
+
 export const GET_ALL_PROFILES = "GET_ALL_PROFILES";
 export const GET_EXPERIENCE = "GET_EXPERIENCE";
 export const GET_MY_PROFILE = "GET_MY_PROFILE";
@@ -11,15 +12,18 @@ export const ADD_TO_LIKES = "ADD_TO_LIKES";
 export const REMOVE_FROM_LIKES = "REMOVE_FROM_LIKES";
 export const SEARCH_PROFILE = "SEARCH_PROFILE";
 
+
+const { REACT_APP_BE_URL } = process.env
+
 export const fetchAllProfilesAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/",
+        `${REACT_APP_BE_URL}/users`,
         {
+          method: "GET", // You can specify the HTTP method explicitly (optional)
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzOTBhMDgzODFmYzAwMTNmZmZhZTEiLCJpYXQiOjE2NzY5MDY2NTYsImV4cCI6MTY3ODExNjI1Nn0.dS-mJz9dPZvOvHRQqPy2I6yqTVHPW3mZ-MKpxfhxw8I",
+            // Remove the Authorization header if it's not needed
           },
         }
       );
@@ -109,7 +113,7 @@ export const deleteJobAction = (id: string) => {
     try {
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-          id,
+        id,
         {
           method: "DELETE",
 
@@ -182,7 +186,7 @@ export const editJobAction = (
       // console.log(id);
       let response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-          id,
+        id,
         {
           method: "PUT",
           body: JSON.stringify(job),
