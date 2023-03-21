@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 import { IAllPosts } from "../interfaces/IAllPosts";
 import { IProfile } from "../interfaces/IProfile";
 
+
 export const GET_ALL_PROFILES = "GET_ALL_PROFILES";
 export const GET_EXPERIENCE = "GET_EXPERIENCE";
 export const GET_MY_PROFILE = "GET_MY_PROFILE";
@@ -12,19 +13,15 @@ export const REMOVE_FROM_LIKES = "REMOVE_FROM_LIKES";
 export const SEARCH_PROFILE = "SEARCH_PROFILE";
 const apiUrl = process.env.REACT_APP_BE_URL;
 
+
+const { REACT_APP_BE_URL, REACT_APP_USER_ID } = process.env
+
 export const fetchAllProfilesAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/",
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzOTBhMDgzODFmYzAwMTNmZmZhZTEiLCJpYXQiOjE2NzY5MDY2NTYsImV4cCI6MTY3ODExNjI1Nn0.dS-mJz9dPZvOvHRQqPy2I6yqTVHPW3mZ-MKpxfhxw8I",
-          },
-        }
+        `${REACT_APP_BE_URL}/users`
       );
-
       if (response.ok) {
         let profiles = await response.json();
         dispatch({
@@ -101,7 +98,8 @@ export const deleteJobAction = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/${id}`,
+        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
+        id,
         {
           method: "DELETE",
         }
@@ -122,14 +120,7 @@ export const fetchMyProfileAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
-        {
-          method: "GET",
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
-        }
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`
       );
       if (response.ok) {
         let myProfile = await response.json();
@@ -168,7 +159,8 @@ export const editJobAction = (
     try {
       // console.log(id);
       let response = await fetch(
-        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/${id}`,
+        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
+        id,
         {
           method: "PUT",
           body: JSON.stringify(job),
@@ -198,14 +190,12 @@ export const editMyProfileAction = (editProfile: {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/",
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`,
         {
           method: "PUT",
           body: JSON.stringify(editProfile),
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
@@ -225,14 +215,12 @@ export const editBioAction = (about: { bio: string }) => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/",
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`,
         {
           method: "PUT",
           body: JSON.stringify(about),
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
@@ -264,8 +252,8 @@ export const fetchPostsAction = () => {
         // `${apiUrl}/posts`,
         `http://localhost:3001/posts`,
         {
-              method: "GET"
-              },
+          method: "GET"
+        },
       );
       if (response.ok) {
         let post = await response.json();
@@ -346,7 +334,7 @@ export const editPostAction = (editPost: { text: string }, id: string) => {
           body: JSON.stringify(editPost),
           headers: {
             "Content-Type": "application/json",
-           
+
           },
         }
       );
