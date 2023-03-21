@@ -264,8 +264,8 @@ export const fetchPostsAction = () => {
         // `${apiUrl}/posts`,
         `http://localhost:3001/posts`,
         {
-              method: "GET"
-              },
+          method: "GET"
+        },
       );
       if (response.ok) {
         let post = await response.json();
@@ -346,7 +346,7 @@ export const editPostAction = (editPost: { text: string }, id: string) => {
           body: JSON.stringify(editPost),
           headers: {
             "Content-Type": "application/json",
-           
+
           },
         }
       );
