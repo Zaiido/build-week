@@ -54,7 +54,7 @@ export const fetchExperienceAction = () => {
           payload: exp,
         });
       } else {
-        // console.log("Error");
+        console.log("Error");
       }
     } catch (error) {
       console.log(error);
