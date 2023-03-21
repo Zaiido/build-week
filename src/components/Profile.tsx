@@ -104,7 +104,7 @@ const Profile = () => {
               </h4>
               <p className="sub mt-n1 mb-n1 ">{prof ? prof.title : ""}</p>
               <span className="place ">
-                {prof ? prof.address.city : ""}, {prof ? prof.address.country : ""} ∙
+                {prof ? prof.address ? prof.address.city : "" : ""}, {prof ? prof.address ? prof.address.country : "" : ""} ∙
                 <a href="#home" className="ml-1 link-connections">
                   Contact info
                 </a>
