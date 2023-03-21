@@ -31,7 +31,8 @@ const PostCard = (props: IProps) => {
   const [editPost, setEditPost] = useState({
     text: "",
   });
-
+  const apiUrl = process.env.REACT_APP_BE_URL;
+  const userId = process.env.REACT_APP_USER_ID;
   const handleClose = () => setShow(false);
 
   const handleShow = (id: string) => {
@@ -41,7 +42,7 @@ const PostCard = (props: IProps) => {
     setShow(true);
     idToEdit = id;
   };
-  let prof = useAppSelector((state) => state.myProfile.results);
+  // let prof = useAppSelector((state) => state.myProfile.results);
   const post = useAppSelector((state) => state.posts.results);
   const isLiked = useAppSelector((state) => state.likes.results);
   const dispatch = useAppDispatch();
@@ -75,7 +76,6 @@ const PostCard = (props: IProps) => {
     setShow(false);
   };
 
-
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
@@ -83,30 +83,25 @@ const PostCard = (props: IProps) => {
     } else {
       setFile(null);
     }
-  }
-
+  };
 
   const handleImageUpload = async (file: any, postId: any) => {
     try {
       const formData = new FormData();
-      formData.append("post", file);
-      let response = await fetch("https://striveschool-api.herokuapp.com/api/posts/" + postId, {
+      formData.append("image", file);
+      let response = await fetch(`${apiUrl}/posts/${postId}/image`, {
         method: "POST",
         body: formData,
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-        }
-      })
+      });
       if (response.ok) {
-        console.log("You made it!")
+        console.log("You made it!");
       } else {
-        console.log("Try harder!")
+        console.log("Try harder!");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <Row>
@@ -119,7 +114,14 @@ const PostCard = (props: IProps) => {
               <div className="d-flex justify-content-between mt-3">
                 <div className="d-flex">
                   <div className="image-container align-self-start">
-                    <img src={singlePost.user.image} alt="vh" />
+                    {singlePost.user.image ? (
+                      <img src={singlePost.user.image} alt="vh" />
+                    ) : (
+                      <img
+                        src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                        alt="vh"
+                      />
+                    )}
                   </div>
                   <div>
                     <Link
@@ -131,7 +133,7 @@ const PostCard = (props: IProps) => {
                         fontSize: "16px",
                       }}
                     >
-                      {singlePost.username}
+                      {singlePost.user.name} {singlePost.user.surname}
                     </Link>
                     <p style={{ fontSize: "12px" }} className="place mb-n1">
                       {singlePost.user.title}
@@ -143,7 +145,7 @@ const PostCard = (props: IProps) => {
                   </div>
                 </div>
 
-                {prof._id === singlePost.user._id ? (
+                {userId === singlePost.user._id ? (
                   <>
                     <Dropdown className="drop-down align-self-start">
                       <Dropdown.Toggle

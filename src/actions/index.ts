@@ -10,6 +10,7 @@ export const SET_UNIQUE_PROFILES = "SET_UNIQUE_PROFILES";
 export const ADD_TO_LIKES = "ADD_TO_LIKES";
 export const REMOVE_FROM_LIKES = "REMOVE_FROM_LIKES";
 export const SEARCH_PROFILE = "SEARCH_PROFILE";
+const apiUrl = process.env.REACT_APP_BE_URL;
 
 export const fetchAllProfilesAction = () => {
   return async (dispatch: Dispatch) => {
@@ -267,19 +268,26 @@ export const editBioAction = (about: { bio: string }) => {
 export const fetchPostsAction = () => {
   return async (dispatch: Dispatch) => {
     try {
+      // let response = await fetch(
+      //   "https://striveschool-api.herokuapp.com/api/posts/",
+      //   {
+      //     method: "GET",
+      //     headers: {
+      //       Authorization:
+      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+      //     },
+      //   }
+      // );
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/posts/",
+        // `${apiUrl}/posts`,
+        `http://localhost:3001/posts`,
         {
-          method: "GET",
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
-        }
+              method: "GET"
+              },
       );
       if (response.ok) {
         let post = await response.json();
-        const posts = post.slice(-20) as IAllPosts[];
+        const posts = post.posts.slice(-20) as IAllPosts[];
         dispatch({ type: GET_POST, payload: posts });
       } else {
         console.log("Error");
@@ -293,15 +301,21 @@ export const fetchPostsAction = () => {
 export const deletePost = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/posts/" + id,
-        {
-          method: "DELETE",
+      // let response = await fetch(
+      //   "https://striveschool-api.herokuapp.com/api/posts/" + id,
+      //   {
+      //     method: "DELETE",
 
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
+      //     headers: {
+      //       Authorization:
+      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+      //     },
+      //   }
+      // );
+      let response = await fetch(
+        `${apiUrl}/posts/${id}`,
+        {
+          method: "DELETE"
         }
       );
 
@@ -332,15 +346,25 @@ export const removeFromLikesAction = (i: any) => {
 export const editPostAction = (editPost: { text: string }, id: string) => {
   return async (dispatch: Dispatch) => {
     try {
+      // let response = await fetch(
+      //   "https://striveschool-api.herokuapp.com/api/posts/" + id,
+      //   {
+      //     method: "PUT",
+      //     body: JSON.stringify(editPost),
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization:
+      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+      //     },
+      //   }
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/posts/" + id,
+        `${apiUrl}/posts/${id}`,
         {
           method: "PUT",
           body: JSON.stringify(editPost),
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+           
           },
         }
       );
