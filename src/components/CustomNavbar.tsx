@@ -28,7 +28,7 @@ import { IProfile } from "../interfaces/IProfile";
 
 const CustomNavbar = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
-  const profiles = useAppSelector((state) => state.allProfiles.results);
+  const profiles = useAppSelector((state) => state.allProfiles.results.users);
 
   const dispatch = useAppDispatch();
 
@@ -214,12 +214,14 @@ const CustomNavbar = () => {
 
               <NavDropdown title="Me" id="navbarScrolling">
                 <NavDropdown.Item id="accountDropdown">
-                  <img
-                    src={profile.image}
-                    id="avatar"
-                    alt="avatar"
-                    style={{ width: "50px", height: "50px" }}
-                  ></img>
+                  <div style={{ overflow: "hidden", width: "50px", height: "50px", borderRadius: "50%" }}>
+                    <img
+                      src={profile.image}
+                      alt="avatar"
+                      style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                    />
+                  </div>
+
                   <div>
                     <span
                       style={{
