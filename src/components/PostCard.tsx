@@ -36,17 +36,18 @@ const PostCard = (props: IProps) => {
   const handleClose = () => setShow(false);
 
   const handleShow = (id: string) => {
-    const found = post.find((p: IPost) => p._id === id);
+    const found = posts.find((p: IPost) => p._id === id);
 
     setEditPost(found);
     setShow(true);
     idToEdit = id;
   };
   // let prof = useAppSelector((state) => state.myProfile.results);
-  const post = useAppSelector((state) => state.posts.results);
+  const posts = useAppSelector((state) => state.posts.results);
   const isLiked = useAppSelector((state) => state.likes.results);
   const dispatch = useAppDispatch();
   const [file, setFile] = useState<File | null>(null);
+
 
   useEffect(() => {
     dispatch(fetchPostsAction());
@@ -105,8 +106,8 @@ const PostCard = (props: IProps) => {
 
   return (
     <Row>
-      {Array.isArray(post) && post.length > 0 ? (
-        post
+      {Array.isArray(posts) && posts.length > 0 ? (
+        posts
           .slice(0)
           .reverse()
           .map((singlePost) => (
@@ -114,7 +115,7 @@ const PostCard = (props: IProps) => {
               <div className="d-flex justify-content-between mt-3">
                 <div className="d-flex">
                   <div className="image-container align-self-start">
-                    {singlePost.user.image ? (
+                    {singlePost && singlePost.user && singlePost.user.image ? (
                       <img src={singlePost.user.image} alt="vh" />
                     ) : (
                       <img
@@ -125,7 +126,7 @@ const PostCard = (props: IProps) => {
                   </div>
                   <div>
                     <Link
-                      to={"/user/" + singlePost.user._id}
+                      to={singlePost.user ? "/user/" + singlePost.user._id : "/"}
                       className="post-profile-link"
                       style={{
                         lineHeight: "24px",
@@ -133,10 +134,10 @@ const PostCard = (props: IProps) => {
                         fontSize: "16px",
                       }}
                     >
-                      {singlePost.user.name} {singlePost.user.surname}
+                      {singlePost.user ? singlePost.user.name : ""} {singlePost.user ? singlePost.user.surname : ""}
                     </Link>
                     <p style={{ fontSize: "12px" }} className="place mb-n1">
-                      {singlePost.user.title}
+                      {singlePost.user ? singlePost.user.title : ""}
                     </p>
 
                     <p className="place" style={{ fontSize: "12px" }}>
@@ -145,7 +146,7 @@ const PostCard = (props: IProps) => {
                   </div>
                 </div>
 
-                {userId === singlePost.user._id ? (
+                {singlePost.user && (userId === singlePost.user._id) ? (
                   <>
                     <Dropdown className="drop-down align-self-start">
                       <Dropdown.Toggle
@@ -228,7 +229,7 @@ const PostCard = (props: IProps) => {
               </div>
               <p className="about">{singlePost.text}</p>
               <div className="post-image-container">
-                {singlePost.image ? <img src={singlePost.image} alt="" /> : ""}
+                {singlePost && singlePost.image ? <img src={singlePost.image} alt="" /> : ""}
               </div>
               <hr />
               <div className="d-flex justify-content-between mb-2">

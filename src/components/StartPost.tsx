@@ -30,7 +30,6 @@ const StartPost = (props: IProps) => {
     if (file) {
       handleImageUpload(file);
     }
-    console.log("newpost", newPost);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newPost]);
 
