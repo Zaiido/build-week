@@ -13,7 +13,7 @@ export const REMOVE_FROM_LIKES = "REMOVE_FROM_LIKES";
 export const SEARCH_PROFILE = "SEARCH_PROFILE";
 
 
-const { REACT_APP_BE_URL } = process.env
+const { REACT_APP_BE_URL, USER_ID } = process.env
 
 export const fetchAllProfilesAction = () => {
   return async (dispatch: Dispatch) => {
@@ -47,11 +47,11 @@ export const fetchExperienceAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences",
+        `${REACT_APP_BE_URL}/users/${USER_ID}/experiences`,
         {
+          method: "GET", // You can specify the HTTP method explicitly (optional)
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
+            // Remove the Authorization header if it's not needed
           },
         }
       );
@@ -83,14 +83,12 @@ export const postJobAction = (job: {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences",
+        `${REACT_APP_BE_URL}/users/${USER_ID}/experiences`, // Replace the hardcoded API URL with the new back-end URL
         {
           method: "POST",
           body: JSON.stringify(job),
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
@@ -139,7 +137,7 @@ export const fetchMyProfileAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
+        `${REACT_APP_BE_URL}/users/${USER_ID}`,
         {
           method: "GET",
           headers: {
