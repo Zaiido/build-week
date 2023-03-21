@@ -44,13 +44,7 @@ export const fetchExperienceAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences",
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
-        }
+        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences`
       );
 
       if (response.ok) {
@@ -80,20 +74,18 @@ export const postJobAction = (job: {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences",
+        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences`,
         {
           method: "POST",
           body: JSON.stringify(job),
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
 
       if (response.ok) {
-        console.log("posted");
+        // console.log("posted");
         let data = response.json();
         return data;
       } else {
@@ -109,22 +101,16 @@ export const deleteJobAction = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-          id,
+        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/${id}`,
         {
           method: "DELETE",
-
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
         }
       );
 
       if (response.ok) {
-        console.log("deleted");
+        // console.log("deleted");
       } else {
-        alert("Error");
+        console.log("Error");
       }
     } catch (error) {
       console.log(error);
@@ -182,23 +168,19 @@ export const editJobAction = (
     try {
       // console.log(id);
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-          id,
+        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/${id}`,
         {
           method: "PUT",
           body: JSON.stringify(job),
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
       if (response.ok) {
-        // let data = await response.json();
-        console.log("edited");
+        // console.log("edited");
       } else {
-        alert("Error");
+        // alert("Error");
       }
     } catch (error) {
       console.log(error);
