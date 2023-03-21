@@ -312,7 +312,7 @@ const SearchProfile = () => {
                     <div className="sidebar-card mb-2">
                         <div className="card-spacing">
                             <h2>People you may know</h2>
-                            {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== params.id).slice(0, 10).map((profile: IProfile, i: any) => {
+                            {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(0, 10).map((profile: IProfile, i: any) => {
                                 return (
                                     <div key={i}>
                                         <div className={getClassName1(i)} >
@@ -395,7 +395,7 @@ const SearchProfile = () => {
                     <div className="sidebar-card my-2">
                         <div className="card-spacing">
                             <h2>People you may know</h2>
-                            {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== params.id).slice(10, 20).map((profile: IProfile, i: any) => {
+                            {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(10, 20).map((profile: IProfile, i: any) => {
 
                                 return (
                                     <div key={i}>
