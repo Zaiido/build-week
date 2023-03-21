@@ -13,7 +13,7 @@ export const REMOVE_FROM_LIKES = "REMOVE_FROM_LIKES";
 export const SEARCH_PROFILE = "SEARCH_PROFILE";
 
 
-const { REACT_APP_BE_URL, USER_ID } = process.env
+const { REACT_APP_BE_URL, REACT_APP_USER_ID } = process.env
 
 export const fetchAllProfilesAction = () => {
   return async (dispatch: Dispatch) => {
@@ -39,6 +39,8 @@ export const fetchAllProfilesAction = () => {
       }
     } catch (error) {
       console.log(error);
+      console.log('User ID:', REACT_APP_USER_ID);
+
     }
   };
 };
@@ -47,7 +49,7 @@ export const fetchExperienceAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users/${USER_ID}/experiences`,
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}/experiences`,
         {
           method: "GET", // You can specify the HTTP method explicitly (optional)
           headers: {
@@ -83,7 +85,7 @@ export const postJobAction = (job: {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users/${USER_ID}/experiences`, // Replace the hardcoded API URL with the new back-end URL
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}/experiences`, // Replace the hardcoded API URL with the new back-end URL
         {
           method: "POST",
           body: JSON.stringify(job),
@@ -137,7 +139,7 @@ export const fetchMyProfileAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users/${USER_ID}`,
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`,
         {
           method: "GET",
           headers: {
