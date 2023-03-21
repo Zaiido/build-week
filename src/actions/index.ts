@@ -198,8 +198,6 @@ export const editJobAction = (
 export const editMyProfileAction = (editProfile: {
   name: string;
   surname: string;
-  city: string;
-  country: string;
   area: string;
   image: string;
   title: string;

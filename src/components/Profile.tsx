@@ -26,30 +26,14 @@ const Profile = () => {
   const [editprofile, setEditProfile] = useState({
     name: "",
     surname: "",
-    city: "",
-    country: "",
+    address: {
+      city: "",
+      country: "",
+    },
     area: "",
     image: "",
     title: "",
   });
-
-  useEffect(() => {
-    if (prof) {
-      setEditProfile({
-        name: prof.name || "",
-        surname: prof.surname || "",
-        city: prof.address ? prof.address.city : "",
-        country: prof.address ? prof.address.country : "",
-        area: prof.area || "",
-        image: prof.image || "",
-        title: prof.title || "",
-      });
-    }
-  }, [prof]);
-
-
-
-
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -191,36 +175,31 @@ const Profile = () => {
                         }}
                       />
                     </Form.Group>
+
+
                     <Form.Group>
-                      <Form.Label className="place">City</Form.Label>
+                      <Form.Label className="place">City and Country</Form.Label>
                       <Form.Control
                         className="inputs"
                         type="text"
-                        placeholder="City"
-                        value={editprofile.city}
+                        placeholder="City, Country"
+                        value={`${editprofile.address.city}, ${editprofile.address.country}`}
                         onChange={(e) => {
+                          const [city, country] = e.target.value.split(',').map(str => str.trim());
                           setEditProfile({
                             ...editprofile,
-                            city: e.target.value,
+                            address: {
+                              ...editprofile.address,
+                              city,
+                              country,
+                            },
                           });
                         }}
                       />
                     </Form.Group>
-                    <Form.Group>
-                      <Form.Label className="place">Country</Form.Label>
-                      <Form.Control
-                        className="inputs"
-                        type="text"
-                        placeholder="Country"
-                        value={editprofile.country}
-                        onChange={(e) => {
-                          setEditProfile({
-                            ...editprofile,
-                            country: e.target.value,
-                          });
-                        }}
-                      />
-                    </Form.Group>
+
+
+
 
                     <Form.Group>
                       <Form.Label className="place">Title</Form.Label>
