@@ -39,8 +39,6 @@ export const fetchAllProfilesAction = () => {
       }
     } catch (error) {
       console.log(error);
-      console.log('User ID:', REACT_APP_USER_ID);
-
     }
   };
 };
@@ -49,11 +47,11 @@ export const fetchExperienceAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}/experiences`,
+        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences",
         {
-          method: "GET", // You can specify the HTTP method explicitly (optional)
           headers: {
-            // Remove the Authorization header if it's not needed
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
@@ -85,12 +83,14 @@ export const postJobAction = (job: {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}/experiences`, // Replace the hardcoded API URL with the new back-end URL
+        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences",
         {
           method: "POST",
           body: JSON.stringify(job),
           headers: {
             "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
@@ -142,10 +142,6 @@ export const fetchMyProfileAction = () => {
         `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`,
         {
           method: "GET",
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
         }
       );
       if (response.ok) {
@@ -219,14 +215,12 @@ export const editMyProfileAction = (editProfile: {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/",
+        `${REACT_APP_BE_URL}/users`,
         {
           method: "PUT",
           body: JSON.stringify(editProfile),
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
@@ -246,14 +240,12 @@ export const editBioAction = (about: { bio: string }) => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/",
+        `${REACT_APP_BE_URL}/users`,
         {
           method: "PUT",
           body: JSON.stringify(about),
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
           },
         }
       );
