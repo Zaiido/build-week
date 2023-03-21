@@ -172,7 +172,7 @@ const StartPost = (props: IProps) => {
             <div className="image-container">
               <img src={profile.image} alt="" />
             </div>
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column align-items-start">
               <span>
                 {profile.name} {profile.surname}
               </span>
