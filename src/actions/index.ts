@@ -19,15 +19,8 @@ export const fetchAllProfilesAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users`,
-        {
-          method: "GET", // You can specify the HTTP method explicitly (optional)
-          headers: {
-            // Remove the Authorization header if it's not needed
-          },
-        }
+        `${REACT_APP_BE_URL}/users`
       );
-
       if (response.ok) {
         let profiles = await response.json();
         dispatch({
@@ -139,10 +132,7 @@ export const fetchMyProfileAction = () => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`,
-        {
-          method: "GET",
-        }
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`
       );
       if (response.ok) {
         let myProfile = await response.json();
@@ -215,7 +205,7 @@ export const editMyProfileAction = (editProfile: {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users`,
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`,
         {
           method: "PUT",
           body: JSON.stringify(editProfile),
@@ -240,7 +230,7 @@ export const editBioAction = (about: { bio: string }) => {
   return async (dispatch: Dispatch) => {
     try {
       let response = await fetch(
-        `${REACT_APP_BE_URL}/users`,
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}`,
         {
           method: "PUT",
           body: JSON.stringify(about),
