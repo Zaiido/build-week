@@ -55,6 +55,7 @@ const CustomNavbar = () => {
   const handleShow = () => setShow(true);
 
   const [query, setQuery] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [home, setHome] = useState(false);
   let currentURL = window.location.href;
   useEffect(() => {
@@ -143,7 +144,9 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faPeopleGroup} />
               </div>
               <div>
-                <a id="navs">My Network</a>
+                <a id="navs" href="#network">
+                  My Network
+                </a>
               </div>
             </div>
             <div className="onHover">
@@ -151,7 +154,9 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faSuitcase} />
               </div>
               <div>
-                <a id="navs">Jobs</a>
+                <a id="navs" href="#jobs">
+                  Jobs
+                </a>
               </div>
             </div>
             <div className="onHover">
@@ -159,7 +164,9 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faCommentDots} />
               </div>
               <div>
-                <a id="navs">Messaging</a>
+                <a id="navs" href="#messaging">
+                  Messaging
+                </a>
               </div>
             </div>
             <div className="onHover">
@@ -167,7 +174,9 @@ const CustomNavbar = () => {
                 <FontAwesomeIcon icon={faBell} />
               </div>
               <div>
-                <a id="navs">Notifications</a>
+                <a id="navs" href="#notification">
+                  Notifications
+                </a>
               </div>
             </div>
 
