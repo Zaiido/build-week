@@ -77,7 +77,6 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    handleImageUpload(file);
     dispatch(fetchMyProfileAction());
     setTimeout(() => {
       setChanged(false);
@@ -105,7 +104,7 @@ const Profile = () => {
               </h4>
               <p className="sub mt-n1 mb-n1 ">{prof ? prof.title : ""}</p>
               <span className="place ">
-                {prof ? prof.area : ""} ∙
+                {prof ? prof.address.city : ""}, {prof ? prof.address.country : ""} ∙
                 <a href="#home" className="ml-1 link-connections">
                   Contact info
                 </a>
