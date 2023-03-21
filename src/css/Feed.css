@@ -32,9 +32,10 @@
   padding-top: 2em;
 }
 
-#leftCardBody > div {
+#leftCardBody>div {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-around;
 }
 
@@ -126,15 +127,18 @@
 #like:hover {
   cursor: pointer;
 }
+
 #select {
   font-size: revert;
   border: none;
   outline: none;
   margin-bottom: 0.5em;
 }
+
 #postHr {
   width: 21em;
 }
+
 .post-image-container {
   max-width: 100%;
   /* max-height: 250px; */
