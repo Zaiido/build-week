@@ -21,6 +21,7 @@ import { useState } from "react";
 import { deletePost } from "../actions";
 import React from "react";
 import { IPost } from "../interfaces/IPost";
+import { IComment } from "../interfaces/IComment";
 
 interface IProps {
   reloadPosts: boolean;
@@ -45,7 +46,7 @@ const PostCard = (props: IProps) => {
 
   useEffect(() => {
     dispatch(fetchPostsAction());
-    // dispatch(fetchMyProfileAction())
+    fetchComments();
     setTimeout(() => {
       props.addedNewPost(false);
     }, 5000);
@@ -145,6 +146,29 @@ const PostCard = (props: IProps) => {
     }
   };
 
+
+
+  const [comments, setComments] = useState<IComment[]>([]);
+  const [commentText, setCommentText] = useState("");
+  const [updatedCommentText, setUpdatedCommentText] = useState("");
+  const [reloadComments, setReloadComments] = useState(false)
+
+
+  useEffect(() => {
+    fetchComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadComments])
+
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments`);
+      const data = await response.json();
+      setComments(data);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
   const handleCommentSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -160,8 +184,8 @@ const PostCard = (props: IProps) => {
       });
 
       if (response.ok) {
+        setReloadComments(!reloadComments)
         console.log("Comment added successfully!");
-        setShowComments(true);
       } else {
         console.log("Failed to add comment!");
       }
@@ -170,45 +194,6 @@ const PostCard = (props: IProps) => {
     }
   };
 
-  const [commentText, setCommentText] = useState("");
-
-
-  interface User {
-    _id: string;
-    name: string;
-    surname: string;
-    image: string;
-    bio: string;
-  }
-
-  interface Comment {
-    _id: string;
-    comment: string;
-    text: string;
-    user: User;
-  }
-
-  const [comments, setComments] = useState<Comment[]>([]);
-
-
-  const fetchComments = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments`);
-      const data = await response.json();
-      console.log(data);
-      setComments(data);
-    } catch (error) {
-      console.error('Error fetching comments:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (showComments) {
-      fetchComments();
-    }
-  }, [showComments, props.post._id]);
-
-  const [updatedCommentText, setUpdatedCommentText] = useState("");
 
 
   const fetchSingleComment = async (commentId: string) => {
@@ -235,16 +220,32 @@ const PostCard = (props: IProps) => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        return data;
+        setReloadComments(!reloadComments)
+        handleCommentModalClose()
       } else {
-        throw new Error("Failed to update comment.");
+        console.log("Failed to update comment.");
       }
     } catch (error) {
       console.error("Error updating comment:", error);
     }
   };
 
+
+  const deleteComment = async (commentId: string) => {
+    try {
+      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments/${commentId}`, {
+        method: "DELETE"
+      });
+
+      if (response.ok) {
+        setReloadComments(!reloadComments)
+      } else {
+        console.log("Error deleting comment")
+      }
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
+  };
 
   return (
     <Row>
@@ -394,7 +395,7 @@ const PostCard = (props: IProps) => {
                   }}
                 >
                   {props.post.likes?.some((user) => user._id === userId)
-                    ? `You, and ${props.post.likes?.length - 1} others`
+                    ? props.post.likes?.length === 1 ? `You like this post` : `You, and ${props.post.likes?.length - 1} others`
                     : `${props.post.likes?.length}`}
                 </Link>
                 <Modal show={showLikesModal} onHide={handleLikesModalClose}>
@@ -411,10 +412,7 @@ const PostCard = (props: IProps) => {
                         <div className="d-flex align-items-start mb-4">
                           <div style={{ position: "relative" }}>
                             <div className="image-container">
-                              {/* <img
-                            src={myProfile ? myProfile.image : ""}
-                            alt="Profile"
-                          /> */}
+
                               <img
                                 src={
                                   user.image
@@ -467,7 +465,7 @@ const PostCard = (props: IProps) => {
 
           <div className="ml-auto">
             <Link to={""} onClick={() => setShowComments(true)}>
-              124 comments
+              {comments && comments.length > 0 ? `${comments.length} comments` : ""}
             </Link>
           </div>
         </div>
@@ -531,21 +529,21 @@ const PostCard = (props: IProps) => {
               </div>
             </div>
 
-            {comments.map((comment) => (
+            {comments.slice(0, 5).reverse().map((comment) => (
               <>
                 <div key={comment._id} className="my-4">
                   <div className="d-flex align-items-start mb-4">
                     <div className="image-container">
-                      <img src={comment.user.image} alt="Profile" />
+                      {comment.user.image ? <img src={comment.user.image} alt="Profile" /> : <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" />}
                     </div>
-                    <div className="p-2" style={{ backgroundColor: "#F2F2F2", borderRadius: "4px" }}>
+                    <div className="p-2" style={{ backgroundColor: "#F2F2F2", borderRadius: "4px", width: "100%" }}>
                       <div>
                         <div className="d-flex justify-content-between">
                           <Link to={"/user/" + comment.user._id} style={{ fontSize: "14px" }}>
                             {comment.user.name} {comment.user.surname}
                           </Link>
                           <div>
-                            <Dropdown className="drop-down align-self-start">
+                            {comment.user._id === userId && <Dropdown className="drop-down align-self-start">
                               <Dropdown.Toggle
                                 variant="secondary"
                                 id="dropdown-basic"
@@ -568,16 +566,16 @@ const PostCard = (props: IProps) => {
                                 <Dropdown.Item
                                   style={{ fontWeight: "100", lineHeight: "2" }}
                                   onClick={() => {
-                                    // Delete Comment
+                                    deleteComment(comment._id)
                                   }}
                                 >
                                   Delete Comment
                                 </Dropdown.Item>
                               </Dropdown.Menu>
-                            </Dropdown>
+                            </Dropdown>}
                           </div>
                         </div>
-                        <p style={{ fontSize: "12px", margin: "0", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>
+                        <p style={{ fontSize: "12px", marginTop: "-5px", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>
                           {comment.user.bio}
                         </p>
                       </div>
