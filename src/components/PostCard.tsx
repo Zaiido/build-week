@@ -2,6 +2,7 @@ import { Row, Col, Dropdown, Modal, Button, Form } from "react-bootstrap";
 import { ChatRightText, Share, ThreeDots } from "react-bootstrap-icons";
 import { useEffect } from "react";
 
+
 import {
   // addToLikesAction,
   editPostAction,
@@ -94,7 +95,8 @@ const PostCard = (props: IProps) => {
   const [showCommentModal, setShowCommentModal] = useState(false);
 
   const handleCommentModalClose = () => setShowCommentModal(false);
-  const handleCommentModalShow = () => {
+  const handleCommentModalShow = (commentId: string) => {
+    fetchSingleComment(commentId)
     setShowCommentModal(true);
   };
 
@@ -142,6 +144,107 @@ const PostCard = (props: IProps) => {
       console.log(error);
     }
   };
+
+  const handleCommentSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user: `${userId}`,
+          comment: commentText
+        })
+      });
+
+      if (response.ok) {
+        console.log("Comment added successfully!");
+        setShowComments(true);
+      } else {
+        console.log("Failed to add comment!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [commentText, setCommentText] = useState("");
+
+
+  interface User {
+    _id: string;
+    name: string;
+    surname: string;
+    image: string;
+    bio: string;
+  }
+
+  interface Comment {
+    _id: string;
+    comment: string;
+    text: string;
+    user: User;
+  }
+
+  const [comments, setComments] = useState<Comment[]>([]);
+
+
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments`);
+      const data = await response.json();
+      console.log(data);
+      setComments(data);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (showComments) {
+      fetchComments();
+    }
+  }, [showComments, props.post._id]);
+
+  const [updatedCommentText, setUpdatedCommentText] = useState("");
+
+
+  const fetchSingleComment = async (commentId: string) => {
+    try {
+      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments/${commentId}`)
+      if (response.ok) {
+        const data = await response.json()
+        setUpdatedCommentText(data.comment)
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  }
+
+
+  const editComment = async (commentId: string) => {
+    try {
+      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments/${commentId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ comment: updatedCommentText }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        throw new Error("Failed to update comment.");
+      }
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
+  };
+
 
   return (
     <Row>
@@ -404,125 +507,122 @@ const PostCard = (props: IProps) => {
           </div>
         </div>
 
+
+
+
+
         {showComments && (
           <>
+
             <div className="mb-2">
               <div className="d-flex">
                 <div className="image-container">
                   <img src={myProfile ? myProfile.image : ""} alt="Profile" />
                 </div>
-                <Form className="button-container">
-                  {/* onSubmit */}
+                <Form className="button-container" onSubmit={handleCommentSubmit}>
                   <Form.Control
                     type="text"
                     className="badge-pill comment-input"
                     placeholder="Add a comment..."
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
                   />
                 </Form>
               </div>
             </div>
 
-            <div className="my-4">
-              <div className="d-flex align-items-start mb-4">
-                <div className="image-container">
-                  <img src={myProfile ? myProfile.image : ""} alt="Profile" />
-                </div>
-                <div
-                  className="p-2"
-                  style={{ backgroundColor: "#F2F2F2", borderRadius: "4px" }}
-                >
-                  <div>
-                    <div className="d-flex justify-content-between">
-                      <Link
-                        to={
-                          props.post.user ? "/user/" + props.post.user._id : "/"
-                        }
-                        style={{ fontSize: "14px" }}
-                      >
-                        Name Surname
-                      </Link>
+            {comments.map((comment) => (
+              <>
+                <div key={comment._id} className="my-4">
+                  <div className="d-flex align-items-start mb-4">
+                    <div className="image-container">
+                      <img src={comment.user.image} alt="Profile" />
+                    </div>
+                    <div className="p-2" style={{ backgroundColor: "#F2F2F2", borderRadius: "4px" }}>
                       <div>
-                        <Dropdown className="drop-down align-self-start">
-                          <Dropdown.Toggle
-                            variant="secondary"
-                            id="dropdown-basic"
-                            size="sm"
-                            className="special-dropdown icons-bg-hover"
-                            style={{
-                              backgroundColor: "transparent",
-                              borderColor: "transparent",
-                            }}
-                          >
-                            <ThreeDots color="black" />
-                          </Dropdown.Toggle>
+                        <div className="d-flex justify-content-between">
+                          <Link to={"/user/" + comment.user._id} style={{ fontSize: "14px" }}>
+                            {comment.user.name} {comment.user.surname}
+                          </Link>
+                          <div>
+                            <Dropdown className="drop-down align-self-start">
+                              <Dropdown.Toggle
+                                variant="secondary"
+                                id="dropdown-basic"
+                                size="sm"
+                                className="special-dropdown icons-bg-hover"
+                                style={{ backgroundColor: "transparent", borderColor: "transparent" }}
+                              >
+                                <ThreeDots color="black" />
+                              </Dropdown.Toggle>
 
-                          <Dropdown.Menu className="special-dropdown-menu">
-                            <Dropdown.Item
-                              onClick={() => {
-                                handleCommentModalShow();
-                              }}
-                              style={{ fontWeight: "100", lineHeight: "2" }}
-                            >
-                              Edit Comment
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              style={{ fontWeight: "100", lineHeight: "2" }}
-                              onClick={() => {
-                                // Delete Comment
-                              }}
-                            >
-                              Delete Comment
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                              <Dropdown.Menu className="special-dropdown-menu">
+                                <Dropdown.Item
+                                  onClick={() => {
+                                    handleCommentModalShow(comment._id);
+                                  }}
+                                  style={{ fontWeight: "100", lineHeight: "2" }}
+                                >
+                                  Edit Comment
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                  style={{ fontWeight: "100", lineHeight: "2" }}
+                                  onClick={() => {
+                                    // Delete Comment
+                                  }}
+                                >
+                                  Delete Comment
+                                </Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </div>
+                        </div>
+                        <p style={{ fontSize: "12px", margin: "0", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>
+                          {comment.user.bio}
+                        </p>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: "14px" }}>{comment.comment}</span>
                       </div>
                     </div>
-                    <p
-                      style={{
-                        fontSize: "12px",
-                        marginTop: "-10px",
-                        cursor: "pointer",
-                        color: "rgba(0, 0, 0, 0.6)",
-                      }}
-                    >
-                      Bio of the user
-                    </p>
-                  </div>
-                  <div>
-                    <span style={{ fontSize: "14px" }}>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Ad, repellat!
-                    </span>
                   </div>
                 </div>
-              </div>
-              <Modal show={showCommentModal} onHide={handleCommentModalClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Edit Comment</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form.Group>
-                    <Form.Label
-                      className="place"
-                      style={{ backgroundColor: "white" }}
+
+                <Modal show={showCommentModal} onHide={handleCommentModalClose}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Edit Comment</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form.Group>
+                      <Form.Label
+                        className="place"
+                        style={{ backgroundColor: "white" }}
+                      >
+                        {" "}
+                        Edit your comment
+                      </Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={5}
+                        value={updatedCommentText}
+                        onChange={(e) => setUpdatedCommentText(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      variant="primary"
+                      style={{ fontSize: "14px" }}
+                      className="rounded-pill py-1 px-2"
+                      onClick={() => editComment(comment._id)}
+
                     >
-                      {" "}
-                      Edit your comment
-                    </Form.Label>
-                    <Form.Control as="textarea" rows={5} />
-                  </Form.Group>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    variant="primary"
-                    style={{ fontSize: "14px" }}
-                    className="rounded-pill py-1 px-2"
-                  >
-                    Update
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            </div>
+                      Update
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </>
+            ))}
           </>
         )}
       </Col>
