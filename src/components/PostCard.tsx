@@ -275,90 +275,93 @@ const PostCard = (props: IProps) => {
           )}
         </div>
         <div className="d-flex mt-2">
-          <div className="d-flex">
-            <div className="mr-1">
-              <img
-                src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt"
-                alt="Like Icon"
-              />
-            </div>
-            <div>
-              <Link
-                to={""}
-                onClick={() => {
-                  handleLikesModalShow();
-                }}
-              >
-                {props.post.likes?.some((user) => user._id === userId)
-                  ? `You, and ${props.post.likes?.length - 1} others`
-                  : `${props.post.likes?.length}`}
-              </Link>
-              <Modal show={showLikesModal} onHide={handleLikesModalClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Reactions</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {props.post.likes?.map((user) => (
-                    <div
-                      className="overflow-auto"
-                      style={{ maxHeight: "400px" }}
-                      key={user._id}
-                    >
-                      <div className="d-flex align-items-start mb-4">
-                        <div style={{ position: "relative" }}>
-                          <div className="image-container">
-                            {/* <img
+          {props.post.likes?.length !== 0 && (
+            <div className="d-flex">
+              <div className="mr-1">
+                <img
+                  src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt"
+                  alt="Like Icon"
+                />
+              </div>
+              <div>
+                <Link
+                  to={""}
+                  onClick={() => {
+                    handleLikesModalShow();
+                  }}
+                >
+                  {props.post.likes?.some((user) => user._id === userId)
+                    ? `You, and ${props.post.likes?.length - 1} others`
+                    : `${props.post.likes?.length}`}
+                </Link>
+                <Modal show={showLikesModal} onHide={handleLikesModalClose}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Reactions</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    {props.post.likes?.map((user) => (
+                      <div
+                        className="overflow-auto"
+                        style={{ maxHeight: "400px" }}
+                        key={user._id}
+                      >
+                        <div className="d-flex align-items-start mb-4">
+                          <div style={{ position: "relative" }}>
+                            <div className="image-container">
+                              {/* <img
                             src={myProfile ? myProfile.image : ""}
                             alt="Profile"
                           /> */}
+                              <img
+                                src={
+                                  user.image
+                                    ? user.image
+                                    : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                }
+                                alt="Profile"
+                              />
+                            </div>
                             <img
-                              src={
-                                user.image
-                                  ? user.image
-                                  : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                              }
-                              alt="Profile"
+                              src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt"
+                              alt="Like Icon"
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                position: "absolute",
+                                bottom: "0",
+                                right: "7px",
+                              }}
                             />
                           </div>
-                          <img
-                            src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt"
-                            alt="Like Icon"
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                              position: "absolute",
-                              bottom: "0",
-                              right: "7px",
-                            }}
-                          />
-                        </div>
-                        <div>
-                          <Link
-                            to={"/"}
-                            style={{ fontSize: "14px", lineHeight: "1" }}
-                          >
-                            {user.name} {user.surname}
-                          </Link>
-                          <div style={{ marginTop: "-10px" }}>
-                            <span
-                              style={{
-                                fontSize: "13px",
-                                color: "rgba(0, 0, 0, 0.6)",
-                                margin: "0",
-                              }}
+                          <div>
+                            <Link
+                              to={"/"}
+                              style={{ fontSize: "14px", lineHeight: "1" }}
                             >
-                              {user.title}
-                            </span>
+                              {user.name} {user.surname}
+                            </Link>
+                            <div style={{ marginTop: "-10px" }}>
+                              <span
+                                style={{
+                                  fontSize: "13px",
+                                  color: "rgba(0, 0, 0, 0.6)",
+                                  margin: "0",
+                                }}
+                              >
+                                {user.title}
+                              </span>
+                            </div>
                           </div>
                         </div>
+                        <hr />
                       </div>
-                      <hr />
-                    </div>
-                  ))}
-                </Modal.Body>
-              </Modal>
+                    ))}
+                  </Modal.Body>
+                </Modal>
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="ml-auto">
             <Link to={""} onClick={() => setShowComments(true)}>
               124 comments
