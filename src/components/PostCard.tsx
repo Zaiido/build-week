@@ -307,7 +307,7 @@ const PostCard = (props: IProps) => {
             )}
             Like
           </div>
-          <div className="about about-btn p-3">
+          <div className="about about-btn p-3" onClick={() => { setShowComments(true) }}>
             {" "}
             <ChatRightText className="mr-1" /> Comment
           </div>
@@ -373,7 +373,7 @@ const PostCard = (props: IProps) => {
                         </Dropdown>
                       </div>
                     </div>
-                    <p style={{ fontSize: "12px", margin: "0", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>Bio of the user</p>
+                    <p style={{ fontSize: "12px", marginTop: "-10px", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>Bio of the user</p>
                   </div>
                   <div>
                     <span style={{ fontSize: "14px" }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, repellat!</span>
