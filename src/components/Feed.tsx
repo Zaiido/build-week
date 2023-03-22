@@ -1,21 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "../css/feed.css";
-import { fetchMyProfileAction } from "../actions";
-import { useAppDispatch } from "../hooks/hooks";
+import { fetchMyProfileAction, fetchPostsAction } from "../actions";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import "../css/SidebarStyles.css";
 import FeedSidebar from "./FeedSidebar";
 import StartPost from "./StartPost";
 import PostCard from "./PostCard";
 import LeftFeedCard from "./LeftFeedCards";
 import FeedFooter from "./FeedFooter";
+import { IPost } from "../interfaces/IPost";
 
 export const Feed = () => {
   const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.posts.results);
 
   const [addedNewPost, setAddedNewPost] = useState(false);
+
   useEffect(() => {
     dispatch(fetchMyProfileAction());
+    dispatch(fetchPostsAction());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(fetchPostsAction());
+    }, 120000);
+
+    return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -54,7 +69,9 @@ export const Feed = () => {
               </select>
             </div>
           </div>
-          <PostCard reloadPosts={addedNewPost} addedNewPost={setAddedNewPost} />
+          {posts ? posts.slice(0).reverse().map((post: IPost) => {
+            return <PostCard key={post._id} reloadPosts={addedNewPost} addedNewPost={setAddedNewPost} post={post} />
+          }) : <p>Loading...</p>}
         </Col>
         <Col className="col-12 col-sm-4 px-4 profiles-container">
           <FeedSidebar />

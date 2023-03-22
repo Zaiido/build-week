@@ -53,7 +53,7 @@ const FeedSidebar = () => {
         <div className="sidebar-card my-2">
             <div className="card-spacing">
                 <h2 style={{ fontSize: "15px" }}>Add to your feed</h2>
-                {profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(0, 4).map((profile: IProfile, i: any) => {
+                {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(0, 4).map((profile: IProfile, i: any) => {
                     return (
                         <div key={i}>
                             <div className="d-flex flex-wrap">
