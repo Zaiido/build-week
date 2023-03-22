@@ -69,7 +69,6 @@ const PostCard = (props: IProps) => {
     idToEdit = id;
   };
 
-
   const handleClose = () => setShow(false);
 
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -77,6 +76,13 @@ const PostCard = (props: IProps) => {
   const handleCommentModalClose = () => setShowCommentModal(false);
   const handleCommentModalShow = () => {
     setShowCommentModal(true);
+  };
+
+  const [showLikesModal, setShowLikesModal] = useState(false);
+
+  const handleLikesModalClose = () => setShowLikesModal(false);
+  const handleLikesModalShow = () => {
+    setShowLikesModal(true);
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -248,8 +254,32 @@ const PostCard = (props: IProps) => {
             <div className="mr-1">
               <img src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="Like Icon" /></div>
             <div>
-              <Link to={""}>You, and number others</Link>
-              {/* onClick={() => handleShow(props.post._id) <-- To show modal with users that liked the post */}
+              <Link to={""} onClick={() => { handleLikesModalShow() }}>You, and number others</Link>
+              <Modal show={showLikesModal} onHide={handleLikesModalClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Reactions</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div className="overflow-auto" style={{ maxHeight: "400px" }}>
+                    <div className="d-flex align-items-start mb-4">
+                      <div style={{ position: "relative" }}>
+                        <div className="image-container">
+                          <img src={myProfile ? myProfile.image : ""} alt="Profile" />
+                        </div>
+                        <img src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="Like Icon"
+                          style={{ width: "20px", height: "20px", position: "absolute", bottom: "0", right: "7px" }} />
+                      </div>
+                      <div>
+                        <Link to={"/"} style={{ fontSize: "14px", lineHeight: "1" }}>Name Surname</Link>
+                        <div style={{ marginTop: "-10px" }}>
+                          <span style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)", margin: "0" }}>Area</span>
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>
+                </Modal.Body>
+              </Modal>
             </div>
           </div>
           <div className="ml-auto">
