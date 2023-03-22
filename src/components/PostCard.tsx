@@ -36,20 +36,23 @@ const PostCard = (props: IProps) => {
   const userId = process.env.REACT_APP_USER_ID;
   let myProfile = useAppSelector((state) => state.myProfile.results);
   const posts = useAppSelector((state) => state.posts.results);
-  const isLiked = useAppSelector((state) => state.likes.results);
+  // console.log("posts", posts);
+  // const isLiked = useAppSelector((state) => state.likes.results);
   const dispatch = useAppDispatch();
   const [file, setFile] = useState<File | null>(null);
-  const [showComments, setShowComments] = useState(false)
+  const [showComments, setShowComments] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  console.log("like", isLiked);
 
   useEffect(() => {
     dispatch(fetchPostsAction());
     // dispatch(fetchMyProfileAction())
+    // fetchLikesData(props.post._id);
     setTimeout(() => {
       props.addedNewPost(false);
     }, 5000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, props.reloadPosts]);
-
+  }, [dispatch, props.reloadPosts, isLiked]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,6 +63,39 @@ const PostCard = (props: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const fetchLikesData = async (postId: any) => {
+    try {
+      let response = await fetch(`${apiUrl}/posts/${postId}/like`, {
+        method: "POST",
+        body: JSON.stringify({ userId: userId }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        let likeData = await response.json();
+        // setIsLiked(likeData);
+      } else {
+        console.log("error");
+      }
+      // console.log("userId", userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // const fetchLikesData = async (postId: any) => {
+  //   try {
+  //     let response = await fetch(`${apiUrl}/posts/${postId}/like`);
+  //     if (response.ok) {
+  //       let likeData = await response.json();
+  //       setLike(likeData);
+  //     } else {
+  //       console.log("error");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleShow = (id: string) => {
     const found = posts.find((p: IPost) => p._id === id);
@@ -148,7 +184,8 @@ const PostCard = (props: IProps) => {
                   fontSize: "16px",
                 }}
               >
-                {props.post.user ? props.post.user.name : ""} {props.post.user ? props.post.user.surname : ""}
+                {props.post.user ? props.post.user.name : ""}{" "}
+                {props.post.user ? props.post.user.surname : ""}
               </Link>
               <p style={{ fontSize: "12px" }} className="place mb-n1">
                 {props.post.user ? props.post.user.title : ""}
@@ -160,7 +197,7 @@ const PostCard = (props: IProps) => {
             </div>
           </div>
 
-          {props.post.user && (userId === props.post.user._id) ? (
+          {props.post.user && userId === props.post.user._id ? (
             <>
               <Dropdown className="drop-down align-self-start">
                 <Dropdown.Toggle
@@ -247,14 +284,31 @@ const PostCard = (props: IProps) => {
         </div>
         <p className="about">{props.post.text}</p>
         <div className="post-image-container">
-          {props.post && props.post.image ? <img src={props.post.image} alt="" /> : ""}
+          {props.post && props.post.image ? (
+            <img src={props.post.image} alt="" />
+          ) : (
+            ""
+          )}
         </div>
         <div className="d-flex mt-2">
           <div className="d-flex">
             <div className="mr-1">
-              <img src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="Like Icon" /></div>
+              <img
+                src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt"
+                alt="Like Icon"
+              />
+            </div>
             <div>
-              <Link to={""} onClick={() => { handleLikesModalShow() }}>You, and number others</Link>
+              <Link
+                to={""}
+                onClick={() => {
+                  handleLikesModalShow();
+                }}
+              >
+                {props.post.likes?.some((user) => user._id === userId)
+                  ? `You, and ${props.post.likes?.length - 1} others`
+                  : `${props.post.likes?.length}`}
+              </Link>
               <Modal show={showLikesModal} onHide={handleLikesModalClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Reactions</Modal.Title>
@@ -264,15 +318,40 @@ const PostCard = (props: IProps) => {
                     <div className="d-flex align-items-start mb-4">
                       <div style={{ position: "relative" }}>
                         <div className="image-container">
-                          <img src={myProfile ? myProfile.image : ""} alt="Profile" />
+                          <img
+                            src={myProfile ? myProfile.image : ""}
+                            alt="Profile"
+                          />
                         </div>
-                        <img src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="Like Icon"
-                          style={{ width: "20px", height: "20px", position: "absolute", bottom: "0", right: "7px" }} />
+                        <img
+                          src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt"
+                          alt="Like Icon"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            position: "absolute",
+                            bottom: "0",
+                            right: "7px",
+                          }}
+                        />
                       </div>
                       <div>
-                        <Link to={"/"} style={{ fontSize: "14px", lineHeight: "1" }}>Name Surname</Link>
+                        <Link
+                          to={"/"}
+                          style={{ fontSize: "14px", lineHeight: "1" }}
+                        >
+                          Name Surname
+                        </Link>
                         <div style={{ marginTop: "-10px" }}>
-                          <span style={{ fontSize: "13px", color: "rgba(0, 0, 0, 0.6)", margin: "0" }}>Area</span>
+                          <span
+                            style={{
+                              fontSize: "13px",
+                              color: "rgba(0, 0, 0, 0.6)",
+                              margin: "0",
+                            }}
+                          >
+                            Area
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -283,31 +362,52 @@ const PostCard = (props: IProps) => {
             </div>
           </div>
           <div className="ml-auto">
-            <Link to={""} onClick={() => setShowComments(true)}>124 comments</Link>
+            <Link to={""} onClick={() => setShowComments(true)}>
+              124 comments
+            </Link>
           </div>
         </div>
         <hr />
         <div className="d-flex justify-content-between mb-2">
           <div className="about about-btn p-3" id="like">
-            {isLiked.some(
-              (likedPost) => likedPost._id === props.post._id
-            ) ? (
+            {/* {isLiked.some((likedPost) => likedPost._id === props.post._id) ? (
               <FontAwesomeIcon
                 icon={liked}
                 style={{ color: "rgb(92, 153, 214)" }}
-                onClick={() =>
-                  dispatch(removeFromLikesAction(props.post._id))
-                }
+                onClick={() => dispatch(removeFromLikesAction(props.post._id))}
               />
             ) : (
               <FontAwesomeIcon
                 icon={disliked}
                 onClick={() => dispatch(addToLikesAction(props.post))}
               />
+            )} */}
+            {props.post.likes?.some((user) => user._id === userId) ? (
+              <FontAwesomeIcon
+                icon={liked}
+                style={{ color: "rgb(92, 153, 214)" }}
+                onClick={() => {
+                  fetchLikesData(props.post._id);
+                  setIsLiked(true);
+                }}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={disliked}
+                onClick={() => {
+                  fetchLikesData(props.post._id);
+                  setIsLiked(false);
+                }}
+              />
             )}
             Like
           </div>
-          <div className="about about-btn p-3" onClick={() => { setShowComments(true) }}>
+          <div
+            className="about about-btn p-3"
+            onClick={() => {
+              setShowComments(true);
+            }}
+          >
             {" "}
             <ChatRightText className="mr-1" /> Comment
           </div>
@@ -317,7 +417,7 @@ const PostCard = (props: IProps) => {
           </div>
         </div>
 
-        {showComments &&
+        {showComments && (
           <>
             <div className="mb-2">
               <div className="d-flex">
@@ -326,7 +426,11 @@ const PostCard = (props: IProps) => {
                 </div>
                 <Form className="button-container">
                   {/* onSubmit */}
-                  <Form.Control type="text" className="badge-pill comment-input" placeholder="Add a comment..." />
+                  <Form.Control
+                    type="text"
+                    className="badge-pill comment-input"
+                    placeholder="Add a comment..."
+                  />
                 </Form>
               </div>
             </div>
@@ -336,10 +440,20 @@ const PostCard = (props: IProps) => {
                 <div className="image-container">
                   <img src={myProfile ? myProfile.image : ""} alt="Profile" />
                 </div>
-                <div className="p-2" style={{ backgroundColor: "#F2F2F2", borderRadius: "4px" }}>
+                <div
+                  className="p-2"
+                  style={{ backgroundColor: "#F2F2F2", borderRadius: "4px" }}
+                >
                   <div>
                     <div className="d-flex justify-content-between">
-                      <Link to={props.post.user ? "/user/" + props.post.user._id : "/"} style={{ fontSize: "14px" }}>Name Surname</Link>
+                      <Link
+                        to={
+                          props.post.user ? "/user/" + props.post.user._id : "/"
+                        }
+                        style={{ fontSize: "14px" }}
+                      >
+                        Name Surname
+                      </Link>
                       <div>
                         <Dropdown className="drop-down align-self-start">
                           <Dropdown.Toggle
@@ -347,7 +461,10 @@ const PostCard = (props: IProps) => {
                             id="dropdown-basic"
                             size="sm"
                             className="special-dropdown icons-bg-hover"
-                            style={{ backgroundColor: "transparent", borderColor: "transparent" }}
+                            style={{
+                              backgroundColor: "transparent",
+                              borderColor: "transparent",
+                            }}
                           >
                             <ThreeDots color="black" />
                           </Dropdown.Toggle>
@@ -355,7 +472,7 @@ const PostCard = (props: IProps) => {
                           <Dropdown.Menu className="special-dropdown-menu">
                             <Dropdown.Item
                               onClick={() => {
-                                handleCommentModalShow()
+                                handleCommentModalShow();
                               }}
                               style={{ fontWeight: "100", lineHeight: "2" }}
                             >
@@ -373,10 +490,22 @@ const PostCard = (props: IProps) => {
                         </Dropdown>
                       </div>
                     </div>
-                    <p style={{ fontSize: "12px", marginTop: "-10px", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>Bio of the user</p>
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        marginTop: "-10px",
+                        cursor: "pointer",
+                        color: "rgba(0, 0, 0, 0.6)",
+                      }}
+                    >
+                      Bio of the user
+                    </p>
                   </div>
                   <div>
-                    <span style={{ fontSize: "14px" }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, repellat!</span>
+                    <span style={{ fontSize: "14px" }}>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Ad, repellat!
+                    </span>
                   </div>
                 </div>
               </div>
@@ -393,10 +522,7 @@ const PostCard = (props: IProps) => {
                       {" "}
                       Edit your comment
                     </Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={5}
-                    />
+                    <Form.Control as="textarea" rows={5} />
                   </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
@@ -410,9 +536,9 @@ const PostCard = (props: IProps) => {
                 </Modal.Footer>
               </Modal>
             </div>
-          </>}
+          </>
+        )}
       </Col>
-
     </Row>
   );
 };

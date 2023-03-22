@@ -8,4 +8,5 @@ export type IPost = {
   updatedAt?: Date;
   v?: number;
   image?: null | string;
+  likes?:IProfile[] | null
 };
