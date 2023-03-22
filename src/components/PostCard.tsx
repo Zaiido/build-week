@@ -3,10 +3,10 @@ import { ChatRightText, Share, ThreeDots } from "react-bootstrap-icons";
 import { useEffect } from "react";
 
 import {
-  addToLikesAction,
+  // addToLikesAction,
   editPostAction,
   fetchPostsAction,
-  removeFromLikesAction,
+  // removeFromLikesAction,
 } from "../actions";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 
@@ -41,8 +41,7 @@ const PostCard = (props: IProps) => {
   const dispatch = useAppDispatch();
   const [file, setFile] = useState<File | null>(null);
   const [showComments, setShowComments] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  console.log("like", isLiked);
+  const [isLiked, setIsLiked] = useState(0);
 
   useEffect(() => {
     dispatch(fetchPostsAction());
@@ -74,7 +73,7 @@ const PostCard = (props: IProps) => {
       });
       if (response.ok) {
         let likeData = await response.json();
-        // setIsLiked(likeData);
+        setIsLiked(likeData);
       } else {
         console.log("error");
       }
@@ -83,19 +82,6 @@ const PostCard = (props: IProps) => {
       console.log(error);
     }
   };
-  // const fetchLikesData = async (postId: any) => {
-  //   try {
-  //     let response = await fetch(`${apiUrl}/posts/${postId}/like`);
-  //     if (response.ok) {
-  //       let likeData = await response.json();
-  //       setLike(likeData);
-  //     } else {
-  //       console.log("error");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const handleShow = (id: string) => {
     const found = posts.find((p: IPost) => p._id === id);
@@ -388,7 +374,6 @@ const PostCard = (props: IProps) => {
                 style={{ color: "rgb(92, 153, 214)" }}
                 onClick={() => {
                   fetchLikesData(props.post._id);
-                  setIsLiked(true);
                 }}
               />
             ) : (
@@ -396,7 +381,6 @@ const PostCard = (props: IProps) => {
                 icon={disliked}
                 onClick={() => {
                   fetchLikesData(props.post._id);
-                  setIsLiked(false);
                 }}
               />
             )}
