@@ -301,21 +301,41 @@ const PostCard = (props: IProps) => {
                 </div>
                 <div className="p-2" style={{ backgroundColor: "#F2F2F2", borderRadius: "4px" }}>
                   <div>
-                    <Link to={props.post.user ? "/user/" + props.post.user._id : "/"} style={{ fontSize: "14px" }}>Name Surname</Link>
-                    <p style={{ fontSize: "12px", margin: "0", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>Bio of the user</p>
-                  </div>
-                  <div>
-                    <span style={{ fontSize: "14px" }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, repellat!</span>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex align-items-start mb-4">
-                <div className="image-container">
-                  <img src={myProfile ? myProfile.image : ""} alt="Profile" />
-                </div>
-                <div className="p-2" style={{ backgroundColor: "#F2F2F2", borderRadius: "4px" }}>
-                  <div>
-                    <Link to={props.post.user ? "/user/" + props.post.user._id : "/"} style={{ fontSize: "14px" }}>Name Surname</Link>
+                    <div className="d-flex justify-content-between">
+                      <Link to={props.post.user ? "/user/" + props.post.user._id : "/"} style={{ fontSize: "14px" }}>Name Surname</Link>
+                      <div>
+                        <Dropdown className="drop-down align-self-start">
+                          <Dropdown.Toggle
+                            variant="secondary"
+                            id="dropdown-basic"
+                            size="sm"
+                            className="special-dropdown icons-bg-hover"
+                            style={{ backgroundColor: "transparent", borderColor: "transparent" }}
+                          >
+                            <ThreeDots color="black" />
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu className="special-dropdown-menu">
+                            <Dropdown.Item
+                              onClick={() => {
+                                // Delete Comment
+                              }}
+                              style={{ fontWeight: "100", lineHeight: "2" }}
+                            >
+                              Edit Comment
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              style={{ fontWeight: "100", lineHeight: "2" }}
+                              onClick={() => {
+                                // Delete Comment
+                              }}
+                            >
+                              Delete Comment
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                    </div>
                     <p style={{ fontSize: "12px", margin: "0", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>Bio of the user</p>
                   </div>
                   <div>
