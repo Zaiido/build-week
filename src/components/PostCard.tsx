@@ -46,7 +46,6 @@ const PostCard = (props: IProps) => {
   useEffect(() => {
     dispatch(fetchPostsAction());
     // dispatch(fetchMyProfileAction())
-    // fetchLikesData(props.post._id);
     setTimeout(() => {
       props.addedNewPost(false);
     }, 5000);
@@ -300,49 +299,63 @@ const PostCard = (props: IProps) => {
                   <Modal.Title>Reactions</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <div className="overflow-auto" style={{ maxHeight: "400px" }}>
-                    <div className="d-flex align-items-start mb-4">
-                      <div style={{ position: "relative" }}>
-                        <div className="image-container">
-                          <img
+                  {props.post.likes?.map((user) => (
+                    <div
+                      className="overflow-auto"
+                      style={{ maxHeight: "400px" }}
+                      key={user._id}
+                    >
+                      <div className="d-flex align-items-start mb-4">
+                        <div style={{ position: "relative" }}>
+                          <div className="image-container">
+                            {/* <img
                             src={myProfile ? myProfile.image : ""}
                             alt="Profile"
+                          /> */}
+                            <img
+                              src={
+                                user.image
+                                  ? user.image
+                                  : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                              }
+                              alt="Profile"
+                            />
+                          </div>
+                          <img
+                            src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt"
+                            alt="Like Icon"
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              position: "absolute",
+                              bottom: "0",
+                              right: "7px",
+                            }}
                           />
                         </div>
-                        <img
-                          src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt"
-                          alt="Like Icon"
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            position: "absolute",
-                            bottom: "0",
-                            right: "7px",
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <Link
-                          to={"/"}
-                          style={{ fontSize: "14px", lineHeight: "1" }}
-                        >
-                          Name Surname
-                        </Link>
-                        <div style={{ marginTop: "-10px" }}>
-                          <span
-                            style={{
-                              fontSize: "13px",
-                              color: "rgba(0, 0, 0, 0.6)",
-                              margin: "0",
-                            }}
+                        <div>
+                          <Link
+                            to={"/"}
+                            style={{ fontSize: "14px", lineHeight: "1" }}
                           >
-                            Area
-                          </span>
+                            {user.name} {user.surname}
+                          </Link>
+                          <div style={{ marginTop: "-10px" }}>
+                            <span
+                              style={{
+                                fontSize: "13px",
+                                color: "rgba(0, 0, 0, 0.6)",
+                                margin: "0",
+                              }}
+                            >
+                              {user.title}
+                            </span>
+                          </div>
                         </div>
                       </div>
+                      <hr />
                     </div>
-                    <hr />
-                  </div>
+                  ))}
                 </Modal.Body>
               </Modal>
             </div>
