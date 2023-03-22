@@ -36,8 +36,7 @@ const PostCard = (props: IProps) => {
   const userId = process.env.REACT_APP_USER_ID;
   let myProfile = useAppSelector((state) => state.myProfile.results);
   const posts = useAppSelector((state) => state.posts.results);
-  // console.log("posts", posts);
-  // const isLiked = useAppSelector((state) => state.likes.results);
+
   const dispatch = useAppDispatch();
   const [file, setFile] = useState<File | null>(null);
   const [showComments, setShowComments] = useState(false);
@@ -45,8 +44,6 @@ const PostCard = (props: IProps) => {
 
   useEffect(() => {
     dispatch(fetchPostsAction());
-    // dispatch(fetchMyProfileAction())
-    // fetchLikesData(props.post._id);
     setTimeout(() => {
       props.addedNewPost(false);
     }, 5000);
@@ -356,18 +353,7 @@ const PostCard = (props: IProps) => {
         <hr />
         <div className="d-flex justify-content-between mb-2">
           <div className="about about-btn p-3" id="like">
-            {/* {isLiked.some((likedPost) => likedPost._id === props.post._id) ? (
-              <FontAwesomeIcon
-                icon={liked}
-                style={{ color: "rgb(92, 153, 214)" }}
-                onClick={() => dispatch(removeFromLikesAction(props.post._id))}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={disliked}
-                onClick={() => dispatch(addToLikesAction(props.post))}
-              />
-            )} */}
+
             {props.post.likes?.some((user) => user._id === userId) ? (
               <FontAwesomeIcon
                 icon={liked}
