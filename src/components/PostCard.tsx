@@ -72,6 +72,13 @@ const PostCard = (props: IProps) => {
 
   const handleClose = () => setShow(false);
 
+  const [showCommentModal, setShowCommentModal] = useState(false);
+
+  const handleCommentModalClose = () => setShowCommentModal(false);
+  const handleCommentModalShow = () => {
+    setShowCommentModal(true);
+  };
+
   const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
     if (file) {
@@ -318,7 +325,7 @@ const PostCard = (props: IProps) => {
                           <Dropdown.Menu className="special-dropdown-menu">
                             <Dropdown.Item
                               onClick={() => {
-                                // Delete Comment
+                                handleCommentModalShow()
                               }}
                               style={{ fontWeight: "100", lineHeight: "2" }}
                             >
@@ -343,6 +350,35 @@ const PostCard = (props: IProps) => {
                   </div>
                 </div>
               </div>
+              <Modal show={showCommentModal} onHide={handleCommentModalClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit Comment</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form.Group>
+                    <Form.Label
+                      className="place"
+                      style={{ backgroundColor: "white" }}
+                    >
+                      {" "}
+                      Edit your comment
+                    </Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={5}
+                    />
+                  </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="primary"
+                    style={{ fontSize: "14px" }}
+                    className="rounded-pill py-1 px-2"
+                  >
+                    Update
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </div>
           </>}
       </Col>
