@@ -10,11 +10,6 @@ const LeftFeedCard = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchMyProfileAction());
-    getPendingRequests()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const [showRequestsModal, setShowRequestsModal] = useState(false);
 
@@ -30,14 +25,17 @@ const LeftFeedCard = () => {
     setShowConnectionsModal(true);
   };
 
-
+  const [reloadPage, setReloadPage] = useState(false)
   const [pendingRequests, setPendingRequests] = useState<IPendingRequest[]>([])
 
   useEffect(() => {
-    console.log(pendingRequests)
+    dispatch(fetchMyProfileAction());
+    getPendingRequests()
+    setInterval(() => {
+      getPendingRequests()
+    }, 2000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingRequests]);
-
+  }, [reloadPage]);
 
   // REQUESTS
   const getPendingRequests = async () => {
@@ -46,6 +44,42 @@ const LeftFeedCard = () => {
       if (response.ok) {
         let data = await response.json()
         setPendingRequests(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const ignoreRequest = async (id: string) => {
+    try {
+      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/manageRequest`,
+        {
+          method: "POST",
+          body: JSON.stringify({ senderId: id }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+      if (response.ok) {
+        setReloadPage(!reloadPage)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const acceptRequest = async (id: string) => {
+    try {
+      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/manageRequest`,
+        {
+          method: "POST",
+          body: JSON.stringify({ senderId: id, action: "Accept" }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+      if (response.ok) {
+        setReloadPage(!reloadPage)
       }
     } catch (error) {
       console.log(error)
@@ -194,7 +228,7 @@ const LeftFeedCard = () => {
           >
             {pendingRequests && pendingRequests.map((request: IPendingRequest) =>
               <>
-                <div className="d-flex align-items-start my-2">
+                <div className="d-flex align-items-start my-2" key={request._id}>
                   <div>
                     <div className="image-container">
                       {request.image ? <img src={request.image} alt="Profile" /> :
@@ -224,8 +258,8 @@ const LeftFeedCard = () => {
                     </div>
                   </div>
                   <div className="ml-auto">
-                    <Button className="badge-pill mx-1" variant="primary">Accept</Button>
-                    <Button className="badge-pill mx-1" variant="outline-dark">Ignore</Button>
+                    <Button onClick={() => { acceptRequest(request._id) }} className="badge-pill mx-1" variant="primary">Accept</Button>
+                    <Button onClick={() => { ignoreRequest(request._id) }} className="badge-pill mx-1" variant="outline-dark">Ignore</Button>
                   </div>
                 </div>
                 <hr />
