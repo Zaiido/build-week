@@ -3,16 +3,13 @@ import { Button, Card, ListGroup, ListGroupItem, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { fetchMyProfileAction } from "../actions";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
+import { IPendingRequest } from "../interfaces/IPendingRequest";
 
 const LeftFeedCard = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchMyProfileAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const [showRequestsModal, setShowRequestsModal] = useState(false);
 
@@ -27,6 +24,67 @@ const LeftFeedCard = () => {
   const handleConnectionsModalShow = () => {
     setShowConnectionsModal(true);
   };
+
+  const [reloadPage, setReloadPage] = useState(false)
+  const [pendingRequests, setPendingRequests] = useState<IPendingRequest[]>([])
+
+  useEffect(() => {
+    dispatch(fetchMyProfileAction());
+    getPendingRequests()
+    setInterval(() => {
+      getPendingRequests()
+    }, 2000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadPage]);
+
+  // REQUESTS
+  const getPendingRequests = async () => {
+    try {
+      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/receivedRequests`)
+      if (response.ok) {
+        let data = await response.json()
+        setPendingRequests(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const ignoreRequest = async (id: string) => {
+    try {
+      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/manageRequest`,
+        {
+          method: "POST",
+          body: JSON.stringify({ senderId: id }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+      if (response.ok) {
+        setReloadPage(!reloadPage)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const acceptRequest = async (id: string) => {
+    try {
+      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/manageRequest`,
+        {
+          method: "POST",
+          body: JSON.stringify({ senderId: id, action: "Accept" }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+      if (response.ok) {
+        setReloadPage(!reloadPage)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -61,9 +119,7 @@ const LeftFeedCard = () => {
           <ListGroupItem>
             <div onClick={() => { handleRequestsModalShow() }} className="d-flex align-items-center justify-content-between">
               <Link to={"/"}>Requests</Link>
-              {/* On click show modal with friend requests */}
-              <span style={{ color: "#005fbe", fontWeight: "600" }}>23</span>
-              {/* Add the number you get from pending requests fetch */}
+              <span style={{ color: "#005fbe", fontWeight: "600" }}>{pendingRequests ? pendingRequests.length : ""}</span>
             </div>
             <div onClick={() => { handleConnectionsModalShow() }} className="d-flex align-items-center justify-content-between">
               <Link to={"/"}>Connections</Link>
@@ -170,40 +226,44 @@ const LeftFeedCard = () => {
             style={{ maxHeight: "400px" }}
 
           >
-            <div className="d-flex align-items-start my-2">
-              <div>
-                <div className="image-container">
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                    alt="Profile"
-                  />
+            {pendingRequests && pendingRequests.map((request: IPendingRequest) =>
+              <>
+                <div className="d-flex align-items-start my-2" key={request._id}>
+                  <div>
+                    <div className="image-container">
+                      {request.image ? <img src={request.image} alt="Profile" /> :
+                        <img
+                          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                          alt="Profile"
+                        />}
+                    </div>
+                  </div>
+                  <div>
+                    <Link
+                      to={"/"}
+                      style={{ fontSize: "14px", lineHeight: "1" }}
+                    >
+                      {request?.name} {request?.surname}
+                    </Link>
+                    <div style={{ marginTop: "-10px" }}>
+                      <span
+                        style={{
+                          fontSize: "13px",
+                          color: "rgba(0, 0, 0, 0.6)",
+                          margin: "0",
+                        }}
+                      >
+                        {request?.title}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="ml-auto">
+                    <Button onClick={() => { acceptRequest(request._id) }} className="badge-pill mx-1" variant="primary">Accept</Button>
+                    <Button onClick={() => { ignoreRequest(request._id) }} className="badge-pill mx-1" variant="outline-dark">Ignore</Button>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <Link
-                  to={"/"}
-                  style={{ fontSize: "14px", lineHeight: "1" }}
-                >
-                  Name Surname
-                </Link>
-                <div style={{ marginTop: "-10px" }}>
-                  <span
-                    style={{
-                      fontSize: "13px",
-                      color: "rgba(0, 0, 0, 0.6)",
-                      margin: "0",
-                    }}
-                  >
-                    Title
-                  </span>
-                </div>
-              </div>
-              <div className="ml-auto">
-                <Button className="badge-pill mx-1" variant="primary">Accept</Button>
-                <Button className="badge-pill mx-1" variant="outline-dark">Ignore</Button>
-              </div>
-            </div>
-            <hr />
+                <hr />
+              </>)}
           </div>
 
         </Modal.Body>

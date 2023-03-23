@@ -128,7 +128,7 @@ const CustomNavbar = () => {
               </div>
               <div>
                 <Link
-                  to={"http://localhost:3000"}
+                  to={"/"}
                   className="home"
                   id="navs"
                   onClick={() => {
