@@ -291,41 +291,68 @@ const LeftFeedCard = () => {
         </Modal.Header>
         <Modal.Body>
           <div className="overflow-auto" style={{ maxHeight: "400px" }}>
-            <div className="d-flex align-items-start my-2">
-              <div>
-                <div className="image-container">
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                    alt="Profile"
-                  />
-                </div>
-              </div>
-              <div>
-                <Link to={"/"} style={{ fontSize: "14px", lineHeight: "1" }}>
-                  Name Surname
-                </Link>
-                <div style={{ marginTop: "-10px" }}>
-                  <span
-                    style={{
-                      fontSize: "13px",
-                      color: "rgba(0, 0, 0, 0.6)",
-                      margin: "0",
-                    }}
+            {pendingRequests &&
+              pendingRequests.map((request: IPendingRequest) => (
+                <>
+                  <div
+                    className="d-flex align-items-start my-2"
+                    key={request._id}
                   >
-                    Title
-                  </span>
-                </div>
-              </div>
-              <div className="ml-auto">
-                <Button className="badge-pill mx-1" variant="primary">
-                  Accept
-                </Button>
-                <Button className="badge-pill mx-1" variant="outline-dark">
-                  Ignore
-                </Button>
-              </div>
-            </div>
-            <hr />
+                    <div>
+                      <div className="image-container">
+                        {request.image ? (
+                          <img src={request.image} alt="Profile" />
+                        ) : (
+                          <img
+                            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                            alt="Profile"
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <Link
+                        to={"/"}
+                        style={{ fontSize: "14px", lineHeight: "1" }}
+                      >
+                        {request?.name} {request?.surname}
+                      </Link>
+                      <div style={{ marginTop: "-10px" }}>
+                        <span
+                          style={{
+                            fontSize: "13px",
+                            color: "rgba(0, 0, 0, 0.6)",
+                            margin: "0",
+                          }}
+                        >
+                          {request?.title}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ml-auto">
+                      <Button
+                        onClick={() => {
+                          acceptRequest(request._id);
+                        }}
+                        className="badge-pill mx-1"
+                        variant="primary"
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          ignoreRequest(request._id);
+                        }}
+                        className="badge-pill mx-1"
+                        variant="outline-dark"
+                      >
+                        Ignore
+                      </Button>
+                    </div>
+                  </div>
+                  <hr />
+                </>
+              ))}
           </div>
         </Modal.Body>
       </Modal>
