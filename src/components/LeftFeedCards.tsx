@@ -4,13 +4,59 @@ import { Link } from "react-router-dom";
 import { fetchMyProfileAction } from "../actions";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import { IPendingRequest } from "../interfaces/IPendingRequest";
+import { IUser } from "../interfaces/IUser";
 
 const LeftFeedCard = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
 
   const dispatch = useAppDispatch();
+  const apiUrl = process.env.REACT_APP_BE_URL;
+  const userId = process.env.REACT_APP_USER_ID;
+  const [isConnected, setIsConnected] = useState<IUser[]>([]);
+  // console.log("isConnected", isConnected);
 
+  useEffect(() => {
+    dispatch(fetchMyProfileAction());
+    fetchUserConnections();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  const fetchUserConnections = async () => {
+    try {
+      let response = await fetch(`${apiUrl}/users/${userId}/connections`, {});
+      if (response.ok) {
+        let connectionsData = await response.json();
+        // console.log("connectionsData", connectionsData);
+        setIsConnected(connectionsData);
+      } else {
+        console.log("error");
+      }
+      // console.log("userId", userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendAndReceiveRequest = async (receiverId: any) => {
+    try {
+      let response = await fetch(`${apiUrl}/users/${userId}/sendRequest`, {
+        method: "POST",
+        body: JSON.stringify({ receiverId: receiverId }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        // let requestsData = await response.json();
+        // setIsrequested(requestsData);
+      } else {
+        console.log("error");
+      }
+      // console.log("userId", userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const [showRequestsModal, setShowRequestsModal] = useState(false);
 
   const handleRequestsModalClose = () => setShowRequestsModal(false);
@@ -25,66 +71,72 @@ const LeftFeedCard = () => {
     setShowConnectionsModal(true);
   };
 
-  const [reloadPage, setReloadPage] = useState(false)
-  const [pendingRequests, setPendingRequests] = useState<IPendingRequest[]>([])
+  const [reloadPage, setReloadPage] = useState(false);
+  const [pendingRequests, setPendingRequests] = useState<IPendingRequest[]>([]);
 
   useEffect(() => {
     dispatch(fetchMyProfileAction());
-    getPendingRequests()
+    getPendingRequests();
     setInterval(() => {
-      getPendingRequests()
-    }, 2000)
+      getPendingRequests();
+    }, 2000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadPage]);
 
   // REQUESTS
   const getPendingRequests = async () => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/receivedRequests`)
+      let response = await fetch(
+        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/receivedRequests`
+      );
       if (response.ok) {
-        let data = await response.json()
-        setPendingRequests(data)
+        let data = await response.json();
+        setPendingRequests(data);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const ignoreRequest = async (id: string) => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/manageRequest`,
+      let response = await fetch(
+        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/manageRequest`,
         {
           method: "POST",
           body: JSON.stringify({ senderId: id }),
           headers: {
-            "Content-Type": "application/json"
-          }
-        })
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
-        setReloadPage(!reloadPage)
+        setReloadPage(!reloadPage);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const acceptRequest = async (id: string) => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/manageRequest`,
+      let response = await fetch(
+        `${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/manageRequest`,
         {
           method: "POST",
           body: JSON.stringify({ senderId: id, action: "Accept" }),
           headers: {
-            "Content-Type": "application/json"
-          }
-        })
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
-        setReloadPage(!reloadPage)
+        setReloadPage(!reloadPage);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <>
@@ -94,7 +146,11 @@ const LeftFeedCard = () => {
           src="https://static.licdn.com/sc/h/55k1z8997gh8dwtihm11aajyq"
         />
         <div id="CardTinyImg" style={{ overflow: "hidden" }}>
-          <Card.Img variant="top" src={profile.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <Card.Img
+            variant="top"
+            src={profile.image}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
         </div>
         <Card.Body id="leftCardBody">
           <div>
@@ -117,13 +173,27 @@ const LeftFeedCard = () => {
         </Card.Body>
         <ListGroup className="list-group-flush">
           <ListGroupItem>
-            <div onClick={() => { handleRequestsModalShow() }} className="d-flex align-items-center justify-content-between">
+            <div
+              onClick={() => {
+                handleRequestsModalShow();
+              }}
+              className="d-flex align-items-center justify-content-between"
+            >
               <Link to={"/"}>Requests</Link>
-              <span style={{ color: "#005fbe", fontWeight: "600" }}>{pendingRequests ? pendingRequests.length : ""}</span>
+              <span style={{ color: "#005fbe", fontWeight: "600" }}>
+                {pendingRequests ? pendingRequests.length : ""}
+              </span>
             </div>
-            <div onClick={() => { handleConnectionsModalShow() }} className="d-flex align-items-center justify-content-between">
+            <div
+              onClick={() => {
+                handleConnectionsModalShow();
+              }}
+              className="d-flex align-items-center justify-content-between"
+            >
               <Link to={"/"}>Connections</Link>
-              <span style={{ color: "#005fbe", fontWeight: "600" }}>23</span>
+              <span style={{ color: "#005fbe", fontWeight: "600" }}>
+                {isConnected?.length}
+              </span>
               {/* Add the number you get from connections fetch */}
             </div>
             <span style={{ fontWeight: "600", color: "rgba(0, 0, 0, 0.9)" }}>
@@ -220,69 +290,7 @@ const LeftFeedCard = () => {
           <Modal.Title>Requests</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
-          <div
-            className="overflow-auto"
-            style={{ maxHeight: "400px" }}
-
-          >
-            {pendingRequests && pendingRequests.map((request: IPendingRequest) =>
-              <>
-                <div className="d-flex align-items-start my-2" key={request._id}>
-                  <div>
-                    <div className="image-container">
-                      {request.image ? <img src={request.image} alt="Profile" /> :
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                          alt="Profile"
-                        />}
-                    </div>
-                  </div>
-                  <div>
-                    <Link
-                      to={"/"}
-                      style={{ fontSize: "14px", lineHeight: "1" }}
-                    >
-                      {request?.name} {request?.surname}
-                    </Link>
-                    <div style={{ marginTop: "-10px" }}>
-                      <span
-                        style={{
-                          fontSize: "13px",
-                          color: "rgba(0, 0, 0, 0.6)",
-                          margin: "0",
-                        }}
-                      >
-                        {request?.title}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="ml-auto">
-                    <Button onClick={() => { acceptRequest(request._id) }} className="badge-pill mx-1" variant="primary">Accept</Button>
-                    <Button onClick={() => { ignoreRequest(request._id) }} className="badge-pill mx-1" variant="outline-dark">Ignore</Button>
-                  </div>
-                </div>
-                <hr />
-              </>)}
-          </div>
-
-        </Modal.Body>
-      </Modal>
-
-
-
-      {/* CONNECTIONS MODAL */}
-      <Modal show={showConnectionsModal} onHide={handleConnectionsModalClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Your Network</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-          <div
-            className="overflow-auto"
-            style={{ maxHeight: "400px" }}
-
-          >
+          <div className="overflow-auto" style={{ maxHeight: "400px" }}>
             <div className="d-flex align-items-start my-2">
               <div>
                 <div className="image-container">
@@ -293,10 +301,7 @@ const LeftFeedCard = () => {
                 </div>
               </div>
               <div>
-                <Link
-                  to={"/"}
-                  style={{ fontSize: "14px", lineHeight: "1" }}
-                >
+                <Link to={"/"} style={{ fontSize: "14px", lineHeight: "1" }}>
                   Name Surname
                 </Link>
                 <div style={{ marginTop: "-10px" }}>
@@ -312,12 +317,76 @@ const LeftFeedCard = () => {
                 </div>
               </div>
               <div className="ml-auto">
-                <Button className="badge-pill mx-1" variant="outline-danger">Remove</Button>
+                <Button className="badge-pill mx-1" variant="primary">
+                  Accept
+                </Button>
+                <Button className="badge-pill mx-1" variant="outline-dark">
+                  Ignore
+                </Button>
               </div>
             </div>
             <hr />
           </div>
+        </Modal.Body>
+      </Modal>
 
+      {/* CONNECTIONS MODAL */}
+      <Modal show={showConnectionsModal} onHide={handleConnectionsModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your Network</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="overflow-auto" style={{ maxHeight: "400px" }}>
+            {isConnected?.map((user) => (
+              <>
+                <div key={user._id} className="d-flex align-items-start my-2">
+                  <div>
+                    <div className="image-container">
+                      <img
+                        src={
+                          user.image
+                            ? user.image
+                            : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                        }
+                        alt="Profile"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Link
+                      to={"/"}
+                      style={{ fontSize: "14px", lineHeight: "1" }}
+                    >
+                      {user.name} {user.surname}
+                    </Link>
+                    <div style={{ marginTop: "-10px" }}>
+                      <span
+                        style={{
+                          fontSize: "13px",
+                          color: "rgba(0, 0, 0, 0.6)",
+                          margin: "0",
+                        }}
+                      >
+                        {user.title}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="ml-auto">
+                    <Button
+                      className="badge-pill mx-1"
+                      variant="outline-danger"
+                      onClick={() => {
+                        sendAndReceiveRequest(user._id);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                </div>
+                <hr />
+              </>
+            ))}
+          </div>
         </Modal.Body>
       </Modal>
     </>
