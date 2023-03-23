@@ -38,12 +38,10 @@ const LeftFeedCard = () => {
       let response = await fetch(`${apiUrl}/users/${userId}/connections`, {});
       if (response.ok) {
         let connectionsData = await response.json();
-        // console.log("connectionsData", connectionsData);
         setIsConnected(connectionsData);
       } else {
         console.log("error");
       }
-      // console.log("userId", userId);
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +61,6 @@ const LeftFeedCard = () => {
       } else {
         console.log("error");
       }
-      // console.log("userId", userId);
     } catch (error) {
       console.log(error);
     }
