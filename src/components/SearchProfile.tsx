@@ -251,7 +251,7 @@ const SearchProfile = () => {
                                     <h4 className="name pt-4 mb-n1 px-2">Experience</h4>
                                 </div>
 
-                                {exp.length > 0 && <Link to={`${process.env.REACT_APP_BE_URL}/users/${params.id}/experiences/CSV`} className="pt-4 mb-n1 px-4">Download CSV File</Link>}
+                                {exp && exp.length > 0 && <Link to={`${process.env.REACT_APP_BE_URL}/users/${params.id}/experiences/CSV`} className="pt-4 mb-n1 px-4">Download CSV File</Link>}
                                 <ListGroup className="mt-4 list-exp ">
                                     <>
                                         {exp && exp.map((ex: IExperience) => (
