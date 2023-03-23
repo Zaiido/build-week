@@ -1,6 +1,8 @@
 import { Dispatch } from "redux";
 import { IAllPosts } from "../interfaces/IAllPosts";
 import { IProfile } from "../interfaces/IProfile";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
 
 
 export const GET_ALL_PROFILES = "GET_ALL_PROFILES";
@@ -317,3 +319,15 @@ export const searchProfileAction = (profile: any) => {
     payload: profile,
   };
 };
+
+export const fetchUserConnectionsAction = createAsyncThunk(
+  "userConnections/fetch",
+  async (userId: string) => {
+    const response = await fetch(`${apiUrl}/users/${userId}/connections`);
+    const connections = await response.json();
+    return connections;
+  }
+);
+
+
+

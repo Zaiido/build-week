@@ -7,6 +7,7 @@ import fetchMyProfilesReducer from "../../reducers/fetchMyProfile";
 import fetchPostsReducer from "../../reducers/fetchPostsReducer";
 import likesReducer from "../../reducers/likesReducer";
 import searchProfileReducer from "../../reducers/searchProfileReducer";
+import userConnectionsSlice from "../../reducers/userConnectionsSlice";
 
 const combinedReducers = combineReducers({
   allProfiles: fetchAllProfilesReducer,
@@ -15,7 +16,8 @@ const combinedReducers = combineReducers({
   uniqueProfiles: setUniqueProfilesReducer,
   posts: fetchPostsReducer,
   likes: likesReducer,
-  search: searchProfileReducer
+  search: searchProfileReducer,
+  userConnections: userConnectionsSlice
 });
 
 const store = configureStore({

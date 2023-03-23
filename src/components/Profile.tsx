@@ -9,6 +9,8 @@ import { Pencil } from "react-bootstrap-icons";
 import { editMyProfileAction, fetchMyProfileAction } from "../actions";
 import { Link } from "react-router-dom";
 
+import { fetchUserConnectionsAction } from "../actions";
+
 
 const { REACT_APP_BE_URL, REACT_APP_USER_ID } = process.env
 
@@ -85,6 +87,15 @@ const Profile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [changed]);
 
+  const userConnections = useAppSelector((state) => state.userConnections.results);
+
+  useEffect(() => {
+    if (REACT_APP_USER_ID) {
+      dispatch(fetchUserConnectionsAction(REACT_APP_USER_ID));
+    }
+  }, [dispatch]);
+
+
   return (
     <Container>
       <Row>
@@ -113,12 +124,13 @@ const Profile = () => {
               <div>
                 <Link to={`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/CV`}>Download CV</Link>
               </div>
-              {/* Replace number with fetch connections */}
-              <p className="connections mt-2 mb-1">
+              {<p className="connections mt-2 mb-1">
                 <a href="#home" className="link-connections">
-                  486 connections
+                  {userConnections.length} connections
                 </a>
-              </p>
+              </p>}
+
+
 
               <div
                 className="d-flex justify-content-evenly align-items-start jumbotron-btns"
