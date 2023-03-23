@@ -3,17 +3,60 @@ import { Button, Card, ListGroup, ListGroupItem, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { fetchMyProfileAction } from "../actions";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
+import { IUser } from "../interfaces/IUser";
 
 const LeftFeedCard = () => {
   const profile = useAppSelector((state) => state.myProfile.results);
 
   const dispatch = useAppDispatch();
+  const apiUrl = process.env.REACT_APP_BE_URL;
+  const userId = process.env.REACT_APP_USER_ID;
+  const [isConnected, setIsConnected] = useState<IUser[]>([]);
+  // console.log("isConnected", isConnected);
 
   useEffect(() => {
     dispatch(fetchMyProfileAction());
+    fetchUserConnections();
+    // sendAndReceiveRequest(isConnected[0]._id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const fetchUserConnections = async () => {
+    try {
+      let response = await fetch(`${apiUrl}/users/${userId}/connections`, {});
+      if (response.ok) {
+        let connectionsData = await response.json();
+        // console.log("connectionsData", connectionsData);
+        setIsConnected(connectionsData);
+      } else {
+        console.log("error");
+      }
+      // console.log("userId", userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendAndReceiveRequest = async (receiverId: any) => {
+    try {
+      let response = await fetch(`${apiUrl}/users/${userId}/sendRequest`, {
+        method: "POST",
+        body: JSON.stringify({ receiverId: receiverId }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        // let requestsData = await response.json();
+        // setIsrequested(requestsData);
+      } else {
+        console.log("error");
+      }
+      // console.log("userId", userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const [showRequestsModal, setShowRequestsModal] = useState(false);
 
   const handleRequestsModalClose = () => setShowRequestsModal(false);
@@ -36,7 +79,11 @@ const LeftFeedCard = () => {
           src="https://static.licdn.com/sc/h/55k1z8997gh8dwtihm11aajyq"
         />
         <div id="CardTinyImg" style={{ overflow: "hidden" }}>
-          <Card.Img variant="top" src={profile.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <Card.Img
+            variant="top"
+            src={profile.image}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
         </div>
         <Card.Body id="leftCardBody">
           <div>
@@ -59,15 +106,27 @@ const LeftFeedCard = () => {
         </Card.Body>
         <ListGroup className="list-group-flush">
           <ListGroupItem>
-            <div onClick={() => { handleRequestsModalShow() }} className="d-flex align-items-center justify-content-between">
+            <div
+              onClick={() => {
+                handleRequestsModalShow();
+              }}
+              className="d-flex align-items-center justify-content-between"
+            >
               <Link to={"/"}>Requests</Link>
               {/* On click show modal with friend requests */}
               <span style={{ color: "#005fbe", fontWeight: "600" }}>23</span>
               {/* Add the number you get from pending requests fetch */}
             </div>
-            <div onClick={() => { handleConnectionsModalShow() }} className="d-flex align-items-center justify-content-between">
+            <div
+              onClick={() => {
+                handleConnectionsModalShow();
+              }}
+              className="d-flex align-items-center justify-content-between"
+            >
               <Link to={"/"}>Connections</Link>
-              <span style={{ color: "#005fbe", fontWeight: "600" }}>23</span>
+              <span style={{ color: "#005fbe", fontWeight: "600" }}>
+                {isConnected?.length}
+              </span>
               {/* Add the number you get from connections fetch */}
             </div>
             <span style={{ fontWeight: "600", color: "rgba(0, 0, 0, 0.9)" }}>
@@ -164,12 +223,7 @@ const LeftFeedCard = () => {
           <Modal.Title>Requests</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
-          <div
-            className="overflow-auto"
-            style={{ maxHeight: "400px" }}
-
-          >
+          <div className="overflow-auto" style={{ maxHeight: "400px" }}>
             <div className="d-flex align-items-start my-2">
               <div>
                 <div className="image-container">
@@ -180,10 +234,7 @@ const LeftFeedCard = () => {
                 </div>
               </div>
               <div>
-                <Link
-                  to={"/"}
-                  style={{ fontSize: "14px", lineHeight: "1" }}
-                >
+                <Link to={"/"} style={{ fontSize: "14px", lineHeight: "1" }}>
                   Name Surname
                 </Link>
                 <div style={{ marginTop: "-10px" }}>
@@ -199,17 +250,18 @@ const LeftFeedCard = () => {
                 </div>
               </div>
               <div className="ml-auto">
-                <Button className="badge-pill mx-1" variant="primary">Accept</Button>
-                <Button className="badge-pill mx-1" variant="outline-dark">Ignore</Button>
+                <Button className="badge-pill mx-1" variant="primary">
+                  Accept
+                </Button>
+                <Button className="badge-pill mx-1" variant="outline-dark">
+                  Ignore
+                </Button>
               </div>
             </div>
             <hr />
           </div>
-
         </Modal.Body>
       </Modal>
-
-
 
       {/* CONNECTIONS MODAL */}
       <Modal show={showConnectionsModal} onHide={handleConnectionsModalClose}>
@@ -217,47 +269,57 @@ const LeftFeedCard = () => {
           <Modal.Title>Your Network</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
-          <div
-            className="overflow-auto"
-            style={{ maxHeight: "400px" }}
-
-          >
-            <div className="d-flex align-items-start my-2">
-              <div>
-                <div className="image-container">
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                    alt="Profile"
-                  />
+          <div className="overflow-auto" style={{ maxHeight: "400px" }}>
+            {isConnected?.map((user) => (
+              <>
+                <div key={user._id} className="d-flex align-items-start my-2">
+                  <div>
+                    <div className="image-container">
+                      <img
+                        src={
+                          user.image
+                            ? user.image
+                            : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                        }
+                        alt="Profile"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Link
+                      to={"/"}
+                      style={{ fontSize: "14px", lineHeight: "1" }}
+                    >
+                      {user.name} {user.surname}
+                    </Link>
+                    <div style={{ marginTop: "-10px" }}>
+                      <span
+                        style={{
+                          fontSize: "13px",
+                          color: "rgba(0, 0, 0, 0.6)",
+                          margin: "0",
+                        }}
+                      >
+                        {user.title}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="ml-auto">
+                    <Button
+                      className="badge-pill mx-1"
+                      variant="outline-danger"
+                      onClick={() => {
+                        sendAndReceiveRequest(user._id);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <Link
-                  to={"/"}
-                  style={{ fontSize: "14px", lineHeight: "1" }}
-                >
-                  Name Surname
-                </Link>
-                <div style={{ marginTop: "-10px" }}>
-                  <span
-                    style={{
-                      fontSize: "13px",
-                      color: "rgba(0, 0, 0, 0.6)",
-                      margin: "0",
-                    }}
-                  >
-                    Title
-                  </span>
-                </div>
-              </div>
-              <div className="ml-auto">
-                <Button className="badge-pill mx-1" variant="outline-danger">Remove</Button>
-              </div>
-            </div>
-            <hr />
+                <hr />
+              </>
+            ))}
           </div>
-
         </Modal.Body>
       </Modal>
     </>
