@@ -93,14 +93,6 @@ const PostCard = (props: IProps) => {
 
   const handleClose = () => setShow(false);
 
-  const [showCommentModal, setShowCommentModal] = useState(false);
-
-  const handleCommentModalClose = () => setShowCommentModal(false);
-  const handleCommentModalShow = (commentId: string) => {
-    fetchSingleComment(commentId)
-    setShowCommentModal(true);
-  };
-
   const [showLikesModal, setShowLikesModal] = useState(false);
 
   const handleLikesModalClose = () => setShowLikesModal(false);
@@ -152,7 +144,15 @@ const PostCard = (props: IProps) => {
   const [commentText, setCommentText] = useState("");
   const [updatedCommentText, setUpdatedCommentText] = useState("");
   const [reloadComments, setReloadComments] = useState(false)
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [commentIdToEdit, setCommentIdToEdit] = useState("")
 
+  const handleCommentModalClose = () => setShowCommentModal(false);
+  const handleCommentModalShow = (commentId: string) => {
+    fetchSingleComment(commentId)
+    setCommentIdToEdit(commentId)
+    setShowCommentModal(true);
+  };
 
   useEffect(() => {
     fetchComments()
@@ -198,6 +198,7 @@ const PostCard = (props: IProps) => {
 
   const fetchSingleComment = async (commentId: string) => {
     try {
+      console.log("SINGLE COMMENT", commentId)
       const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments/${commentId}`)
       if (response.ok) {
         const data = await response.json()
@@ -209,9 +210,9 @@ const PostCard = (props: IProps) => {
   }
 
 
-  const editComment = async (commentId: string) => {
+  const editComment = async () => {
     try {
-      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments/${commentId}`, {
+      const response = await fetch(`${apiUrl}/posts/${props.post._id}/comments/${commentIdToEdit}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -576,7 +577,7 @@ const PostCard = (props: IProps) => {
                           </div>
                         </div>
                         <p style={{ fontSize: "12px", marginTop: "-5px", cursor: "pointer", color: "rgba(0, 0, 0, 0.6)" }}>
-                          {comment.user.bio}
+                          {comment.user.title ? comment.user.title : comment.user.bio}
                         </p>
                       </div>
                       <div>
@@ -612,7 +613,7 @@ const PostCard = (props: IProps) => {
                       variant="primary"
                       style={{ fontSize: "14px" }}
                       className="rounded-pill py-1 px-2"
-                      onClick={() => editComment(comment._id)}
+                      onClick={() => editComment()}
 
                     >
                       Update
