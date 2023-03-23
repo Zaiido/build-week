@@ -7,6 +7,10 @@ import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import { Pencil } from "react-bootstrap-icons";
 
 import { editMyProfileAction, fetchMyProfileAction } from "../actions";
+import { Link } from "react-router-dom";
+
+
+const { REACT_APP_BE_URL, REACT_APP_USER_ID } = process.env
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -20,10 +24,13 @@ const Profile = () => {
   const [file, setFile] = useState<File | null>(null);
 
   let prof = useAppSelector((state) => state.myProfile.results);
-  let userID = prof._id;
   const [editprofile, setEditProfile] = useState({
     name: "",
     surname: "",
+    address: {
+      city: "",
+      country: "",
+    },
     area: "",
     image: "",
     title: "",
@@ -42,26 +49,22 @@ const Profile = () => {
     e.preventDefault();
     setChanged(true);
     if (file) {
-      handleImageUpload(file, userID);
+      handleImageUpload(file);
     }
     await dispatch(editMyProfileAction(editprofile));
     handleClose();
   };
 
-  const handleImageUpload = async (file: any, id: string) => {
+  const handleImageUpload = async (file: any) => {
     try {
       const formData = new FormData();
-      formData.append("profile", file);
+      formData.append("image", file);
 
       let response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/profile/${id}/picture`,
+        `${REACT_APP_BE_URL}/users/${REACT_APP_USER_ID}/image`,
         {
           method: "POST",
           body: formData,
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
         }
       );
       if (response.ok) {
@@ -75,7 +78,6 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    handleImageUpload(file, userID);
     dispatch(fetchMyProfileAction());
     setTimeout(() => {
       setChanged(false);
@@ -103,16 +105,21 @@ const Profile = () => {
               </h4>
               <p className="sub mt-n1 mb-n1 ">{prof ? prof.title : ""}</p>
               <span className="place ">
-                {prof ? prof.area : ""} ∙
+                {prof ? prof.address ? prof.address.city : "" : ""}, {prof ? prof.address ? prof.address.country : "" : ""} ∙
                 <a href="#home" className="ml-1 link-connections">
                   Contact info
                 </a>
               </span>
+              <div>
+                <Link to={`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/CV`}>Download CV</Link>
+              </div>
+              {/* Replace number with fetch connections */}
               <p className="connections mt-2 mb-1">
                 <a href="#home" className="link-connections">
                   486 connections
                 </a>
               </p>
+
               <div
                 className="d-flex justify-content-evenly align-items-start jumbotron-btns"
                 style={{ gap: "10px" }}
@@ -173,21 +180,32 @@ const Profile = () => {
                         }}
                       />
                     </Form.Group>
+
+
                     <Form.Group>
-                      <Form.Label className="place">City,Country</Form.Label>
+                      <Form.Label className="place">City and Country</Form.Label>
                       <Form.Control
                         className="inputs"
                         type="text"
-                        placeholder="place"
-                        value={editprofile.area}
+                        placeholder="City, Country"
+                        value={`${editprofile.address.city}, ${editprofile.address.country}`}
                         onChange={(e) => {
+                          const [city, country] = e.target.value.split(',').map(str => str.trim());
                           setEditProfile({
                             ...editprofile,
-                            area: e.target.value,
+                            address: {
+                              ...editprofile.address,
+                              city,
+                              country,
+                            },
                           });
                         }}
                       />
                     </Form.Group>
+
+
+
+
                     <Form.Group>
                       <Form.Label className="place">Title</Form.Label>
                       <Form.Control

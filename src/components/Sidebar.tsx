@@ -2,7 +2,8 @@ import "../css/SidebarStyles.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchAllProfilesAction, setUniqueProfilesAction } from "../actions";
+import { fetchAllProfilesAction } from "../actions";
+// import {  setUniqueProfilesAction } from "../actions";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import React from "react";
 import Profile from "./Profile";
@@ -16,44 +17,44 @@ import Experience from "./Experience";
 const Sidebar = () => {
   const [toggleCards, setToggleCards] = useState(false);
   const [toggleCards1, setToggleCards1] = useState(false);
-  const profiles = useAppSelector(state => state.allProfiles.results)
+  const profiles = useAppSelector(state => state.allProfiles.results.users)
   const dispatch = useAppDispatch();
-  const [numbers, setNumbers] = useState<number[]>([]);
-  const uniqueProfiles = useAppSelector(state => state.uniqueProfiles.results)
+  // const [numbers, setNumbers] = useState<number[]>([]);
+  // const uniqueProfiles = useAppSelector(state => state.uniqueProfiles.results)
 
 
 
-  const uniqueProfile = () => {
-    const uniqueProfilesArray: IProfile[] = []
-    for (const index of numbers) {
-      uniqueProfilesArray.push(profiles[index])
-    }
-    dispatch(setUniqueProfilesAction(uniqueProfilesArray))
-  }
+  // const uniqueProfile = () => {
+  //   const uniqueProfilesArray: IProfile[] = []
+  //   for (const index of numbers) {
+  //     uniqueProfilesArray.push(profiles[index])
+  //   }
+  //   dispatch(setUniqueProfilesAction(uniqueProfilesArray))
+  // }
 
   useEffect(() => {
     dispatch(fetchAllProfilesAction());
-    generateRandomNumbers();
+    // generateRandomNumbers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (numbers.length > 0 && profiles.length > 0) {
-      uniqueProfile();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [numbers, profiles]);
+  // useEffect(() => {
+  //   if (numbers.length > 0 && profiles.length > 0) {
+  //     uniqueProfile();
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [numbers, profiles]);
 
-  const generateRandomNumbers = () => {
-    const newNumbers: number[] = [];
-    while (newNumbers.length < 20) {
-      const randomNumber = Math.floor(Math.random() * 101);
-      if (!newNumbers.includes(randomNumber)) {
-        newNumbers.push(randomNumber);
-      }
-    }
-    setNumbers(newNumbers);
-  };
+  // const generateRandomNumbers = () => {
+  //   const newNumbers: number[] = [];
+  //   while (newNumbers.length < 20) {
+  //     const randomNumber = Math.floor(Math.random() * 101);
+  //     if (!newNumbers.includes(randomNumber)) {
+  //       newNumbers.push(randomNumber);
+  //     }
+  //   }
+  //   setNumbers(newNumbers);
+  // };
 
   const getClassName = (i: any) => {
     if (i < 5 || toggleCards) {
@@ -143,15 +144,15 @@ const Sidebar = () => {
           <div className="sidebar-card my-2">
             <div className="card-spacing">
               <h2>People you may know</h2>
-              {uniqueProfiles.length !== 0 && uniqueProfiles.slice(0, 10).map((profile: IProfile, i: any) => {
+              {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(0, 10).map((profile: IProfile, i: any) => {
                 return (
                   <div key={i}>
                     <div className={getClassName1(i)} >
                       <div className="image-container">
-                        <img
+                        {profile.image ? <img
                           src={profile.image}
                           alt=""
-                        />
+                        /> : <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" />}
                       </div>
                       <div>
                         <Link className="username truncate2" to={"/user/" + profile._id}>
@@ -226,15 +227,15 @@ const Sidebar = () => {
           <div className="sidebar-card my-2">
             <div className="card-spacing">
               <h2>People you may know</h2>
-              {uniqueProfiles.length !== 0 && uniqueProfiles.slice(10, 20).map((profile: IProfile, i: any) => {
+              {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(10, 20).map((profile: IProfile, i: any) => {
                 return (
                   <div key={i}>
                     <div className={getClassName(i)} >
                       <div className="image-container">
-                        <img
+                        {profile.image ? <img
                           src={profile.image}
                           alt=""
-                        />
+                        /> : <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" />}
                       </div>
                       <div>
                         <div className="d-flex align-items-center">

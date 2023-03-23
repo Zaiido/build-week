@@ -20,6 +20,7 @@ import {
 import { useState } from "react";
 import { IExperience } from "../interfaces/IExperience";
 import { parseISO, format } from "date-fns";
+import { Link } from "react-router-dom";
 
 let expToEdit: string;
 let newexpID: string;
@@ -49,6 +50,8 @@ const Experience = () => {
 
   const dispatch = useAppDispatch();
 
+
+
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
@@ -58,6 +61,8 @@ const Experience = () => {
       setFile(null);
     }
   };
+
+
 
   const uploadPictureForNewExp = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -70,54 +75,49 @@ const Experience = () => {
       setFileForNewExp(null);
     }
   };
+
+
   const editJob = async (id: string) => {
     let jobtoEdit = exp.find((j: IExperience) => j._id === id);
 
     setJob(jobtoEdit);
     expToEdit = id;
   };
-  let prof = useAppSelector((state) => state.myProfile.results);
-  let userID = prof._id;
+
+
 
   const handleSubmit2 = async (
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
     e.preventDefault();
-    setChanged(true);
     if (file) {
-      handleImageUpload(file, expToEdit, userID);
+      handleImageUpload(file, expToEdit);
     }
 
     await dispatch(editJobAction(job, expToEdit));
-
     handleClose2();
   };
 
   const handleImageUpload = async (
     file: any,
-    expId: string,
-    userID: string
+    expId: string
   ) => {
     try {
       const formData = new FormData();
       formData.append("experience", file);
 
       let response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/profile/${userID}/experiences/${expId}/picture`,
+        ` ${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/${expId}/image`,
 
         {
           method: "POST",
           body: formData,
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
         }
       );
       console.log(response);
       if (response.ok) {
         console.log("You made it!");
-        console.log(job);
+        setChanged(true)
       } else {
         console.log("Try harder!");
       }
@@ -156,8 +156,6 @@ const Experience = () => {
   const [changed, setChanged] = useState(false);
 
   useEffect(() => {
-    handleImageUpload(file, expToEdit, userID);
-    NewExpImageUpload(fileForNewExp, newexpID, userID);
     dispatch(fetchExperienceAction());
     setTimeout(() => {
       setChanged(false);
@@ -178,7 +176,7 @@ const Experience = () => {
     let newexp = await dispatch(postJobAction(job));
     newexpID = newexp._id;
     if (file) {
-      NewExpImageUpload(fileForNewExp, newexpID, userID);
+      NewExpImageUpload(fileForNewExp, newexpID);
     }
 
     setChanged(true);
@@ -187,23 +185,18 @@ const Experience = () => {
 
   const NewExpImageUpload = async (
     fileForNewExp: any,
-    newexpID: string,
-    userID: string
+    newexpID: string
   ) => {
     try {
       const formData = new FormData();
       formData.append("experience", fileForNewExp);
 
       let response = await fetch(
-        `https://striveschool-api.herokuapp.com/api/profile/${userID}/experiences/${newexpID}/picture`,
+        ` ${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/${newexpID}/image`,
 
         {
           method: "POST",
           body: formData,
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2YzZmU0NTExZDczZDAwMTM3YWFhZGUiLCJpYXQiOjE2NzY5MzQ3MjUsImV4cCI6MTY3ODE0NDMyNX0.OlrbIxHrNB0R7dnd4jirS2aUw3YiiJvvDWw2W_1I2f4",
-          },
         }
       );
       console.log(response);
@@ -243,9 +236,6 @@ const Experience = () => {
                       <Form.Label className="place">Title*</Form.Label>
                       <Form.Control
                         className="inputs mb-n1"
-                        // className={
-                        //   job.role.length === 0 ? "inputs error" : "inputs"
-                        // }
                         type="text"
                         placeholder="Ex:Retail Sales Manager"
                         value={job.role}
@@ -413,7 +403,7 @@ const Experience = () => {
               </Modal>
             </div>
           </div>
-
+          {exp.length > 0 && <Link to={`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/CSV`} className="pt-4 mb-n1 px-4">Download CSV File</Link>}
           <ListGroup className="mt-4 list-exp ">
             {exp.map((ex: IExperience) => (
               <>
@@ -424,7 +414,7 @@ const Experience = () => {
                   >
                     <div>
                       <img
-                        src={ex.image ? ex.image : ""}
+                        src={ex.image ? ex.image : "https://cdn-icons-png.flaticon.com/512/993/993928.png"}
                         alt=""
                         height="40px"
                         width="40px"

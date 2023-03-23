@@ -17,6 +17,8 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/react-offcanvas": "^0.4.1",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/redux": "^3.6.0",
     "bootstrap": "^4.6.1",
     "bootstrap-icons": "^1.10.3",
     "date-fns": "^2.29.3",
