@@ -13,13 +13,25 @@ const LeftFeedCard = () => {
   const apiUrl = process.env.REACT_APP_BE_URL;
   const userId = process.env.REACT_APP_USER_ID;
   const [isConnected, setIsConnected] = useState<IUser[]>([]);
-  // console.log("isConnected", isConnected);
+  const [reloadPage, setReloadPage] = useState(false);
+
 
   useEffect(() => {
     dispatch(fetchMyProfileAction());
     fetchUserConnections();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchMyProfileAction());
+    getPendingRequests();
+    fetchUserConnections()
+    setInterval(() => {
+      getPendingRequests();
+      fetchUserConnections()
+    }, 2000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reloadPage]);
 
   const fetchUserConnections = async () => {
     try {
@@ -47,8 +59,7 @@ const LeftFeedCard = () => {
         },
       });
       if (response.ok) {
-        // let requestsData = await response.json();
-        // setIsrequested(requestsData);
+        setReloadPage(!reloadPage)
       } else {
         console.log("error");
       }
@@ -57,6 +68,9 @@ const LeftFeedCard = () => {
       console.log(error);
     }
   };
+
+
+
   const [showRequestsModal, setShowRequestsModal] = useState(false);
 
   const handleRequestsModalClose = () => setShowRequestsModal(false);
@@ -71,17 +85,7 @@ const LeftFeedCard = () => {
     setShowConnectionsModal(true);
   };
 
-  const [reloadPage, setReloadPage] = useState(false);
   const [pendingRequests, setPendingRequests] = useState<IPendingRequest[]>([]);
-
-  useEffect(() => {
-    dispatch(fetchMyProfileAction());
-    getPendingRequests();
-    setInterval(() => {
-      getPendingRequests();
-    }, 2000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reloadPage]);
 
   // REQUESTS
   const getPendingRequests = async () => {
