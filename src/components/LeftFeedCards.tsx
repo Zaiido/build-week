@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Card, ListGroup, ListGroupItem, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { fetchMyProfileAction } from "../actions";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
@@ -13,6 +13,20 @@ const LeftFeedCard = () => {
     dispatch(fetchMyProfileAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const [showRequestsModal, setShowRequestsModal] = useState(false);
+
+  const handleRequestsModalClose = () => setShowRequestsModal(false);
+  const handleRequestsModalShow = () => {
+    setShowRequestsModal(true);
+  };
+
+  const [showConnectionsModal, setShowConnectionsModal] = useState(false);
+
+  const handleConnectionsModalClose = () => setShowConnectionsModal(false);
+  const handleConnectionsModalShow = () => {
+    setShowConnectionsModal(true);
+  };
 
   return (
     <>
@@ -45,17 +59,23 @@ const LeftFeedCard = () => {
         </Card.Body>
         <ListGroup className="list-group-flush">
           <ListGroupItem>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <span>Connections</span>{" "}
+            <div onClick={() => { handleRequestsModalShow() }} className="d-flex align-items-center justify-content-between">
+              <Link to={"/"}>Requests</Link>
+              {/* On click show modal with friend requests */}
               <span style={{ color: "#005fbe", fontWeight: "600" }}>23</span>
-            </div>{" "}
+              {/* Add the number you get from pending requests fetch */}
+            </div>
+            <div onClick={() => { handleConnectionsModalShow() }} className="d-flex align-items-center justify-content-between">
+              <Link to={"/"}>Connections</Link>
+              <span style={{ color: "#005fbe", fontWeight: "600" }}>23</span>
+              {/* Add the number you get from connections fetch */}
+            </div>
             <span style={{ fontWeight: "600", color: "rgba(0, 0, 0, 0.9)" }}>
-              {" "}
-              Connect with alumni
+              Manage your network
             </span>
           </ListGroupItem>
           <ListGroupItem>
-            <span>Access exclusive tools & insights</span>{" "}
+            <span>Access exclusive tools & insights</span>
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -137,6 +157,109 @@ const LeftFeedCard = () => {
           <span id="leftCTitle">Discover More</span>
         </div>
       </Card>
+
+      {/* REQUESTS MODAL */}
+      <Modal show={showRequestsModal} onHide={handleRequestsModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Requests</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <div
+            className="overflow-auto"
+            style={{ maxHeight: "400px" }}
+
+          >
+            <div className="d-flex align-items-start my-2">
+              <div>
+                <div className="image-container">
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                    alt="Profile"
+                  />
+                </div>
+              </div>
+              <div>
+                <Link
+                  to={"/"}
+                  style={{ fontSize: "14px", lineHeight: "1" }}
+                >
+                  Name Surname
+                </Link>
+                <div style={{ marginTop: "-10px" }}>
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      color: "rgba(0, 0, 0, 0.6)",
+                      margin: "0",
+                    }}
+                  >
+                    Title
+                  </span>
+                </div>
+              </div>
+              <div className="ml-auto">
+                <Button className="badge-pill mx-1" variant="primary">Accept</Button>
+                <Button className="badge-pill mx-1" variant="outline-dark">Ignore</Button>
+              </div>
+            </div>
+            <hr />
+          </div>
+
+        </Modal.Body>
+      </Modal>
+
+
+
+      {/* CONNECTIONS MODAL */}
+      <Modal show={showConnectionsModal} onHide={handleConnectionsModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your Network</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <div
+            className="overflow-auto"
+            style={{ maxHeight: "400px" }}
+
+          >
+            <div className="d-flex align-items-start my-2">
+              <div>
+                <div className="image-container">
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                    alt="Profile"
+                  />
+                </div>
+              </div>
+              <div>
+                <Link
+                  to={"/"}
+                  style={{ fontSize: "14px", lineHeight: "1" }}
+                >
+                  Name Surname
+                </Link>
+                <div style={{ marginTop: "-10px" }}>
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      color: "rgba(0, 0, 0, 0.6)",
+                      margin: "0",
+                    }}
+                  >
+                    Title
+                  </span>
+                </div>
+              </div>
+              <div className="ml-auto">
+                <Button className="badge-pill mx-1" variant="outline-danger">Remove</Button>
+              </div>
+            </div>
+            <hr />
+          </div>
+
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

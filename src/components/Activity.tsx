@@ -13,6 +13,9 @@ const Activity = () => {
             <div>
               <h4 className="name pt-4 mb-n1 px-2">Activity</h4>
               <p className="connections mt-2 mb-1 px-2 ">
+
+                {/* Replace number with fetch connections */}
+
                 <a href="#home" className="link-connections">
                   494 Followers
                 </a>

@@ -113,7 +113,7 @@ const Profile = () => {
               <div>
                 <Link to={`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/CV`}>Download CV</Link>
               </div>
-
+              {/* Replace number with fetch connections */}
               <p className="connections mt-2 mb-1">
                 <a href="#home" className="link-connections">
                   486 connections
