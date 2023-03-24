@@ -4,5 +4,7 @@ export interface IUser {
     surname: string;
     image: string;
     bio: string;
-    title:string
+    title: string,
+    email: string,
+    area: string
 }
