@@ -13,48 +13,89 @@ import Activity from "./Activity";
 import About from "./About";
 import { IProfile } from "../interfaces/IProfile";
 import Experience from "./Experience";
+import { IUser } from "../interfaces/IUser";
+
+const apiUrl = process.env.REACT_APP_BE_URL;
+const userId = process.env.REACT_APP_USER_ID;
 
 const Sidebar = () => {
   const [toggleCards, setToggleCards] = useState(false);
   const [toggleCards1, setToggleCards1] = useState(false);
   const profiles = useAppSelector(state => state.allProfiles.results.users)
   const dispatch = useAppDispatch();
-  // const [numbers, setNumbers] = useState<number[]>([]);
-  // const uniqueProfiles = useAppSelector(state => state.uniqueProfiles.results)
 
-
-
-  // const uniqueProfile = () => {
-  //   const uniqueProfilesArray: IProfile[] = []
-  //   for (const index of numbers) {
-  //     uniqueProfilesArray.push(profiles[index])
-  //   }
-  //   dispatch(setUniqueProfilesAction(uniqueProfilesArray))
-  // }
+  const [reloadPage, setReloadPage] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllProfilesAction());
+    fetchUserConnections()
+    getPersonalProfile();
+    setInterval(() => {
+      fetchUserConnections()
+      getPersonalProfile()
+      dispatch(fetchAllProfilesAction());
+    }, 2000)
     // generateRandomNumbers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reloadPage]);
 
-  // useEffect(() => {
-  //   if (numbers.length > 0 && profiles.length > 0) {
-  //     uniqueProfile();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [numbers, profiles]);
+  const [personalProfile, setPersonalProfile] = useState<any>();
 
-  // const generateRandomNumbers = () => {
-  //   const newNumbers: number[] = [];
-  //   while (newNumbers.length < 20) {
-  //     const randomNumber = Math.floor(Math.random() * 101);
-  //     if (!newNumbers.includes(randomNumber)) {
-  //       newNumbers.push(randomNumber);
-  //     }
-  //   }
-  //   setNumbers(newNumbers);
-  // };
+  const getPersonalProfile = async () => {
+    try {
+      let response = await fetch(`${apiUrl}/users/${userId}`);
+      if (response.ok) {
+        let personalProfileData = await response.json();
+        setPersonalProfile(personalProfileData);
+        // setReloadPage(!reloadPage);
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [isConnected, setIsConnected] = useState<IUser[]>([]);
+
+
+
+  const fetchUserConnections = async () => {
+    try {
+      let response = await fetch(`${apiUrl}/users/${userId}/connections`);
+      if (response.ok) {
+        let connectionsData = await response.json();
+        setIsConnected(connectionsData);
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendConnectionRequest = async (receiverId: string) => {
+    const url = `${apiUrl}/users/${userId}/sendRequest`;
+    console.log(receiverId);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          receiverId: receiverId,
+        }),
+      });
+
+      if (response.ok) {
+        setReloadPage(!reloadPage)
+      }
+
+    } catch (error) {
+      console.error('Error sending connection request:', error);
+    }
+  };
 
   const getClassName = (i: any) => {
     if (i < 5 || toggleCards) {
@@ -144,43 +185,71 @@ const Sidebar = () => {
           <div className="sidebar-card my-2">
             <div className="card-spacing">
               <h2>People you may know</h2>
-              {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(0, 10).map((profile: IProfile, i: any) => {
-                return (
-                  <div key={i}>
-                    <div className={getClassName1(i)} >
-                      <div className="image-container">
-                        {profile.image ? <img
-                          src={profile.image}
-                          alt=""
-                        /> : <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" />}
+              {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) =>
+                profile._id !== process.env.REACT_APP_USER_ID &&
+                !isConnected.some((user: IUser) => user._id === profile._id)).slice(0, 10).map((profile: IProfile, i: any) => {
+                  return (
+                    <div key={i}>
+                      <div className={getClassName1(i)} >
+                        <div className="image-container">
+                          {profile.image ? <img
+                            src={profile.image}
+                            alt=""
+                          /> : <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" />}
+                        </div>
+                        <div>
+                          <Link className="username truncate2" to={"/user/" + profile._id}>
+                            {profile.name} {profile.surname}
+                          </Link>{" "}
+                          <span> • 2nd</span>
+                          <p className="profession truncate3">{profile.title}</p>
+                          {
+                            personalProfile?.sendRequests?.pending.includes(profile._id) ?
+                              <Button onClick={(e) => {
+                                e.preventDefault();
+                                sendConnectionRequest(profile._id);
+                              }}
+                                variant="outline-secondary"
+
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 16 16"
+                                  data-supported-dps="16x16"
+                                  fill="currentColor"
+                                  className="mr-1"
+                                  width="16"
+                                  height="16"
+                                  focusable="false"
+                                >
+                                  <path d="M10.87 9.52a1 1 0 01-1.37.37l-2-1A1 1 0 017 8V5a1 1 0 012 0v2.42l1.5.74a1 1 0 01.37 1.36zM15 8a7 7 0 11-7-7 7 7 0 017 7zm-2 0a5 5 0 10-5 5 5 5 0 005-5z"></path>
+                                </svg>
+                                Pending
+                              </Button> :
+                              <Button onClick={(e) => {
+                                e.preventDefault();
+                                sendConnectionRequest(profile._id);
+                              }} variant="outline-secondary">
+                                <svg
+                                  className="mr-1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 16 16"
+                                  data-supported-dps="16x16"
+                                  fill="currentColor"
+                                  width="16"
+                                  height="16"
+                                  focusable="false"
+                                >
+                                  <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
+                                </svg>{" "}
+                                Connect
+                              </Button>}
+                        </div>
                       </div>
-                      <div>
-                        <Link className="username truncate2" to={"/user/" + profile._id}>
-                          {profile.name} {profile.surname}
-                        </Link>{" "}
-                        <span> • 2nd</span>
-                        <p className="profession truncate3">{profile.title}</p>
-                        <Button variant="outline-secondary">
-                          <svg
-                            className="mr-1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            data-supported-dps="16x16"
-                            fill="currentColor"
-                            width="16"
-                            height="16"
-                            focusable="false"
-                          >
-                            <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                          </svg>{" "}
-                          Connect
-                        </Button>
-                      </div>
+                      <hr className={getClassNameHr1(i)} />
                     </div>
-                    <hr className={getClassNameHr1(i)} />
-                  </div>
-                )
-              })}
+                  )
+                })}
             </div>
             <div
               className="toggle"
@@ -227,45 +296,73 @@ const Sidebar = () => {
           <div className="sidebar-card my-2">
             <div className="card-spacing">
               <h2>People you may know</h2>
-              {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(10, 20).map((profile: IProfile, i: any) => {
-                return (
-                  <div key={i}>
-                    <div className={getClassName(i)} >
-                      <div className="image-container">
-                        {profile.image ? <img
-                          src={profile.image}
-                          alt=""
-                        /> : <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" />}
-                      </div>
-                      <div>
-                        <div className="d-flex align-items-center">
-                          <Link className="username truncate2" to={"/user/" + profile._id}>
-                            {profile.name} {profile.surname}
-                          </Link>
-                          <span className="ml-1"> • 2nd</span>
+              {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) =>
+                profile._id !== process.env.REACT_APP_USER_ID &&
+                !isConnected.some((user: IUser) => user._id === profile._id)).slice(10, 20).map((profile: IProfile, i: any) => {
+                  return (
+                    <div key={i}>
+                      <div className={getClassName(i)} >
+                        <div className="image-container">
+                          {profile.image ? <img
+                            src={profile.image}
+                            alt=""
+                          /> : <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" />}
                         </div>
-                        <p className="profession truncate3">{profile.title}</p>
-                        <Button variant="outline-secondary">
-                          <svg
-                            className="mr-1"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            data-supported-dps="16x16"
-                            fill="currentColor"
-                            width="16"
-                            height="16"
-                            focusable="false"
-                          >
-                            <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                          </svg>{" "}
-                          Connect
-                        </Button>
+                        <div>
+                          <div className="d-flex align-items-center">
+                            <Link className="username truncate2" to={"/user/" + profile._id}>
+                              {profile.name} {profile.surname}
+                            </Link>
+                            <span className="ml-1"> • 2nd</span>
+                          </div>
+                          <p className="profession truncate3">{profile.title}</p>
+                          {
+                            personalProfile?.sendRequests?.pending.includes(profile._id) ?
+                              <Button onClick={(e) => {
+                                e.preventDefault();
+                                sendConnectionRequest(profile._id);
+                              }}
+                                variant="outline-secondary"
+
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 16 16"
+                                  data-supported-dps="16x16"
+                                  fill="currentColor"
+                                  className="mr-1"
+                                  width="16"
+                                  height="16"
+                                  focusable="false"
+                                >
+                                  <path d="M10.87 9.52a1 1 0 01-1.37.37l-2-1A1 1 0 017 8V5a1 1 0 012 0v2.42l1.5.74a1 1 0 01.37 1.36zM15 8a7 7 0 11-7-7 7 7 0 017 7zm-2 0a5 5 0 10-5 5 5 5 0 005-5z"></path>
+                                </svg>
+                                Pending
+                              </Button> :
+                              <Button onClick={(e) => {
+                                e.preventDefault();
+                                sendConnectionRequest(profile._id);
+                              }} variant="outline-secondary">
+                                <svg
+                                  className="mr-1"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 16 16"
+                                  data-supported-dps="16x16"
+                                  fill="currentColor"
+                                  width="16"
+                                  height="16"
+                                  focusable="false"
+                                >
+                                  <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
+                                </svg>{" "}
+                                Connect
+                              </Button>}
+                        </div>
                       </div>
+                      <hr className={getClassNameHr(i)} />
                     </div>
-                    <hr className={getClassNameHr(i)} />
-                  </div>
-                )
-              })}
+                  )
+                })}
             </div>
             <div
               className="toggle"
