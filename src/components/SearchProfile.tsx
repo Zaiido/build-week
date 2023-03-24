@@ -3,7 +3,6 @@ import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAllProfilesAction } from "../actions";
-// import { setUniqueProfilesAction } from "../actions";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import React from "react";
 
