@@ -20,6 +20,7 @@ const SearchProfile = () => {
     const [toggleCards1, setToggleCards1] = useState(false);
     const profiles = useAppSelector(state => state.allProfiles.results.users)
     const dispatch = useAppDispatch();
+    const params = useParams()
     // const [numbers, setNumbers] = useState<number[]>([]);
     // const uniqueProfiles = useAppSelector(state => state.uniqueProfiles.results)
 
@@ -37,7 +38,7 @@ const SearchProfile = () => {
         getUserConnections()
         // generateRandomNumbers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [params.id]);
 
     // useEffect(() => {
     //     if (numbers.length > 0 && profiles.length > 0) {
@@ -112,7 +113,7 @@ const SearchProfile = () => {
     }
 
 
-    const params = useParams()
+
     const [prof, setProf] = useState<any>()
     const [exp, setExp] = useState<any>()
 
