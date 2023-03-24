@@ -185,6 +185,7 @@ const PostCard = (props: IProps) => {
 
       if (response.ok) {
         setReloadComments(!reloadComments)
+        setCommentText("")
         console.log("Comment added successfully!");
       } else {
         console.log("Failed to add comment!");

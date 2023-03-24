@@ -1,6 +1,8 @@
 import { Dispatch } from "redux";
 import { IAllPosts } from "../interfaces/IAllPosts";
 import { IProfile } from "../interfaces/IProfile";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
 
 
 export const GET_ALL_PROFILES = "GET_ALL_PROFILES";
@@ -317,3 +319,41 @@ export const searchProfileAction = (profile: any) => {
     payload: profile,
   };
 };
+
+export const fetchUserConnectionsAction = createAsyncThunk(
+  "userConnections/fetch",
+  async (userId: string) => {
+    const response = await fetch(`${apiUrl}/users/${userId}/connections`);
+    const connections = await response.json();
+    return connections;
+  }
+);
+
+export const sendConnectionRequest = (receiverId: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await fetch(
+        `${apiUrl}/users/${REACT_APP_USER_ID}/sentRequests`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        dispatch({ type: 'CONNECTION_REQUEST_SUCCESS', payload: data });
+      } else {
+        dispatch({ type: 'CONNECTION_REQUEST_FAILURE', payload: data });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+
+

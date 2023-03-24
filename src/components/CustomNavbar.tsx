@@ -43,6 +43,7 @@ const CustomNavbar = () => {
 
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (matchedProfile) {
       dispatch(searchProfileAction(matchedProfile));
@@ -56,13 +57,12 @@ const CustomNavbar = () => {
 
   const [query, setQuery] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [home, setHome] = useState(false);
   let currentURL = window.location.href;
+
   useEffect(() => {
     const links = document.querySelectorAll(".home");
     links.forEach((link) => {
-      const to = link.getAttribute("href");
-      if (to + "/" === currentURL) {
+      if (currentURL.endsWith("/")) {
         link.classList.add("selected");
       } else {
         link.classList.remove("selected");
@@ -128,12 +128,9 @@ const CustomNavbar = () => {
               </div>
               <div>
                 <Link
-                  to={"http://localhost:3000"}
-                  className="home"
+                  to={"/"}
+                  className={"home"}
                   id="navs"
-                  onClick={() => {
-                    setHome(true);
-                  }}
                 >
                   Home
                 </Link>

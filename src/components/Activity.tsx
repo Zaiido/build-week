@@ -1,7 +1,23 @@
 import React from "react";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../hooks/hooks";
+import { fetchUserConnectionsAction } from "../actions";
 import { Container, Row, Col, Button, ListGroup } from "react-bootstrap";
 import { ArrowRight } from "react-bootstrap-icons";
+
+
+const { REACT_APP_USER_ID } = process.env
+
 const Activity = () => {
+  const dispatch = useAppDispatch();
+  const userConnections = useAppSelector((state) => state.userConnections.results);
+
+  useEffect(() => {
+    if (REACT_APP_USER_ID) {
+      dispatch(fetchUserConnectionsAction(REACT_APP_USER_ID));
+    }
+  }, [dispatch]);
+
   return (
     <Container className="mb-1">
       <Row>
@@ -13,11 +29,8 @@ const Activity = () => {
             <div>
               <h4 className="name pt-4 mb-n1 px-2">Activity</h4>
               <p className="connections mt-2 mb-1 px-2 ">
-
-                {/* Replace number with fetch connections */}
-
                 <a href="#home" className="link-connections">
-                  494 Followers
+                  {userConnections.length} Followers
                 </a>
               </p>
             </div>

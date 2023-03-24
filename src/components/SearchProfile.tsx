@@ -3,7 +3,6 @@ import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAllProfilesAction } from "../actions";
-// import { setUniqueProfilesAction } from "../actions";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import React from "react";
 
@@ -11,48 +10,14 @@ import { IProfile } from "../interfaces/IProfile";
 import { format, parseISO } from "date-fns";
 import { ArrowRight } from "react-bootstrap-icons";
 import { IExperience } from "../interfaces/IExperience";
+import { IUser } from "../interfaces/IUser";
 
 const SearchProfile = () => {
     const [toggleCards, setToggleCards] = useState(false);
     const [toggleCards1, setToggleCards1] = useState(false);
     const profiles = useAppSelector(state => state.allProfiles.results.users)
     const dispatch = useAppDispatch();
-    // const [numbers, setNumbers] = useState<number[]>([]);
-    // const uniqueProfiles = useAppSelector(state => state.uniqueProfiles.results)
 
-
-
-    // const uniqueProfile = () => {
-    //     const uniqueProfilesArray: IProfile[] = []
-    //     for (const index of numbers) {
-    //         uniqueProfilesArray.push(profiles[index])
-    //     }
-    //     dispatch(setUniqueProfilesAction(uniqueProfilesArray))
-    // }
-
-    useEffect(() => {
-        dispatch(fetchAllProfilesAction());
-        // generateRandomNumbers();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    // useEffect(() => {
-    //     if (numbers.length > 0 && profiles.length > 0) {
-    //         uniqueProfile();
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [numbers, profiles]);
-
-    // const generateRandomNumbers = () => {
-    //     const newNumbers: number[] = [];
-    //     while (newNumbers.length < 20) {
-    //         const randomNumber = Math.floor(Math.random() * 101);
-    //         if (!newNumbers.includes(randomNumber)) {
-    //             newNumbers.push(randomNumber);
-    //         }
-    //     }
-    //     setNumbers(newNumbers);
-    // };
 
     const getClassName = (i: any) => {
         if (i < 5 || toggleCards) {
@@ -94,18 +59,56 @@ const SearchProfile = () => {
     const params = useParams()
     const [prof, setProf] = useState<any>()
     const [exp, setExp] = useState<any>()
+    const [connections, setConnections] = useState<IUser[]>()
+    const [reloadPage, setReloadPage] = useState(false);
 
-    useEffect(() => {
-        getProfile()
-        getExperiences()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [params])
+    const [mainProfile, setMainProfile] = useState<any>()
 
-    useEffect(() => {
-        getProfile()
-        getExperiences()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+
+    // REQUESTS
+
+    const getConnections = async () => {
+        try {
+            let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/connections`)
+            if (response.ok) {
+                let users = await response.json()
+                setConnections(users)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const sendAndUnsendRequest = async (id: string) => {
+        try {
+            let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/sendRequest`, {
+                method: "POST",
+                body: JSON.stringify({ receiverId: id }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (response.ok) {
+                setReloadPage(!reloadPage)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getPersonalProfile = async () => {
+        try {
+            let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}`)
+            if (response.ok) {
+                let personalProfile = await response.json()
+                setMainProfile(personalProfile)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     const getProfile = async () => {
         try {
@@ -139,6 +142,20 @@ const SearchProfile = () => {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        getProfile()
+        getExperiences()
+        getConnections()
+        getPersonalProfile()
+        dispatch(fetchAllProfilesAction());
+        setInterval(() => {
+            getPersonalProfile()
+            getConnections()
+            dispatch(fetchAllProfilesAction());
+        }, 2000)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params, reloadPage])
 
     return (
         <Container className="my-5">
@@ -317,7 +334,7 @@ const SearchProfile = () => {
                     <div className="sidebar-card mb-2">
                         <div className="card-spacing">
                             <h2>People you may know</h2>
-                            {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(0, 10).map((profile: IProfile, i: any) => {
+                            {profiles && connections && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== params.id && profile._id !== process.env.REACT_APP_USER_ID && !connections.some((user: IUser) => user._id === profile._id)).slice(0, 10).map((profile: IProfile, i: any) => {
                                 return (
                                     <div key={i}>
                                         <div className={getClassName1(i)} >
@@ -333,21 +350,49 @@ const SearchProfile = () => {
                                                 </Link>{" "}
                                                 <span> • 2nd</span>
                                                 <p className="profession truncate3">{profile.title}</p>
-                                                <Button variant="outline-secondary">
-                                                    <svg
-                                                        className="mr-1"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 16 16"
-                                                        data-supported-dps="16x16"
-                                                        fill="currentColor"
-                                                        width="16"
-                                                        height="16"
-                                                        focusable="false"
+
+                                                {mainProfile?.sendRequests?.pending.includes(profile._id) ?
+                                                    <Button
+                                                        variant="outline-secondary"
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            sendAndUnsendRequest(profile._id)
+                                                        }}
                                                     >
-                                                        <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                                                    </svg>{" "}
-                                                    Connect
-                                                </Button>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 16 16"
+                                                            data-supported-dps="16x16"
+                                                            fill="currentColor"
+                                                            className="mr-1"
+                                                            width="16"
+                                                            height="16"
+                                                            focusable="false"
+                                                        >
+                                                            <path d="M10.87 9.52a1 1 0 01-1.37.37l-2-1A1 1 0 017 8V5a1 1 0 012 0v2.42l1.5.74a1 1 0 01.37 1.36zM15 8a7 7 0 11-7-7 7 7 0 017 7zm-2 0a5 5 0 10-5 5 5 5 0 005-5z"></path>
+                                                        </svg>
+                                                        Pending
+                                                    </Button>
+                                                    :
+                                                    <Button variant="outline-secondary"
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            sendAndUnsendRequest(profile._id)
+                                                        }}>
+                                                        <svg
+                                                            className="mr-1"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 16 16"
+                                                            data-supported-dps="16x16"
+                                                            fill="currentColor"
+                                                            width="16"
+                                                            height="16"
+                                                            focusable="false"
+                                                        >
+                                                            <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
+                                                        </svg>{" "}
+                                                        Connect
+                                                    </Button>}
                                             </div>
                                         </div>
                                         <hr className={getClassNameHr1(i)} />
@@ -400,8 +445,7 @@ const SearchProfile = () => {
                     <div className="sidebar-card my-2">
                         <div className="card-spacing">
                             <h2>People you may know</h2>
-                            {profiles && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== process.env.REACT_APP_USER_ID).slice(10, 20).map((profile: IProfile, i: any) => {
-
+                            {profiles && connections && profiles.length !== 0 && profiles.filter((profile: IProfile) => profile._id !== params.id && profile._id !== process.env.REACT_APP_USER_ID && !connections.some((user: IUser) => user._id === profile._id)).slice(10, 20).map((profile: IProfile, i: any) => {
                                 return (
                                     <div key={i}>
                                         <div className={getClassName(i)} >
@@ -419,21 +463,48 @@ const SearchProfile = () => {
                                                     <span className="ml-1"> • 2nd</span>
                                                 </div>
                                                 <p className="profession truncate3">{profile.title}</p>
-                                                <Button variant="outline-secondary">
-                                                    <svg
-                                                        className="mr-1"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 16 16"
-                                                        data-supported-dps="16x16"
-                                                        fill="currentColor"
-                                                        width="16"
-                                                        height="16"
-                                                        focusable="false"
+                                                {mainProfile?.sendRequests?.pending.includes(profile._id) ?
+                                                    <Button
+                                                        variant="outline-secondary"
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            sendAndUnsendRequest(profile._id)
+                                                        }}
                                                     >
-                                                        <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
-                                                    </svg>{" "}
-                                                    Connect
-                                                </Button>
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 16 16"
+                                                            data-supported-dps="16x16"
+                                                            fill="currentColor"
+                                                            className="mr-1"
+                                                            width="16"
+                                                            height="16"
+                                                            focusable="false"
+                                                        >
+                                                            <path d="M10.87 9.52a1 1 0 01-1.37.37l-2-1A1 1 0 017 8V5a1 1 0 012 0v2.42l1.5.74a1 1 0 01.37 1.36zM15 8a7 7 0 11-7-7 7 7 0 017 7zm-2 0a5 5 0 10-5 5 5 5 0 005-5z"></path>
+                                                        </svg>
+                                                        Pending
+                                                    </Button>
+                                                    :
+                                                    <Button variant="outline-secondary"
+                                                        onClick={(e) => {
+                                                            e.preventDefault()
+                                                            sendAndUnsendRequest(profile._id)
+                                                        }}>
+                                                        <svg
+                                                            className="mr-1"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 16 16"
+                                                            data-supported-dps="16x16"
+                                                            fill="currentColor"
+                                                            width="16"
+                                                            height="16"
+                                                            focusable="false"
+                                                        >
+                                                            <path d="M9 4a3 3 0 11-3-3 3 3 0 013 3zM6.75 8h-1.5A2.25 2.25 0 003 10.25V15h6v-4.75A2.25 2.25 0 006.75 8zM13 8V6h-1v2h-2v1h2v2h1V9h2V8z"></path>
+                                                        </svg>{" "}
+                                                        Connect
+                                                    </Button>}
                                             </div>
                                         </div>
                                         <hr className={getClassNameHr(i)} />
