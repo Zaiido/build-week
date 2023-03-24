@@ -49,7 +49,7 @@ const Profile = () => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
-    setChanged(true);
+    setChanged(!changed);
     if (file) {
       handleImageUpload(file);
     }
@@ -70,7 +70,7 @@ const Profile = () => {
         }
       );
       if (response.ok) {
-        console.log("You made it!");
+        dispatch(fetchMyProfileAction());
       } else {
         console.log("Try harder!");
       }
@@ -79,13 +79,6 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(fetchMyProfileAction());
-    setTimeout(() => {
-      setChanged(false);
-    }, 3000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [changed]);
 
   const userConnections = useAppSelector((state) => state.userConnections.results);
 

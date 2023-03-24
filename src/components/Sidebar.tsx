@@ -3,7 +3,6 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAllProfilesAction } from "../actions";
-// import {  setUniqueProfilesAction } from "../actions";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import React from "react";
 import Profile from "./Profile";
@@ -35,7 +34,6 @@ const Sidebar = () => {
       getPersonalProfile()
       dispatch(fetchAllProfilesAction());
     }, 2000)
-    // generateRandomNumbers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadPage]);
 
@@ -47,7 +45,6 @@ const Sidebar = () => {
       if (response.ok) {
         let personalProfileData = await response.json();
         setPersonalProfile(personalProfileData);
-        // setReloadPage(!reloadPage);
       } else {
         console.log("error");
       }
