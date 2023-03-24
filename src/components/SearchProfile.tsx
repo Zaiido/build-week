@@ -21,42 +21,14 @@ const SearchProfile = () => {
     const profiles = useAppSelector(state => state.allProfiles.results.users)
     const dispatch = useAppDispatch();
     const params = useParams()
-    // const [numbers, setNumbers] = useState<number[]>([]);
-    // const uniqueProfiles = useAppSelector(state => state.uniqueProfiles.results)
-
-    // const uniqueProfile = () => {
-    //     const uniqueProfilesArray: IProfile[] = []
-    //     for (const index of numbers) {
-    //         uniqueProfilesArray.push(profiles[index])
-    //     }
-    //     dispatch(setUniqueProfilesAction(uniqueProfilesArray))
-    // }
 
     useEffect(() => {
         dispatch(fetchAllProfilesAction()
         );
         getUserConnections()
-        // generateRandomNumbers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params.id]);
 
-    // useEffect(() => {
-    //     if (numbers.length > 0 && profiles.length > 0) {
-    //         uniqueProfile();
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [numbers, profiles]);
-
-    // const generateRandomNumbers = () => {
-    //     const newNumbers: number[] = [];
-    //     while (newNumbers.length < 20) {
-    //         const randomNumber = Math.floor(Math.random() * 101);
-    //         if (!newNumbers.includes(randomNumber)) {
-    //             newNumbers.push(randomNumber);
-    //         }
-    //     }
-    //     setNumbers(newNumbers);
-    // };
 
     const [isConnected, setIsConnected] = useState<IUser[]>([]);
 
@@ -120,14 +92,11 @@ const SearchProfile = () => {
     useEffect(() => {
         getProfile()
         getExperiences()
+        setInterval(() => {
+            dispatch(getUserConnections());
+        }, 2000)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params])
-
-    useEffect(() => {
-        getProfile()
-        getExperiences()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     const getProfile = async () => {
         try {
