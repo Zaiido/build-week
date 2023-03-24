@@ -99,9 +99,7 @@ export const postJobAction = (job: {
 export const deleteJobAction = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-        id,
+      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/${id}`,
         {
           method: "DELETE",
         }
@@ -159,10 +157,7 @@ export const editJobAction = (
 ) => {
   return async (dispatch: Dispatch) => {
     try {
-      // console.log(id);
-      let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/63f3fe4511d73d00137aaade/experiences/" +
-        id,
+      let response = await fetch(`${process.env.REACT_APP_BE_URL}/users/${process.env.REACT_APP_USER_ID}/experiences/${id}`,
         {
           method: "PUT",
           body: JSON.stringify(job),
