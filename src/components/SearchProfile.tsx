@@ -22,8 +22,7 @@ const SearchProfile = () => {
     const params = useParams()
 
     useEffect(() => {
-        dispatch(fetchAllProfilesAction()
-        );
+        dispatch(fetchAllProfilesAction());
         getUserConnections()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params.id]);
@@ -95,7 +94,7 @@ const SearchProfile = () => {
             dispatch(getUserConnections());
         }, 2000)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [params])
+    }, [params.id])
 
     const getProfile = async () => {
         try {
