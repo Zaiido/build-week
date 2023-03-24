@@ -329,5 +329,31 @@ export const fetchUserConnectionsAction = createAsyncThunk(
   }
 );
 
+export const sendConnectionRequest = (receiverId: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await fetch(
+        `${apiUrl}/users/${REACT_APP_USER_ID}/sentRequests`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        dispatch({ type: 'CONNECTION_REQUEST_SUCCESS', payload: data });
+      } else {
+        dispatch({ type: 'CONNECTION_REQUEST_FAILURE', payload: data });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 
 
