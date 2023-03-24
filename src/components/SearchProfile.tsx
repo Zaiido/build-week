@@ -11,6 +11,9 @@ import { IProfile } from "../interfaces/IProfile";
 import { format, parseISO } from "date-fns";
 import { ArrowRight } from "react-bootstrap-icons";
 import { IExperience } from "../interfaces/IExperience";
+import { IUser } from "../interfaces/IUser";
+
+const apiUrl = process.env.REACT_APP_BE_URL;
 
 const SearchProfile = () => {
     const [toggleCards, setToggleCards] = useState(false);
@@ -19,8 +22,6 @@ const SearchProfile = () => {
     const dispatch = useAppDispatch();
     // const [numbers, setNumbers] = useState<number[]>([]);
     // const uniqueProfiles = useAppSelector(state => state.uniqueProfiles.results)
-
-
 
     // const uniqueProfile = () => {
     //     const uniqueProfilesArray: IProfile[] = []
@@ -31,7 +32,9 @@ const SearchProfile = () => {
     // }
 
     useEffect(() => {
-        dispatch(fetchAllProfilesAction());
+        dispatch(fetchAllProfilesAction()
+        );
+        getUserConnections()
         // generateRandomNumbers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -53,6 +56,24 @@ const SearchProfile = () => {
     //     }
     //     setNumbers(newNumbers);
     // };
+
+    const [isConnected, setIsConnected] = useState<IUser[]>([]);
+
+    const getUserConnections = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/users/${params.id}/connections`);
+
+            if (response.ok) {
+                const data = await response.json();
+                setIsConnected(data);
+            } else {
+                console.log("Error fetching connections");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     const getClassName = (i: any) => {
         if (i < 5 || toggleCards) {
@@ -172,9 +193,8 @@ const SearchProfile = () => {
                                         </div>
 
                                         <p className="connections mt-2 mb-1">
-                                            <a href="#home" className="link-connections">
-                                                486 connections
-                                            </a>
+                                            <a href="#home" className="link-connections">{isConnected?.length} connections</a>
+
                                         </p>
                                     </Col>
                                 </Row>
@@ -219,9 +239,7 @@ const SearchProfile = () => {
                                     <div>
                                         <h4 className="name pt-4 mb-n1 px-2">Activity</h4>
                                         <p className="connections mt-2 mb-1 px-2 ">
-                                            <a href="#home" className="link-connections">
-                                                494 Followers
-                                            </a>
+                                            <a href="#home" className="link-connections">{isConnected?.length} followers</a>
                                         </p>
                                     </div>
                                 </div>
