@@ -21,13 +21,6 @@ const SearchProfile = () => {
     const dispatch = useAppDispatch();
     const params = useParams()
 
-    useEffect(() => {
-        dispatch(fetchAllProfilesAction());
-        getUserConnections()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [params.id]);
-
-
     const [isConnected, setIsConnected] = useState<IUser[]>([]);
 
     const getUserConnections = async () => {
@@ -87,14 +80,6 @@ const SearchProfile = () => {
     const [prof, setProf] = useState<any>()
     const [exp, setExp] = useState<any>()
 
-    useEffect(() => {
-        getProfile()
-        getExperiences()
-        setInterval(() => {
-            dispatch(getUserConnections);
-        }, 2000)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [params.id])
 
     const getProfile = async () => {
         try {
@@ -128,6 +113,16 @@ const SearchProfile = () => {
             console.log(error)
         }
     }
+
+
+    useEffect(() => {
+        dispatch(fetchAllProfilesAction());
+        getProfile()
+        getExperiences()
+        getUserConnections()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params.id]);
+
 
     return (
         <Container className="my-5">
