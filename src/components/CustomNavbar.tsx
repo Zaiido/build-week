@@ -58,7 +58,7 @@ const CustomNavbar = () => {
   const [query, setQuery] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let currentURL = window.location.href;
-
+  console.log(currentURL)
   useEffect(() => {
     const links = document.querySelectorAll(".home");
     links.forEach((link) => {
