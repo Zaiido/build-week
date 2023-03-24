@@ -33,6 +33,11 @@ const FeedSidebar = () => {
     dispatch(fetchAllProfilesAction());
     getPersonalProfile();
     fetchUserConnections();
+    setInterval(() => {
+      dispatch(fetchAllProfilesAction());
+      getPersonalProfile();
+      fetchUserConnections();
+    }, 2000);
     // generateRandomNumbers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadPage]);
@@ -75,8 +80,6 @@ const FeedSidebar = () => {
         },
       });
       if (response.ok) {
-        let requestData = await response.json();
-        setPersonalProfile(requestData);
         setReloadPage(!reloadPage);
       } else {
         console.log("error");
