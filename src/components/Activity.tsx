@@ -15,6 +15,9 @@ const Activity = () => {
   useEffect(() => {
     if (REACT_APP_USER_ID) {
       dispatch(fetchUserConnectionsAction(REACT_APP_USER_ID));
+      setInterval(() => {
+        dispatch(fetchUserConnectionsAction(REACT_APP_USER_ID));
+      }, 2000)
     }
   }, [dispatch]);
 
