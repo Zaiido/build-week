@@ -95,9 +95,9 @@ const SearchProfile = () => {
 
     const getClassName1 = (i: any) => {
         if (i < 5 || toggleCards1) {
-            return "d-flex flex-wrap"
+            return "d-flex flex-wrap";
         } else {
-            return "d-none"
+            return "d-none";
         }
     }
 
