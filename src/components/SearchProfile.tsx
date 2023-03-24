@@ -91,7 +91,7 @@ const SearchProfile = () => {
         getProfile()
         getExperiences()
         setInterval(() => {
-            dispatch(getUserConnections());
+            dispatch(getUserConnections);
         }, 2000)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [params.id])
