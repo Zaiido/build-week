@@ -3,7 +3,6 @@ export interface IUser {
     name: string;
     surname: string;
     image: string;
-    title: string,
     bio: string;
     title: string,
     email: string,
