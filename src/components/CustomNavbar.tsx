@@ -65,7 +65,7 @@ const CustomNavbar = () => {
       if (currentURL.endsWith("/")) {
         link.classList.add("selected");
       } else {
-        link.classList.remove("selected");
+        link.classList.remove("selected")
       }
     });
   }, [currentURL]);
