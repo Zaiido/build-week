@@ -57,7 +57,6 @@ const CustomNavbar = () => {
 
   const [query, setQuery] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [home, setHome] = useState(false);
   let currentURL = window.location.href;
 
   useEffect(() => {
@@ -132,9 +131,6 @@ const CustomNavbar = () => {
                   to={"/"}
                   className={"home"}
                   id="navs"
-                  onClick={() => {
-                    setHome(true);
-                  }}
                 >
                   Home
                 </Link>
